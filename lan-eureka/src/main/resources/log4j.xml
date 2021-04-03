@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+		</layout>
+	</appender>
+
+	<!-- 将日志输出到logstash中 -->
+	<!--<appender name="socketAppender" class="org.apache.log4j.net.SocketAppender">
+        <param name="remoteHost" value="127.0.0.1" />
+        <param name="port" value="4567" />
+        <param name="Threshold" value="INFO" />
+        <param name="ReconnectionDelay" value="1000" />
+        <param name="LocationInfo" value="true" />
+    </appender>-->
+
+	<!-- 按日志文件大小切割文件，并可设置保留的最大日志文件数，推荐使用 -->
+	<appender name="File" class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="20MB" />
+		<param name="File" value="logs/eureka/eureka.log" />
+		<param name="MaxBackupIndex" value="50" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+		</layout>
+	</appender>
+
+	<!-- 按天创建日志文件（内部自带，但不支持对文件数量上限的控制） -->
+	<!-- <appender name="File_DAILY" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="File" value="logs/hauc/hauc.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+        </layout>
+    </appender> -->
+
+	<!-- 按天创建日志文件，并且同时支持对保留日志文件最大数量的控制，推荐使用 -->
+	<!-- <appender name="File_DAILY_ENHANCED" class="com.dahua.eureka.log.EnhancedDailyRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="File" value="D:/temp/log/dailyLog.log" />
+        <param name="MaxBackupIndex" value="2" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+        </layout>
+    </appender> -->
+
+	<!-- 按天创建日志文件（支持自定义路径和文件名，但也不支持对文件数量上限的控制） -->
+	<!-- <appender name="File_DAILY_ENHANCED_2" class="com.dahua.eureka.log.DatedFileAppender">
+        <param name="Append" value="true" />
+        <param name="File" value="D:/temp/log/%yyyy/%mm/%dd/fatal_%yyyy%MM%dd.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+        </layout>
+    </appender> -->
+
+	<!--  SQL错误日志
+	<appender name="SQL_Appender" class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="20MB" />
+		<param name="File" value="logs/eureka/eureka_sql.log" />
+		<param name="MaxBackupIndex" value="5" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+		</layout>
+	</appender>
+
+	<logger name="SQL_LOGGER" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="SQL_Appender" />
+	</logger>
+	-->
+
+	<logger name="club.anlan.lanlife.eureka" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="Console" />
+	</logger>
+
+	<!-- 收集下面所有反馈上来的信息流，并根据配置中的appender进行相应的输出 -->
+	<!-- 但只要是在logger中配置了additivity为false，就不会反馈到root中 -->
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="File" />
+		<appender-ref ref="Console" />
+		<!--<appender-ref ref="socketAppender" />-->
+		<!-- <appender-ref ref="SQL_Appender" /> -->
+	</root>
+</log4j:configuration>

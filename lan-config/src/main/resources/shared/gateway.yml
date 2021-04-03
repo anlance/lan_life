@@ -1,0 +1,95 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 200Mb
+      max-request-size: 200Mb
+  taskExecutePool:
+    corePoolSize: 16
+    maxPoolSize: 32
+    queueCapacity: 100
+    keepAliveSeconds: 500
+    KingdoApiExecutor: Gateway-
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 40000
+    socket-timeout-millis: 40000
+  add-host-header: true
+  set-content-length: true
+  routes:
+    #pc-basic
+    basic:
+      path: /basic/**
+      serviceId: basic
+      stripPrefix: false
+      sensitiveHeaders:
+
+
+  ratelimit:
+    key-prefix: parkingcloud-ratelimit
+    enabled: false
+    repository: REDIS
+    behind-proxy: true
+      #default-policy:
+      #limit: 1000
+      #refresh-interval: 60
+      #type:
+    #- url  #通过请求路径区分
+    #- origin #通过客户端IP区分
+    policies:
+      auth:
+        limit: 10000 # 单位时间内访问的次数
+        refresh-interval: 60 # 单位时间 秒
+        type:
+        - url  #通过请求路径区分
+        - origin #通过客户端IP区分
+      datacenter:
+        limit: 6000   # 单位时间内访问的次数
+        refresh-interval: 60 # 单位时间 秒
+        type:
+        - url #通过通过请求路径区分
+        - origin #通过客户端IP区分
+      template:
+        limit: 2   # 单位时间内访问的次数
+        refresh-interval: 60 # 单位时间 秒
+        type:
+        - url #通过通过请求路径区分
+        - origin #通过客户端IP区分
+
+auth:
+  interface:
+    enable: true
+  post:
+    enable: true
+#https
+#server.ssl.key-store: classpath:tomcat.keystore
+#server.ssl.key-store-password: admin12345
+#server.ssl.keyStoreType: JKS
+#server.ssl.keyAlias: tomcat
+#server.http.secure: true
+#server.http.port: 80
+#server.https.port: 8083
+
+common:
+  api:
+    excludeUrls: /basic/*
+security:
+  expired_time:
+    access_token:
+      app: -1
+      applet: 86400
+      bs: 1800
+      pos: 3600
+      cs: 2592000
+    refresh_token:
+      app: -1
+      applet: 172800
+      bs: 3600
+      pos: 7200
+      cs: 5184000

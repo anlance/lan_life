@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+ 	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+		</layout>
+	</appender>
+	
+
+    <!-- 按日志文件大小切割文件，并可设置保留的最大日志文件数，推荐使用 -->
+	<appender name="File" class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="20MB" />
+		<param name="File" value="logs/config/config.log" />
+		<param name="MaxBackupIndex" value="50" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
+		</layout>
+	</appender>
+
+	<logger name="club.anlan.lanlife.config" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="Console" />
+	</logger>
+    
+    <!-- 收集下面所有反馈上来的信息流，并根据配置中的appender进行相应的输出 -->
+    <!-- 但只要是在logger中配置了additivity为false，就不会反馈到root中 -->
+	<root>
+		<level value="INFO" />
+        <appender-ref ref="File" />
+        <appender-ref ref="Console" />
+        <!-- <appender-ref ref="socketAppender" />-->
+        <!-- <appender-ref ref="SQL_Appender" /> -->
+	</root>
+</log4j:configuration>
