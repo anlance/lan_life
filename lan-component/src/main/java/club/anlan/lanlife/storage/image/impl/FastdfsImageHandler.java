@@ -70,4 +70,18 @@ public class FastdfsImageHandler implements ImageHandler {
     public String getImageUrl(String fileId) {
         return imagePrefix + "/" + fileId;
     }
+
+    @Override
+    public String getImageId(String url) {
+        return url.replace(imagePrefix + "/", "");
+    }
+
+    public static String getImageIds(String url) {
+        return url.replace("http://anlan.club" + "/", "");
+    }
+
+    public static void main(String[] args) {
+        String s = "http://anlan.club/group1/M00/00/00/rBEAEGBqiBiAIibzAAAASBejHj4182.txt";
+        System.out.println(getImageIds(s));
+    }
 }

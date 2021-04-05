@@ -55,7 +55,7 @@ public class FastDFSClient {
             properties.setProperty("fastdfs.connect_timeout_in_seconds", String.valueOf(connectTimeout));
             properties.setProperty("fastdfs.http_secret_key", httpSecretKey);
             properties.setProperty("fastdfs.http_tracker_http_port", String.valueOf(trackerHttpPort));
-            properties.setProperty("fastdfs.tracker_servers,", trackerServer);
+            properties.setProperty("fastdfs.tracker_servers", trackerServer);
             ClientGlobal.initByProperties(properties);
             trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
         } catch (Exception e) {

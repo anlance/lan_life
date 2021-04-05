@@ -65,4 +65,6 @@ public interface ImageHandler {
      * @return
      */
     public String getImageUrl(String fileId);
+
+    String getImageId(String url);
 }

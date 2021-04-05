@@ -58,7 +58,6 @@ public class GatewayApplication {
         final CorsConfiguration config = new CorsConfiguration();
         // 允许cookies跨域
         config.setAllowCredentials(true);
-        log.info("--------------------------- {}", origins);
         if(StringUtils.isNotEmpty(origins)) {
             String[] originArray = origins.split(",");
             for(String origin : originArray) {

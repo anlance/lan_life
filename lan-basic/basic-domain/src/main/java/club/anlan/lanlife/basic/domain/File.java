@@ -1,5 +1,7 @@
 package club.anlan.lanlife.basic.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.Date;
  * @date 2021/4/3 11:07
  */
 @Data
+@TableName("basic.bs_file")
 public class File {
 
     /**
@@ -37,7 +40,14 @@ public class File {
     /**
      * 是否删除，0-被删除
      */
+    @TableField("delete_flag")
     private Integer deleteFlag;
+
+    /**
+     * 创建用户
+     */
+    @TableField("create_user_id")
+    private String createUserId;
 
     /**
      * 创建时间

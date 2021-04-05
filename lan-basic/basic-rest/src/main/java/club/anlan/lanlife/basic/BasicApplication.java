@@ -20,7 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ServletComponentScan(basePackages = { "club.anlan.lanlife" })
 @ComponentScan(basePackages = "club.anlan.lanlife")
 @EnableFeignClients("club.anlan.lanlife")
-@MapperScan(basePackages = {"club.anlan.lanlife.basic.business.mapper"})
+@MapperScan(basePackages = {"club.anlan.lanlife.basic.mapper"})
 public class BasicApplication {
 
     public static void main(String[] args) {

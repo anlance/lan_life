@@ -9,6 +9,10 @@ spring:
         enabled: true
       password: root
       username: user
+  servlet:
+    multipart:
+      max-request-size: 512MB
+      max-file-size: 512MB
 
 # eureka
 eureka:
@@ -26,4 +30,5 @@ eureka:
     registry-fetch-interval-seconds: 5 
     serviceUrl:
       defaultZone: http://user:123456@${EUREKA:127.0.0.1}:7001/eureka/ #注册中心地址
+#      defaultZone: http://user:123456@${EUREKA:182.254.215.204}:7001/eureka/ #注册中心地址
 

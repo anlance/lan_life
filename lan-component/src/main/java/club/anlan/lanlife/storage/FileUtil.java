@@ -371,7 +371,7 @@ public class FileUtil {
 	 */
 	public static String getExtention(String fileName) {
 		int pos = fileName.lastIndexOf(".");
-		return fileName.substring(pos);
+		return fileName.substring(pos + 1);
 	}
 	
 	/**
