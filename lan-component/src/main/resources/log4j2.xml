@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--设置log4j2的自身log级别为warn -->
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置， 当设置成trace时，你会看到log4j2内部各种详细输出 -->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
+<configuration status="warn" monitorInterval="30">
+	<properties>
+		<property name="charset">UTF-8</property>
+		<property name="LOG_HOME">logs</property>
+		<property name="MODULE_NAME">basic</property>
+	</properties>
+
+	<!--先定义所有的appender -->
+	<appenders>
+		<!-- 这个输出控制台的配置 -->
+		<console name="Console" target="SYSTEM_OUT">
+			<!--输出日志的格式 -->
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][${MODULE_NAME}:%t][%C{1}:%M:%L] %m%n%n" />
+		</console>
+		
+		<!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size， 则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingRandomAccessFile name="RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}.log" 
+			filePattern="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}_%d{yyyy-MM-dd}_%i.log">
+			<Filters>
+				<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+				<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%C{1}:%M:%L] %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="20">
+			   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
+			      <IfFileName glob="${MODULE_NAME}_*.log"/>
+			      <IfLastModified age="7d"/>
+			   </Delete>
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+		
+		<RollingRandomAccessFile name="Error_RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/error.log" 
+			filePattern="${LOG_HOME}/${MODULE_NAME}/error_%d{yyyy-MM-dd}_%i.log">
+			<Filters>
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%C{1}:%M:%L] %m%n%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10">
+			   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
+			      <IfFileName glob="error_*.log"/>
+			      <IfLastModified age="7d"/>
+			   </Delete>
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+	</appenders>
+	
+	<!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		<root level="INFO">
+			<appender-ref ref="Console" />
+			<appender-ref ref="RollingFile" />
+			<appender-ref ref="Error_RollingFile" />
+		</root>
+		
+		<logger name="club.anlan.lanlife.cache" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+	        <appender-ref ref="RollingFile" />
+	        <appender-ref ref="Error_RollingFile" />
+		</logger>
+	</loggers>
+</configuration>  

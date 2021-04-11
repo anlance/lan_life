@@ -3,10 +3,12 @@ package club.anlan.lanlife.cache;
 import club.anlan.lanlife.util.JsonUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +20,16 @@ import java.util.Map;
  * @date 2021/4/5 17:15
  */
 @Component
+@Slf4j
 public class ContentTypeCache implements BeanPostProcessor {
 
     private Map<String, String> map = new HashMap<>();
 
     public void init() {
-        String str = JsonUtil.readJsonFile("C:\\Users\\lan\\IdeaProjects\\lan_life\\lan-component\\src\\main\\resources\\contentType.json");
+        log.info("init start ----------------------------------->");
+        InputStream is = this.getClass().getResourceAsStream("/contentType.json");
+//        String url = ContentTypeCache.class.getResource("/contentType.json").getFile();
+        String str = JsonUtil.readJsonFile(is);
         process(str);
     }
 
