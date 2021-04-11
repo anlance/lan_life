@@ -78,10 +78,21 @@ public class FileController {
         return ResultMessage.createSuccessResult();
     }
 
+    @PutMapping("/recoveryFile/{id}")
+    public ResultMessage recoveryFile(@PathVariable("id") String id) {
+        log.info("delete file id :", id);
+        if (StringUtils.isNotEmpty(id)) {
+            File file = fileService.getFile(id);
+            file.setDeleteFlag(1);
+            fileService.updateFile(file);
+        }
+        return ResultMessage.createSuccessResult();
+    }
+
 
     @DeleteMapping("/deleteFileReal/{id}")
     public ResultMessage deleteFileReal(@PathVariable("id") String id) {
-        log.info("delete file id :", id);
+        log.info("deleteFileReal file id :", id);
         if (StringUtils.isNotEmpty(id)) {
             fileService.deleteFile(id);
         }
