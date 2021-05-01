@@ -2,8 +2,6 @@ spring:
   application: 
     name: config
   security:
-    basic:
-      enabled: false    #开启基于HTTP basic的认证
     user:
       name: user       #配置登陆的账号是user
       password: root   #配置登陆的密码是root

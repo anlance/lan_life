@@ -4,7 +4,7 @@ modulename="eureka"
 projectPath="/opt/java-service/${modulename}"
 jarFile="${projectPath}/$modulename.jar"
 configFile="${projectPath}/application.yml"
-JAVA_OPTS="-Xms512m -Xmx512m -Xss256k"
+JAVA_OPTS="-Xms64m -Xmx64m -Xss256k"
 pidpath="/var/run/${modulename}.pid"
 JRE_HOME="/opt/jdk/jre/bin/java"
 

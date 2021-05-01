@@ -1,7 +1,6 @@
 package club.anlan.lanlife.gateway;
 
 import club.anlan.lanlife.base.spring.AppContext;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -30,16 +29,15 @@ import java.util.Arrays;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableEurekaClient
-@ComponentScan(basePackages = "club.anlan.lanlife")
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@ComponentScan(basePackages = "club.anlan.lanlife")
 @ServletComponentScan(basePackages = { "club.anlan.lanlife" })
-@Slf4j
 public class GatewayApplication {
 
-    @Value("${cors.allowed.origin}")
+    @Value("${cors.allowed.origin:'*'}")
     private String origins;
 
-    @Value("${cors.allowed.header}")
+    @Value("${cors.allowed.header:'*'}")
     private String header;
 
     public static void main(String[] args) {

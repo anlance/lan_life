@@ -13,6 +13,10 @@ spring:
     multipart:
       max-request-size: 512MB
       max-file-size: 512MB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 # eureka
 eureka:
@@ -22,7 +26,7 @@ eureka:
     lease-renewal-interval-in-seconds: 4
     #Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒，超过则剔除（客户端告诉服务端按照此规则等待自己）, 默认90
     lease-expiration-duration-in-seconds: 12
-    statusPageUrlPath: /basic/swagger-ui.html
+    statusPageUrlPath: /basic/actuator
     metadata-map:
       version: v1
   client:
@@ -32,3 +36,9 @@ eureka:
       defaultZone: http://user:123456@${EUREKA:127.0.0.1}:7001/eureka/ #注册中心地址
 #      defaultZone: http://user:123456@${EUREKA:182.254.215.204}:7001/eureka/ #注册中心地址
 
+management:
+  endpoints:
+    web:
+      exposure:
+        #默认值访问health,info端点  用*可以包含全部端点
+        include: "*"

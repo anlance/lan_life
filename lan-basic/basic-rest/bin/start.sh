@@ -4,7 +4,7 @@ modulename="basic"
 projectPath="/opt/java-service/${modulename}"
 jarFile="${projectPath}/$modulename.jar"
 configFile="${projectPath}/conf/bootstrap.yml"
-JAVA_OPTS="-Xms1024m -Xmx1024m -Xss256k"
+JAVA_OPTS="-Xms256m -Xmx256m -Xss256k"
 pidpath="/var/run/${modulename}.pid"
 JRE_HOME="/opt/jdk/jre/bin/java"
 

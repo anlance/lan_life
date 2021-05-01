@@ -38,7 +38,7 @@ public class File {
     private String url;
 
     /**
-     * 是否删除，0-被删除
+     * 是否删除，1-被删除
      */
     @TableField("delete_flag")
     private Integer deleteFlag;

@@ -39,25 +39,6 @@
         </layout>
     </appender> -->
 
-	<!-- 按天创建日志文件，并且同时支持对保留日志文件最大数量的控制，推荐使用 -->
-	<!-- <appender name="File_DAILY_ENHANCED" class="com.dahua.eureka.log.EnhancedDailyRollingFileAppender">
-        <param name="Append" value="true" />
-        <param name="File" value="D:/temp/log/dailyLog.log" />
-        <param name="MaxBackupIndex" value="2" />
-        <param name="DatePattern" value="'.'yyyy-MM-dd" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
-        </layout>
-    </appender> -->
-
-	<!-- 按天创建日志文件（支持自定义路径和文件名，但也不支持对文件数量上限的控制） -->
-	<!-- <appender name="File_DAILY_ENHANCED_2" class="com.dahua.eureka.log.DatedFileAppender">
-        <param name="Append" value="true" />
-        <param name="File" value="D:/temp/log/%yyyy/%mm/%dd/fatal_%yyyy%MM%dd.log" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value=">> [%d{yyyy-MM-dd HH:mm:ss,SSS}][%p][%t(%F:%L)]: %m%n%n" />
-        </layout>
-    </appender> -->
 
 	<!--  SQL错误日志
 	<appender name="SQL_Appender" class="org.apache.log4j.RollingFileAppender">
@@ -76,7 +57,7 @@
 	</logger>
 	-->
 
-	<logger name="club.anlan.lanlife.eureka" additivity="false">
+	<logger name="club.anlan.club.anlan.lanlife.eureka" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="Console" />
 	</logger>

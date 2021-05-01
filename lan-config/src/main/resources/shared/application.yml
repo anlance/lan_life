@@ -56,20 +56,20 @@ hystrix:
           thread:
             timeoutInMilliseconds: 30000 # feign 超时控制
 
-## kafka
-#kafka:
-#  consumer:
-#    servers: ${KAFKA_ADDR_PORT:localhost:9092}
-#    group-id: PARKING_CLOUD
-#    enable-auto-commit: true
-#    auto-commit-interval: 100
-#    session-timeout: 15000
-#    auto-offset-reset: earliest
-#  producer:
-#    retries-config: 1
-#    batch-size-config: 16384
-#    linger-ms-config: 1
-#    buffer-memory-config: 1024000
+# kafka
+kafka:
+  consumer:
+    servers: ${KAFKA_ADDR_PORT:localhost:9092}
+    group-id: LAN_LIFE
+    enable-auto-commit: true
+    auto-commit-interval: 100
+    session-timeout: 15000
+    auto-offset-reset: earliest
+  producer:
+    retries-config: 1
+    batch-size-config: 16384
+    linger-ms-config: 1
+    buffer-memory-config: 1024000
 
 spring:
   servlet:
@@ -89,9 +89,6 @@ spring:
     driverClassName: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: org.postgresql.Driver
-    #initial-size: 10
-    #min-idle: 10
-    #max-active: 50
     max-wait: 60000
     time-between-eviction-runs-millis: 60000
     min-evictable-idle-time-millis: 300000
@@ -106,15 +103,22 @@ spring:
     type-aliases-package: cclub.anlan.lanlife.*.domain
     mapper-locations: classpath:mapper/**/*Mapper.xml
     config-location: classpath:config/mybatis-config.xml
-  data:
-    elasticsearch:
-      cluster-name: parking-cloud
-      # cluster-name: es-cn-0pp1gv46p00169uj2
-      # xpack-security-user: elastic:jtkj@20191230
-      cluster-nodes: ${ES_ADDR_PORT:localhost:9300}
-      local: false
-      repositories:
-        enabled: true
+  redis:
+    host: ${REDIS_ADDR:localhost}
+    port: 6371
+    password: GSSG255211redis
+    timeout: 2000
+    database: 0
+    connect-timeout: 2000
+    read-timeout: 2000
+    pool:
+      max-idle: 10
+      max-total: 50
+      min-idle: 0
+      maxActive: 50
+      max-wait: 10000
+      removeAbandoned: true
+      removeAbandonedTimeout: 5000
 
 management:
   security:

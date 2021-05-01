@@ -2,7 +2,8 @@
 
 # Module name
 modulename="config"
-
+JAVA_OPTS="-Xms64m -Xmx64m -Xss256k"
+JRE_HOME="/opt/jdk/jre/bin/java"
 projectPath="/opt/java-service/${modulename}"
 binfile="${projectPath}/bin"
 

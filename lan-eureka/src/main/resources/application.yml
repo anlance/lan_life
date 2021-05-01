@@ -6,14 +6,14 @@ spring:
 eureka:
   instance:
     preferIpAddress: true
-    hostname: server
+    hostname: localhost
     # 个配置一般为服务刷新时间配置的三倍，默认90s
     lease-expiration-duration-in-seconds: 30
     # 服务刷新时间配置，每隔这个时间会主动心跳一次，默认30s
     lease-renewal-interval-in-seconds: 15
   client:  # Not a client, don't register with yourself
-    registerWithEureka: false
-    fetchRegistry: false
+    register-with-eureka: false
+    fetch-registry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server: 

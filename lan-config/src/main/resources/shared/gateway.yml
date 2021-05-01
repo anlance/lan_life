@@ -23,13 +23,18 @@ zuul:
   add-host-header: true
   set-content-length: true
   routes:
-    #pc-basic
     basic:
       path: /basic/**
       serviceId: basic
       stripPrefix: false
       sensitiveHeaders:
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          routes,filters
 
   ratelimit:
     key-prefix: parkingcloud-ratelimit
@@ -49,18 +54,6 @@ zuul:
         type:
         - url  #通过请求路径区分
         - origin #通过客户端IP区分
-      datacenter:
-        limit: 6000   # 单位时间内访问的次数
-        refresh-interval: 60 # 单位时间 秒
-        type:
-        - url #通过通过请求路径区分
-        - origin #通过客户端IP区分
-      template:
-        limit: 2   # 单位时间内访问的次数
-        refresh-interval: 60 # 单位时间 秒
-        type:
-        - url #通过通过请求路径区分
-        - origin #通过客户端IP区分
 
 auth:
   interface:
@@ -78,7 +71,7 @@ auth:
 
 common:
   api:
-    excludeUrls: /basic/*
+    excludeUrls: /basic/**
 security:
   expired_time:
     access_token:

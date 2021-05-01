@@ -5,7 +5,7 @@ import club.anlan.lanlife.basic.domain.File;
 import club.anlan.lanlife.basic.enums.DeleteFlagEnum;
 import club.anlan.lanlife.basic.query.FileQuery;
 import club.anlan.lanlife.basic.service.FileService;
-import club.anlan.lanlife.cache.ContentTypeCache;
+import club.anlan.lanlife.redis.cache.ContentTypeCache;
 import club.anlan.lanlife.storage.FileUtil;
 import club.anlan.lanlife.storage.image.ImageHandler;
 import com.alibaba.fastjson.JSONObject;
@@ -54,7 +54,6 @@ public class FileController {
             return ResultMessage.createFailedResult("no file");
         }
         log.info("uploadFile :{}", multipartFile.getOriginalFilename());
-        System.out.println("uploadFile :{}" + multipartFile.getOriginalFilename());
         String id = imageHandler.imageUpload(multipartFile.getBytes(), multipartFile.getOriginalFilename());
         File file = new File();
         file.setId(UUID.randomUUID().toString().substring(0, 32));
@@ -106,10 +105,7 @@ public class FileController {
             File file = fileService.getFile(id);
             String fileId = imageHandler.getImageId(file.getUrl());
             InputStream inputStream = imageHandler.imageDownload(fileId);
-            System.out.println("-------------");
-            System.out.println(fileId);
-            System.out.println("-------------");
-            response.setContentType(contentTypeCache.getMap().get("." + file.getType()));
+            response.setContentType(contentTypeCache.get(contentTypeCache.getKey(file.getType())));
             response.setHeader("Content-Disposition",
                     "attachment;filename=\"" + URLEncoder.encode(file.getName(), "UTF-8") + "\"");
             OutputStream outputStream = response.getOutputStream();
@@ -123,8 +119,7 @@ public class FileController {
 
     @GetMapping("/getFiles")
     public ResultMessage getFile(FileQuery fileQuery) {
-        log.info("getFile  fileQuery:", fileQuery);
-        System.out.println("getFile  fileQuery:"+fileQuery);
+        log.info("getFile  fileQuery: {}", fileQuery);
         if (fileQuery == null) {
             fileQuery = new FileQuery();
         }
