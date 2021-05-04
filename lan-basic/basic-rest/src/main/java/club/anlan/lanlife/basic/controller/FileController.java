@@ -1,5 +1,6 @@
 package club.anlan.lanlife.basic.controller;
 
+import club.anlan.lanlife.base.annotation.Log;
 import club.anlan.lanlife.base.result.ResultMessage;
 import club.anlan.lanlife.basic.domain.File;
 import club.anlan.lanlife.basic.enums.DeleteFlagEnum;
@@ -47,13 +48,13 @@ public class FileController {
 
     private final static String DEFAULT_USER_ID = "temp_user";
 
+    @Log(description = "上传文件")
     @PostMapping("/uploadFile")
     public ResultMessage uploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         if (multipartFile == null) {
             log.error("无文件上传");
             return ResultMessage.createFailedResult("no file");
         }
-        log.info("uploadFile :{}", multipartFile.getOriginalFilename());
         String id = imageHandler.imageUpload(multipartFile.getBytes(), multipartFile.getOriginalFilename());
         File file = new File();
         file.setId(UUID.randomUUID().toString().substring(0, 32));
@@ -66,9 +67,28 @@ public class FileController {
         return ResultMessage.createSuccessResult();
     }
 
+    @Log(description = "上传大文件")
+    @PostMapping("/uploadChunkFile")
+    public ResultMessage uploadChunkFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        if (multipartFile == null) {
+            log.error("无文件上传");
+            return ResultMessage.createFailedResult("no file");
+        }
+        String id = imageHandler.imageUpload(multipartFile.getBytes(), multipartFile.getOriginalFilename());
+        File file = new File();
+        file.setId(UUID.randomUUID().toString().substring(0, 32));
+        file.setName(multipartFile.getOriginalFilename());
+        file.setUrl(imageHandler.getImageUrl(id));
+        file.setCreateUserId(DEFAULT_USER_ID);
+        file.setType(FileUtil.getExtention(multipartFile.getOriginalFilename()));
+        fileService.insertFile(file);
+        log.info("file: {}", file);
+        return ResultMessage.createSuccessResult();
+    }
+
+    @Log(description = "删除文件")
     @DeleteMapping("/deleteFile/{id}")
     public ResultMessage deleteFile(@PathVariable("id") String id) {
-        log.info("delete file id :", id);
         if (StringUtils.isNotEmpty(id)) {
             File file = fileService.getFile(id);
             file.setDeleteFlag(0);
@@ -77,9 +97,9 @@ public class FileController {
         return ResultMessage.createSuccessResult();
     }
 
+    @Log(description = "恢复文件")
     @PutMapping("/recoveryFile/{id}")
     public ResultMessage recoveryFile(@PathVariable("id") String id) {
-        log.info("delete file id :", id);
         if (StringUtils.isNotEmpty(id)) {
             File file = fileService.getFile(id);
             file.setDeleteFlag(1);
@@ -89,18 +109,18 @@ public class FileController {
     }
 
 
+    @Log(description = "彻底删除文件")
     @DeleteMapping("/deleteFileReal/{id}")
     public ResultMessage deleteFileReal(@PathVariable("id") String id) {
-        log.info("deleteFileReal file id :", id);
         if (StringUtils.isNotEmpty(id)) {
             fileService.deleteFile(id);
         }
         return ResultMessage.createSuccessResult();
     }
 
+    @Log(description = "下载文件")
     @GetMapping("/downloadFile/{id}")
     public ResultMessage downloadFile(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
-        log.info("download file id :", id);
         if (StringUtils.isNotEmpty(id)) {
             File file = fileService.getFile(id);
             String fileId = imageHandler.getImageId(file.getUrl());
@@ -117,9 +137,9 @@ public class FileController {
         return ResultMessage.createSuccessResult();
     }
 
+    @Log(description = "查询文件")
     @GetMapping("/getFiles")
     public ResultMessage getFile(FileQuery fileQuery) {
-        log.info("getFile  fileQuery: {}", fileQuery);
         if (fileQuery == null) {
             fileQuery = new FileQuery();
         }
