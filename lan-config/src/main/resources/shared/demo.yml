@@ -1,0 +1,71 @@
+server:
+  port: 8880
+  servlet:
+    session-timeout: 1800
+    context-path: /demo
+
+spring:
+  # 数据库连接池配置
+  datasource:
+    initial-size: 10
+    min-idle: 10
+    max-active: 50
+    # 数据库模式
+    current-schema: demo
+
+  # kafka
+  kafka:
+    consumer:
+      group-id: LAN_LIFE_DEMO
+      auto-offset-reset: earliest
+    bootstrap-servers: ${kafka.consumer.servers}
+
+# executer
+executer:
+  global:
+    corePoolSize: 20
+    maxPoolSize: 200
+    queueCapacity: 2000
+    keepAliveSeconds: 500
+
+endpoints:
+  actuator:
+    enabled: true
+  shutdown:
+    enabled: false
+
+## OAuth2
+#security:
+#  oauth2:
+#    client:
+#      clientId: basic
+#      clientSecret: 123456
+#      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
+#      grant-type: client_credentials
+#      scope: server
+#  encode:
+#    password: f843c27029ba5e4a
+#  token:
+#    forceRevokeTokenUri: http://${GATEWAY:localhost}/auth/oauth/revokeTokenForce
+#  expired_time:
+#    access_token:
+#      app: -1
+#      applet: 86400
+#      bs: 1800
+#      pos: 86400
+#      cs: 2592000
+#    refresh_token:
+#      app: -1
+#      applet: 172800
+#      bs: 3600
+#      pos: 172800
+#      cs: 5184000
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+
+

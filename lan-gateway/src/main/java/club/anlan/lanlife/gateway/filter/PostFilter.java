@@ -60,9 +60,6 @@ public class PostFilter extends ZuulFilter {
      * 向HttpServletResponse中设置Request-ID
      *
      * @date 2019年11月19日 上午10:33:43
-     * @author 27477
-     * @param request
-     * @param response
      */
     private void setRequestId(HttpServletRequest request, HttpServletResponse response) {
         String requestId = request.getHeader(REQUEST_ID);

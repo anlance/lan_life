@@ -1,7 +1,7 @@
 package club.anlan.lanlife.storage;
 
-import club.anlan.lanlife.storage.image.ImageHandler;
-import club.anlan.lanlife.storage.image.ImageHandlerFactory;
+import club.anlan.lanlife.storage.file.FileHandler;
+import club.anlan.lanlife.storage.file.FileHandlerFactory;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -477,10 +477,6 @@ public class FileUtil {
     
     /**
      * 获取指定路径的磁盘剩余空间
-     * @param path
-     * @return
-     * @Author 吴明华
-     * @Date 2015年5月20日
      */
     public static Long getFreeSpace(String path) {
         Long freeSpace = 0L;
@@ -592,11 +588,6 @@ public class FileUtil {
     }
     /**
      * @Description:修改文件中指定的区域
-     * @param@param filePath
-     * @param@throws IOException
-     * @return void
-     * @author 代远鹏
-     * @date 2016年12月14日
      */
     public static void modifyFile(String filePath,String oldStr,String newStr) throws IOException{
     	FileInputStream in = null;
@@ -626,12 +617,6 @@ public class FileUtil {
     }
     /**
      * @Description:读取文件的内容
-     * @param@param path
-     * @param@return
-     * @param@throws IOException
-     * @return String
-     * @author 代远鹏
-     * @date 2016年12月14日
      */
     public static String getFileContent(String path) throws IOException{
     	StringBuffer sb = new StringBuffer();
@@ -693,12 +678,18 @@ public class FileUtil {
     	 }
     	 return false;
      }
-     
-  	//返回文件url接口地址
-   	public static String getFileUrl(ImageHandlerFactory imageHandlerFactory, String convertUrl, String fileId) {
-   		ImageHandler handler = imageHandlerFactory.getImageHandler();
+
+	/**
+	 * 返回文件url接口地址
+	 * @param fileHandlerFactory
+	 * @param convertUrl
+	 * @param fileId
+	 * @return
+	 */
+	public static String getFileUrl(FileHandlerFactory fileHandlerFactory, String convertUrl, String fileId) {
+   		FileHandler handler = fileHandlerFactory.getFileHandler();
    		if (handler != null) {
-   			StringBuilder imgUrl = new StringBuilder(convertUrl).append(handler.getImagePrefix());
+   			StringBuilder imgUrl = new StringBuilder(convertUrl).append(handler.getFilePrefix());
    			return new StringBuilder(imgUrl).append(Constants.SLASH).append(fileId).toString();
    		}
    		return null;

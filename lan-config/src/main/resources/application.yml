@@ -27,4 +27,5 @@ eureka:
     registry-fetch-interval-seconds: 5
     serviceUrl:
 #      defaultZone: http://user:123456@${EUREKA:182.254.215.204}:7001/eureka/
-      defaultZone: http://user:123456@${EUREKA:127.0.0.1}:7001/eureka/
+      defaultZone: http://user:123456@${EUREKA:192.168.0.107}:7001/eureka/
+#      defaultZone: http://user:123456@${EUREKA:127.0.0.1}:7001/eureka/

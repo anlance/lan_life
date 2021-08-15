@@ -5,6 +5,7 @@ import club.anlan.lanlife.basic.enums.DeleteFlagEnum;
 import club.anlan.lanlife.basic.mapper.FileMapper;
 import club.anlan.lanlife.basic.query.FileQuery;
 import club.anlan.lanlife.basic.service.FileService;
+import club.anlan.lanlife.storage.file.FileHandler;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

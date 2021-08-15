@@ -2,9 +2,6 @@ package club.anlan.lanlife.base.constant;
 
 /**
  * 正则表达式常量类
- *
- * @author    43240
- * @date      2018年12月26日
  */
 public class Regexp {
 	//IP

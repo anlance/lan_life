@@ -1,6 +1,6 @@
 package club.anlan.lanlife.storage.client;
 
-import club.anlan.lanlife.storage.constant.ImageTypeConstant;
+import club.anlan.lanlife.storage.constant.FileHandlerTypeConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.csource.fastdfs.*;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class FastDFSClient {
     @PostConstruct
     public void init() {
         try {
-            if (!ImageTypeConstant.IMAGE_FASTDFS.equals(type)) {
+            if (!FileHandlerTypeConstant.FILE_HANDLER_FASTDFS.equals(type)) {
                 return;
             }
             Properties properties = new Properties();
@@ -161,6 +161,21 @@ public class FastDFSClient {
         return StringUtils.EMPTY;
     }
 
+    public String uploadAppenderFile(byte[] bytes, String fileName) {
+        try {
+            StorageClient1 storageClient = this.getStorageClient();
+            if (storageClient == null) {
+                return StringUtils.EMPTY;
+            }
+            String file_ext = getFileExt(fileName);
+            String fileid = storageClient.upload_appender_file1(bytes, file_ext, null);
+            return fileid;
+        } catch (Exception ex) {
+            logger.error("上传文件失败", ex);
+        }
+        return StringUtils.EMPTY;
+    }
+
     /**
      * 根据组名和远程文件名来删除一个文件
      *
@@ -204,36 +219,19 @@ public class FastDFSClient {
         }
     }
 
-    /**
-     * 修改一个已经存在的文件
-     *
-     * @param oldFileId
-     *            原来旧文件的fileId, file_id源码中的解释file_id the file id(including group
-     *            name and filename);例如
-     *            group1/M00/00/00/ooYBAFM6MpmAHM91AAAEgdpiRC0012.xml
-     * @param file
-     *            新文件
-     * @param fileName
-     *            新文件路径
-     * @return 返回空则为失败
-     */
-    public String modifyFile(String oldFileId, File file, String fileName) {
-        String fileid = null;
+
+    public int modifyFile(String fileId, long historyUploadSize,byte[] bytes) {
         try {
-            // 先上传
-            fileid = uploadFile(file, fileName);
-            if (fileid == null) {
-                return StringUtils.EMPTY;
+            StorageClient1 storageClient = this.getStorageClient();
+            if (storageClient == null) {
+                return -1;
             }
-            // 再删除
-            int delResult = deleteFile(oldFileId);
-            if (delResult != 0) {
-                return StringUtils.EMPTY;
-            }
+            int res = storageClient.modify_file1(fileId, historyUploadSize, bytes);
+            return res;
         } catch (Exception ex) {
             logger.error("更改文件失败", ex);
         }
-        return fileid;
+        return -1;
     }
 
     /**

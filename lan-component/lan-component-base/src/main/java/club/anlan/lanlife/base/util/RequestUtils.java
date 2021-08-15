@@ -58,13 +58,6 @@ public class RequestUtils {
     }
 
     /**
-     * 根据请求的源ip，生成全局唯一的请求标识requestId
-     * <br><br>
-     * 生成规则如下：
-     * <br>1、requestId = hex(long(ip)) + "-" + uuid
-     * <br>2、将ip按照分段加权原则，转换成整型值value，再将value转换成小写的十六进制8位字符串，详见{@link com.dahua.cloud.community.common.util.IPUtils.convert2Hex}
-     * <br>3、uuid为不包含"-"的32位小写字符串
-     * <br>4、示例：0a23a41f-efe6dd9f1fcc466283c6a6799203c27e
      *
      * @param sourceIp 源ip
      *

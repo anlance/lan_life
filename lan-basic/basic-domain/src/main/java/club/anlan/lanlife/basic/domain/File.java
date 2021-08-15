@@ -22,6 +22,12 @@ public class File {
      */
     private String id;
 
+//    /**
+//     * 父节点id
+//     */
+//    @TableField("parent_id  ")
+//    private String parentId;
+
     /**
      * 文件名
      */

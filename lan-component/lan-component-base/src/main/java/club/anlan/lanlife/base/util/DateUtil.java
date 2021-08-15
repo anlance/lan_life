@@ -746,9 +746,6 @@ public class DateUtil extends DateUtils {
      * 获取年份
      *
      * @param date
-     * @return
-     * @Author 吴明华
-     * @Date 2015年5月21日
      */
     public static int getYear(Date date) {
         if (date != null) {
@@ -762,11 +759,6 @@ public class DateUtil extends DateUtils {
 
     /**
      * 获取月份
-     *
-     * @param date
-     * @return
-     * @Author 吴明华
-     * @Date 2015年5月21日
      */
     public static int getMonthOfYear(Date date) {
         if (date != null) {
@@ -780,9 +772,6 @@ public class DateUtil extends DateUtils {
 
     /**
      * 获取小时
-     *
-     * @param hour
-     * @return
      */
     public static int getDayOfMonth(Date date) {
         if (date != null) {
@@ -796,9 +785,6 @@ public class DateUtil extends DateUtils {
 
     /**
      * 获取分钟
-     *
-     * @param hour
-     * @return
      */
     public static int getMiniteOfDay(Date date) {
         if (date != null) {
@@ -812,9 +798,6 @@ public class DateUtil extends DateUtils {
 
     /**
      * 获取秒
-     *
-     * @param hour
-     * @return
      */
     public static int getSecondOfDay(Date date) {
         if (date != null) {
@@ -828,11 +811,6 @@ public class DateUtil extends DateUtils {
 
     /**
      * 清除日期的时间部分
-     *
-     * @param date
-     * @return
-     * @Author 吴明华
-     * @Date 2015年5月22日
      */
     public static Date clearTime(Date date) {
         if (date != null) {

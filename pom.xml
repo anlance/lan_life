@@ -20,6 +20,8 @@
         <module>lan-config</module>
         <module>lan-basic</module>
         <module>lan-gateway</module>
+        <module>lan-local</module>
+        <module>lan-demo</module>
     </modules>
 
     <build>

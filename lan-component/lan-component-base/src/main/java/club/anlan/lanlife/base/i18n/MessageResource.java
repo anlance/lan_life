@@ -1,14 +1,6 @@
 package club.anlan.lanlife.base.i18n;
 
 /**
- * 类
- * 增强的MessageResource类，能够实现直接加载配置目录下的所有资源文件
- *
- * 使用该类：
- * 1. 基于SpringBoot
- * 2. 项目启动入口类必须要能扫描到该类所在包，如添加配置：'@ComponentScan("com.dahua.cloud")'
- * 3. 使用该类不需要另外的配置，只需要直接从Spring容器中获取bean名称为'messageSource'的实例即可，
- * 4. 合法的资源文件名称格式应该是形如 xxx.properties
  *
  * @author lan
  * @version 1.0
@@ -115,11 +107,6 @@ public class MessageResource extends MessageResourceExtension {
 
     /**
      * 语言如果为空，设置默认语言
-     *
-     * @date 2019年11月21日 下午7:32:08
-     * @author 27477
-     * @param locale
-     * @return
      */
     private Locale getLocale(Locale locale) {
         // logger.info("locale: {}", locale);
