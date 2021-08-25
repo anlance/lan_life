@@ -32,24 +32,21 @@ public class TestKafkaInit {
     }
 
     private void initAndSendData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int index = 0;
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                        index += 1;
-                        testSecondProducer.sendDataCenterSubCode(JSONObject.toJSONString(new TestKafkaParam(index, new Date())));
-                        testSecondProducer.sendDataCenterSubCode2(JSONObject.toJSONString(new TestKafkaParam(index, new Date())));
+        new Thread(() -> {
+            int index = 0;
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                    index += 1;
+                    testSecondProducer.sendDataCenterSubCode(JSONObject.toJSONString(new TestKafkaParam(index, new Date())));
+                    testSecondProducer.sendDataCenterSubCode2(JSONObject.toJSONString(new TestKafkaParam(index, new Date())));
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-                    if (index >= 10000) {
-                        index = 0;
-                    }
+                if (index >= 10000) {
+                    index = 0;
                 }
             }
         }).start();
