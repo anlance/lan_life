@@ -23,10 +23,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-@ServletComponentScan(basePackages = { "club.anlan.lanlife" })
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@ServletComponentScan(basePackages = { "club.anlan.lanlife.demo" })
 @ComponentScan(basePackages = "club.anlan.lanlife")
-@EnableFeignClients("club.anlan.lanlife")
+@MapperScan(basePackages = {"club.anlan.lanlife.demo.mapper"})
+@EnableFeignClients("club.anlan.lanlife.demo")
 public class DemoApplication extends SpringBootServletInitializer {
 
     @Override

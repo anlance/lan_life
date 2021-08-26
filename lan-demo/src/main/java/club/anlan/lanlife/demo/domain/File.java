@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 文件
@@ -44,10 +45,10 @@ public class File {
     private String url;
 
     /**
-     * 是否删除，1-被删除
+     * 是否删除，0-被删除
      */
     @TableField("delete_flag")
-    private Integer deleteFlag;
+    private Integer deleteFlag = 1;
 
     /**
      * 创建用户
@@ -59,4 +60,15 @@ public class File {
      * 创建时间
      */
     private Date createTime;
+
+
+    public File() {
+        this.setId(UUID.randomUUID().toString().replaceAll("-",""));
+        this.setCreateUserId("defaultUser");
+        this.setName("defaultName");
+        this.setType("defaultType");
+        this.setUrl("defaultUrl");
+        this.setCreateTime(new Date());
+    }
+
 }

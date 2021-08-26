@@ -1,7 +1,7 @@
 package club.anlan.lanlife.demo.service;
 
 import club.anlan.lanlife.demo.domain.File;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.stereotype.Service;
 
 /**
  * 文件 service
@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * @version 1.0
  * @date 2021/4/4 13:54
  */
+@Service()
 public interface FileService {
 
     /**
