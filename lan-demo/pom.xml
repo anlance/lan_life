@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Demo</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>lan-framework</module>
+    </modules>
 
 
     <dependencies>
