@@ -45,7 +45,7 @@ public class LanDispatcherServlet extends HttpServlet {
     /**
      * 保存 method 和 url 对应关系
      */
-    private Map<String, Method> handlerMapping = new HashMap<String, Method>();
+    private List<HandlerMapping> handlerMapping = new ArrayList<HandlerMapping>();
 
 
     @Override
@@ -63,50 +63,47 @@ public class LanDispatcherServlet extends HttpServlet {
 
 
     private void doDispatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String url = req.getRequestURI();
-        String contextPath = req.getContextPath();
-        url.replaceAll(contextPath, "").replaceAll("/+", "/");
 
-        if (!this.handlerMapping.containsKey(url)) {
+
+        HandlerMapping handlerMapping = getHandler(req);
+        if (handlerMapping == null) {
             resp.getWriter().write("404 not found !!!");
             return;
         }
 
-        Method method = this.handlerMapping.get(url);
-
-        String beanName = toLowerFirstCase(method.getDeclaringClass().getSimpleName());
-
+        Class<?>[] paramTypes = handlerMapping.getMethod().getParameterTypes();
+        Object[] paramValues = new Object[paramTypes.length];
         Map<String, String[]> params = req.getParameterMap();
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        Object[] values = new Object[parameterTypes.length];
 
-        for (int i = 0; i < parameterTypes.length; i++) {
-            Class parameterType = parameterTypes[i];
-            if (parameterType == HttpServletRequest.class) {
-                values[i] = req;
-            } else if (parameterType == HttpServletResponse.class) {
-                values[i] = resp;
-            } else {
-                Annotation[][] pa = method.getParameterAnnotations();
-                for (int j = 0; j < pa.length; j++) {
-                    for (Annotation an : pa[j]) {
-                        if (an instanceof LanRequestParam) {
-                            String paramName = ((LanRequestParam) an).value();
-                            if (params.containsKey(paramName)) {
-                                for (Map.Entry<String, String[]> param : params.entrySet()) {
-                                    String value = Arrays.toString(param.getValue())
-                                            .replaceAll("\\[\\]", "")
-                                            .replaceAll("\\s", ",");
-                                    // TODO: 2021/9/7 error
-                                    values[i] = value;
-                                }
-                            }
-                        }
-                    }
-                }
+        for (Map.Entry<String, String[]> param : params.entrySet()) {
+            String value = Arrays.toString(param.getValue())
+                    .replaceAll("\\[\\]", "")
+                    .replaceAll("\\s", ",");
+
+            if (handlerMapping.paramIndexMapping.containsKey(param.getKey())) {
+                paramValues[handlerMapping.paramIndexMapping.get(param.getKey())] = value;
             }
         }
-        method.invoke(ioc.get(beanName), values);
+
+        paramValues[handlerMapping.paramIndexMapping.get(HttpServletRequest.class.getName())] = req;
+        paramValues[handlerMapping.paramIndexMapping.get(HttpServletResponse.class.getName())] = resp;
+
+        handlerMapping.method.invoke(handlerMapping.getController(), paramValues);
+    }
+
+    private HandlerMapping getHandler(HttpServletRequest req) {
+        if (handlerMapping.isEmpty()) {
+            return null;
+        }
+        String url = req.getRequestURI();
+        String contextPath = req.getContextPath();
+        url.replaceAll(contextPath, "").replaceAll("/+", "/");
+        for (HandlerMapping mapping : this.handlerMapping) {
+            if (url.equals(mapping.getUrl())) {
+                return mapping;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -157,7 +154,7 @@ public class LanDispatcherServlet extends HttpServlet {
                 LanRequestMapping lanRequestMapping = method.getAnnotation(LanRequestMapping.class);
                 String url = (baseUrl + "/" + lanRequestMapping.value()).replaceAll("/+", "/");
 
-                handlerMapping.put(url, method);
+                handlerMapping.add(new HandlerMapping(url, method, entry.getValue()));
                 System.out.println("Mapped url-method, " + url + "-" + method);
             }
 
@@ -263,6 +260,84 @@ public class LanDispatcherServlet extends HttpServlet {
             contextConfig.load(fis);
         } catch (IOException e) {
             System.out.println("加载配置失败 ：{}" + e.getMessage());
+        }
+    }
+
+
+    class HandlerMapping {
+
+        private String url;
+
+        private Method method;
+
+        private Object controller;
+
+        /**
+         * 参数-位置
+         */
+        private Map<String, Integer> paramIndexMapping;
+
+        public HandlerMapping(String url, Method method, Object controller) {
+            this.url = url;
+            this.method = method;
+            this.controller = controller;
+            paramIndexMapping = new HashMap<String, Integer>();
+            putParamIndexMapping(method);
+        }
+
+        private void putParamIndexMapping(Method method) {
+
+            Annotation[][] pa = method.getParameterAnnotations();
+            for (int j = 0; j < pa.length; j++) {
+                for (Annotation an : pa[j]) {
+                    if (an instanceof LanRequestParam) {
+                        String paramName = ((LanRequestParam) an).value();
+                        if (!"".equals(paramName.trim())) {
+                            paramIndexMapping.put(paramName, j);
+                        }
+                    }
+                }
+            }
+
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            for (int i = 0; i < parameterTypes.length; i++) {
+                Class<?> type = parameterTypes[i];
+                if (type == HttpServletRequest.class || type == HttpServletResponse.class) {
+                    paramIndexMapping.put(type.getName(), i);
+                }
+            }
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Method getMethod() {
+            return method;
+        }
+
+        public void setMethod(Method method) {
+            this.method = method;
+        }
+
+        public Object getController() {
+            return controller;
+        }
+
+        public void setController(Object controller) {
+            this.controller = controller;
+        }
+
+        public Map<String, Integer> getParamIndexMapping() {
+            return paramIndexMapping;
+        }
+
+        public void setParamIndexMapping(Map<String, Integer> paramIndexMapping) {
+            this.paramIndexMapping = paramIndexMapping;
         }
     }
 }
