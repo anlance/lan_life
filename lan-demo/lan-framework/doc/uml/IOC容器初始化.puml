@@ -1,0 +1,55 @@
+@startuml
+
+title IOC 初始化
+
+autonumber
+
+autoactivate on
+
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantFontName Impact
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+header Page Header
+
+
+ClassPathXmlApplicationContext -> AbstractRefreshableConfigApplicationContext : setConfigLocations
+
+ClassPathXmlApplicationContext -> AbstractApplicationContext : refresh
+
+AbstractApplicationContext -> AbstractApplicationContext : obtainFreshBeanFactory
+
+AbstractApplicationContext -> AbstractRefreshableConfigApplicationContext : refreshBeanFactory
+
+AbstractRefreshableConfigApplicationContext -> AbstractXmlApplicationContext : loadBeanDefinitions
+
+AbstractXmlApplicationContext -> XmlBeanDefinitionReader : doLoadBeanDefinitions
+
+XmlBeanDefinitionReader -> DefaultBeanDefinitionDocumentReader : registerBeanDefinitions
+
+DefaultBeanDefinitionDocumentReader -> BeanDefinitionParserDelegate : parseBeanDefinitionElement
+
+BeanDefinitionParserDelegate -> BeanDefinitionReaderUtils : registerBeanDefinition
+
+BeanDefinitionReaderUtils -> DefaultListableBeanFactory : registerBeanDefinition
+
+
+
+
+
+
+
+@enduml
