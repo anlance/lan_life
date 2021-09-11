@@ -71,18 +71,4 @@ auth:
 
 common:
   api:
-    excludeUrls: /basic/**
-security:
-  expired_time:
-    access_token:
-      app: -1
-      applet: 86400
-      bs: 1800
-      pos: 3600
-      cs: 2592000
-    refresh_token:
-      app: -1
-      applet: 172800
-      bs: 3600
-      pos: 7200
-      cs: 5184000
+    excludeUrls: /basic/**,/home/**

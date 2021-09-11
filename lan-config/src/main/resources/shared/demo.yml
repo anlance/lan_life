@@ -34,32 +34,6 @@ endpoints:
   shutdown:
     enabled: false
 
-## OAuth2
-#security:
-#  oauth2:
-#    client:
-#      clientId: basic
-#      clientSecret: 123456
-#      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
-#      grant-type: client_credentials
-#      scope: server
-#  encode:
-#    password: f843c27029ba5e4a
-#  token:
-#    forceRevokeTokenUri: http://${GATEWAY:localhost}/auth/oauth/revokeTokenForce
-#  expired_time:
-#    access_token:
-#      app: -1
-#      applet: 86400
-#      bs: 1800
-#      pos: 86400
-#      cs: 2592000
-#    refresh_token:
-#      app: -1
-#      applet: 172800
-#      bs: 3600
-#      pos: 172800
-#      cs: 5184000
 
 mybatis-plus:
   global-config:
