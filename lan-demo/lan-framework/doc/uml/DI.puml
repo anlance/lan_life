@@ -1,0 +1,59 @@
+@startuml
+
+title DI
+
+autonumber
+
+autoactivate on
+
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantFontName Impact
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+
+BeanFactory -> AbstractBeanFactory : getBean
+
+AbstractBeanFactory -> AbstractBeanFactory : doGetBean
+
+AbstractBeanFactory -> AbstractAutowireCapableBeanFactory : createBean
+
+AbstractAutowireCapableBeanFactory -> AbstractAutowireCapableBeanFactory : doCreateBean
+
+AbstractAutowireCapableBeanFactory -> AbstractAutowireCapableBeanFactory : createBeanInstance
+
+AbstractAutowireCapableBeanFactory -> AbstractAutowireCapableBeanFactory : instantiateBean
+
+AbstractAutowireCapableBeanFactory -> SimpleInstantiationStrategy : instantiate
+
+AbstractAutowireCapableBeanFactory -> AbstractAutowireCapableBeanFactory : populateBean
+
+AbstractAutowireCapableBeanFactory -> AbstractAutowireCapableBeanFactory : applyPropertyValues
+
+AbstractAutowireCapableBeanFactory -> BeanDefinitionValueResolver : resolveValueIfNecessary
+
+AbstractAutowireCapableBeanFactory -> AbstractPropertyAccessor : setPropertyValues
+
+AbstractPropertyAccessor -> AbstractNestablePropertyAccessor : setPropertyValue
+
+AbstractNestablePropertyAccessor -> BeanWrapperImpl : setValue
+
+
+
+
+
+
+
+@enduml
