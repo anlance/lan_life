@@ -160,13 +160,6 @@ fdfs:
   fdfs.thumbImage.height: 150
   fdfs.thumbImage.width: 150
 
-#credentials:
-#  oauth2:
-#    authen: N/A
-#  md5: MD5
-#  hmacmd5: HmacMD5
-#  des: DES
-
 
 # 允许访问跨域资源的域名
 cors:

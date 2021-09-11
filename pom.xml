@@ -20,13 +20,13 @@
         <module>lan-config</module>
         <module>lan-basic</module>
         <module>lan-gateway</module>
-        <module>lan-local</module>
         <module>lan-demo</module>
+        <module>lan-home</module>
     </modules>
 
     <build>
         <!-- 为jar包取名 -->
-        <finalName>basic</finalName>
+        <finalName>lanlife</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
