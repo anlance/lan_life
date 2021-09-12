@@ -61,4 +61,30 @@ COMMENT ON COLUMN "basic"."bs_user"."create_time" IS '创建时间';
 COMMENT ON COLUMN "basic"."bs_user"."update_time" IS '更新时间';
 COMMENT ON TABLE "basic"."bs_user" IS '用户表';
 
+
+DROP TABLE IF EXISTS "basic"."bs_user_location";
+CREATE TABLE "basic"."bs_user_location"
+(
+    "id"             varchar(32) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL,
+    "user_id"        varchar(32) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+    "longitude"        numeric(18,15),
+    "latitude"         numeric(18,15),
+    "accuracy"         decimal(12,6),
+    "provider"        varchar(100) COLLATE "pg_catalog"."default"         DEFAULT NULL::character varying,
+    "satellites"          int2          NOT NULL DEFAULT 1,
+    "create_time"       timestamp(6)                                        NOT NULL DEFAULT now(),
+    "update_time"       timestamp(6)                                        NOT NULL DEFAULT now()
+)
+;
+COMMENT ON COLUMN "basic"."bs_user_location"."id" IS '主键id';
+COMMENT ON COLUMN "basic"."bs_user_location"."user_id" IS '用户 id';
+COMMENT ON COLUMN "basic"."bs_user_location"."longitude" IS '精度';
+COMMENT ON COLUMN "basic"."bs_user_location"."latitude" IS '纬度';
+COMMENT ON COLUMN "basic"."bs_user_location"."accuracy" IS '精度';
+COMMENT ON COLUMN "basic"."bs_user_location"."provider" IS '提供方';
+COMMENT ON COLUMN "basic"."bs_user_location"."satellites" IS '星级';
+COMMENT ON COLUMN "basic"."bs_user_location"."create_time" IS '创建时间';
+COMMENT ON COLUMN "basic"."bs_user_location"."update_time" IS '更新时间';
+COMMENT ON TABLE "basic"."bs_user_location" IS '用户定位表';
+
 END;
