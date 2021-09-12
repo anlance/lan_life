@@ -14,7 +14,7 @@ FDFS_ADDR_PORT: 192.168.0.107:22122
 # 下载图片URL地址端口
 DOWN_URL_PREFIX: http://anlan.club
 # web访问域名
-DOMAIN_NAME: http://anlan.club
+DOMAIN_NAME: http://192.168.0.107
 
 logging:
   config: classpath:log4j2.xml
