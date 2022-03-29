@@ -11,13 +11,479 @@
 
     <artifactId>lan-component</artifactId>
     <packaging>pom</packaging>
+    <name>lan-component</name>
+
     <modules>
         <module>lan-component-redis</module>
         <module>lan-component-storage</module>
         <module>lan-component-base</module>
         <module>lan-component-kafka</module>
+        <module>lan-component-utils</module>
     </modules>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.test.skip>true</maven.test.skip>
+        <maven.test.failure.ignore>true</maven.test.failure.ignore>
+        <build-plugin.exec.version>1.4.0</build-plugin.exec.version>
+
+        <junit.version>4.12</junit.version>
+        <mockito-all.version>1.8.5</mockito-all.version>
+
+        <postgresql.version>42.2.8</postgresql.version>
+        <mybatis.version>3.5.6</mybatis.version>
+        <mybatis-spring-boot-starter.version>2.1.0</mybatis-spring-boot-starter.version>
+        <mybatis-plus.version>2.3.3</mybatis-plus.version>
+        <pagehelper-spring-boot-starter.version>1.2.5</pagehelper-spring-boot-starter.version>
+
+        <commons-lang.version>2.4</commons-lang.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <commons-io.version>2.10.0</commons-io.version>
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <httpclient-version>4.5.13</httpclient-version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+
+        <poi.version>4.1.1</poi.version>
+        <poi-ooxml.version>4.1.1</poi-ooxml.version>
+        <easypoi.version>4.1.1</easypoi.version>
+        <xmlbean.version>3.1.0</xmlbean.version>
+        <easyexcel.version>3.0.5</easyexcel.version>
+
+        <tomcat.version>8.5.72</tomcat.version>
+        <spring.version>5.0.19.RELEASE</spring.version>
+        <spring-security-oauth2.version>2.2.5.RELEASE</spring-security-oauth2.version>
+        <spring-security.version>5.2.11.RELEASE</spring-security.version>
+        <jasypt-spring-boot-starter.version>1.16</jasypt-spring-boot-starter.version>
+        <spring.admin.version>2.0.4</spring.admin.version>
+        <velocity.version>1.7</velocity.version>
+
+        <aliyun-sdk-oss.version>3.10.2</aliyun-sdk-oss.version>
+        <aliyun.java.sdk.push.version>3.10.0</aliyun.java.sdk.push.version>
+        <aliyun.java.sdk.core.version>3.4.0</aliyun.java.sdk.core.version>
+        <aliyun.java.sdk.dm.version>3.1.0</aliyun.java.sdk.dm.version>
+        <aliyun.java.sdk.dysmsapi.version>1.1.0</aliyun.java.sdk.dysmsapi.version>
+
+        <x-pack-transport.version>5.6.1</x-pack-transport.version>
+        <fastjson.version>1.2.61</fastjson.version>
+        <jackson.version>2.11.0</jackson.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <javax.inject.version>1</javax.inject.version>
+        <urlrewritefilter.version>4.0.3</urlrewritefilter.version>
+        <jstl.version>1.2</jstl.version>
+        <dwr.version>3.0.2-RELEASE</dwr.version>
+        <druid.version>1.1.21</druid.version>
+        <jna.version>4.1.0</jna.version>
+        <netty-all.version>4.1.72.Final</netty-all.version>
+        <netty.version>4.1.72.Final</netty.version>
+        <junrar.version>0.7</junrar.version>
+        <fastdfs.version>0.1.25</fastdfs.version>
+        <okhttp.version>3.14.2</okhttp.version>
+        <hutool-all.version>4.1.5</hutool-all.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
+        <log4j2.version>2.17.0</log4j2.version>
+        <lombok.version>1.18.20</lombok.version>
+        <bouncycastle.version>1.60</bouncycastle.version>
+        <xstream.version>1.4.18</xstream.version>
+        <quartz.version>2.3.2</quartz.version>
+        <httpclient.version>4.5.13</httpclient.version>
+
+        <lan-component.version>1.0-SNAPSHOT</lan-component.version>
+        <pdf.fontbox.version>2.0.24</pdf.fontbox.version>
+        <pdf.pdfbox.version>2.0.24</pdf.pdfbox.version>
+        <pdf.icepdf-core.version>6.1.2</pdf.icepdf-core.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <nuonuo.open-sdk.version>1.0.5</nuonuo.open-sdk.version>
+        <google.zxing.version>2.0</google.zxing.version>
+        <tinypinyin.version>2.0.3</tinypinyin.version>
+        <guava.retrying.version>2.0.0</guava.retrying.version>
+        <apache.compress.version>1.21</apache.compress.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>club.anlan</groupId>
+                <artifactId>lan-component-base</artifactId>
+                <version>${lan-component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>club.anlan</groupId>
+                <artifactId>lan-component-kafka</artifactId>
+                <version>${lan-component.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>club.anlan</groupId>
+                <artifactId>lan-component-redis</artifactId>
+                <version>${lan-component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>club.anlan</groupId>
+                <artifactId>lan-component-storage</artifactId>
+                <version>${lan-component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>club.anlan</groupId>
+                <artifactId>lan-component-utils</artifactId>
+                <version>${lan-component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+            </dependency>
+
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Mybatis Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- database pool -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- 本地使用 velocity 作为代码生成器，兼容idea -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- json -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>${commons-httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient-version}</version>
+            </dependency>
+
+            <!-- @Inject -->
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tuckey</groupId>
+                <artifactId>urlrewritefilter</artifactId>
+                <version>${urlrewritefilter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- fileupload -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-io</groupId>
+                        <artifactId>commons-io</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <!-- excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.xmlbeans</groupId>
+                        <artifactId>xmlbeans</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-compress</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${apache.compress.version}</version>
+            </dependency>
+            <!--dwr的依赖 -->
+            <dependency>
+                <groupId>org.directwebremoting</groupId>
+                <artifactId>dwr</artifactId>
+                <version>${dwr.version}</version>
+            </dependency>
+
+            <!--jna -->
+            <dependency>
+                <groupId>com.sun.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <!-- netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty-all.version}</version>
+            </dependency>
+
+            <!-- mock -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito-all.version}</version>
+            </dependency>
+
+            <!-- FastDFS -->
+            <dependency>
+                <groupId>org.csource</groupId>
+                <artifactId>fastdfs</artifactId>
+                <version>${fastdfs.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <!-- <dependency> <groupId>com.github.tobato</groupId> <artifactId>fastdfs-client</artifactId>
+                <version>${fastdfs-client.version}</version> </dependency> -->
+
+            <!-- postgresql -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <!-- 配置文件加密引用 jasypt -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring-security-oauth2.version}</version>
+            </dependency>
+
+
+
+            <!-- easypoi -->
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-base</artifactId>
+                <version>${easypoi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>guava</artifactId>
+                        <groupId>com.google.guava</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xmlbeans</groupId>
+                        <artifactId>xmlbeans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.poi</groupId>
+                        <artifactId>poi</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>${xmlbean.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-web</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-annotation</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.promeg</groupId>
+                <artifactId>tinypinyin</artifactId>
+                <version>${tinypinyin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.rholder</groupId>
+                <artifactId>guava-retrying</artifactId>
+                <version>${guava.retrying.version}</version>
+            </dependency>
+
+            <!-- pdf -->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>fontbox</artifactId>
+                <version>${pdf.fontbox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${pdf.pdfbox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.icepdf.os</groupId>
+                <artifactId>icepdf-core</artifactId>
+                <version>${pdf.icepdf-core.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.media</groupId>
+                        <artifactId>jai-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcprov-jdk15on</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcprov-ext-jdk15on</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcpkix-jdk15on</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${google.zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring.admin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -116,12 +582,12 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.61</version>
-        </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.1.1-jre</version>
+        </dependency>
 
 
     </dependencies>
