@@ -10,7 +10,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * AppFilter
@@ -24,7 +26,7 @@ public class AppFilter implements Filter {
 
     private static final List<String> EXCLUDE_URLS = new ArrayList<String>();
 
-//    private static Logger log = LoggerFactory.getLogger(AppFilter.class);
+    private static final String AUTH_CURRENT = "/auth/user/current";
 
     @Value("${common.api.excludeUrls:/basic/*}")
     private String excludeUrls;
@@ -36,6 +38,7 @@ public class AppFilter implements Filter {
             log.info("excludeUrls: {}", excludeUrls);
             String[] urls = excludeUrls.split(",");
             EXCLUDE_URLS.addAll(Arrays.asList(urls));
+            EXCLUDE_URLS.remove(AUTH_CURRENT);
         }
     }
 

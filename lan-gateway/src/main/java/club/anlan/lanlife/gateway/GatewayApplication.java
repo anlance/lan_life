@@ -1,6 +1,6 @@
 package club.anlan.lanlife.gateway;
 
-import club.anlan.lanlife.base.spring.AppContext;
+import club.anlan.lanlife.component.base.spring.AppContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

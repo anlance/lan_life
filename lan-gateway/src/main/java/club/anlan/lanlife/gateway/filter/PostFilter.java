@@ -24,16 +24,16 @@ public class PostFilter extends ZuulFilter {
 
 
     /**
-     * @Fields REQUEST_ID: 请求ID
+     * 请求ID
      */
     public static final String REQUEST_ID = "Request-ID";
 
     @Value("${auth.post.enable:true}")
-    private boolean enbalePost;
+    private boolean enablePost;
 
     @Override
     public boolean shouldFilter() {
-        return enbalePost;
+        return enablePost;
     }
 
     @Override
@@ -58,8 +58,6 @@ public class PostFilter extends ZuulFilter {
 
     /**
      * 向HttpServletResponse中设置Request-ID
-     *
-     * @date 2019年11月19日 上午10:33:43
      */
     private void setRequestId(HttpServletRequest request, HttpServletResponse response) {
         String requestId = request.getHeader(REQUEST_ID);
@@ -67,8 +65,6 @@ public class PostFilter extends ZuulFilter {
             log.info("requestId: {}", requestId);
             response.setHeader(REQUEST_ID, requestId);
         }
-        // response.setHeader("Strict-Transport-Security", "max-age=0");
-        // response.setHeader("X-Frame-Options", "DENY");
     }
 
     @Override
@@ -78,7 +74,7 @@ public class PostFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 0;
+        return 2;
     }
 
 }

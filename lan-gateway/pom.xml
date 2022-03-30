@@ -5,13 +5,41 @@
     <parent>
         <artifactId>lan_life</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lan-gateway</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>lan-gateway</name>
+
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.test.skip>true</maven.test.skip>
+        <maven.test.failure.ignore>true</maven.test.failure.ignore>
+        <lan-component.version>1.0-SNAPSHOT</lan-component.version>
+        <spring.cloud.zuul.version>2.2.6.RELEASE</spring.cloud.zuul.version>
+        <spring.zuul.ratelimit.version>2.0.4.RELEASE</spring.zuul.ratelimit.version>
+        <ribbon.discovery.filter.version>2.1.0</ribbon.discovery.filter.version>
+    </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-component-base</artifactId>
+            <version>${lan-component.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-component-redis</artifactId>
+            <version>${lan-component.version}</version>
+        </dependency>
         <!--监控 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,16 +89,8 @@
             <artifactId>spring-cloud-netflix-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>club.anlan</groupId>
-            <artifactId>lan-component-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
