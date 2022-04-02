@@ -28,6 +28,16 @@ zuul:
       serviceId: basic
       stripPrefix: false
       sensitiveHeaders:
+    home:
+      path: /home/**
+      serviceId: home
+      stripPrefix: false
+      sensitiveHeaders:
+    auth:
+      path: /auth/**
+      serviceId: auth
+      stripPrefix: false
+      sensitiveHeaders:
 
 management:
   endpoints:
@@ -71,4 +81,4 @@ auth:
 
 common:
   api:
-    excludeUrls: /basic/**,/home/**
+    excludeUrls: /basic/**

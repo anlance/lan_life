@@ -11,6 +11,13 @@
 
     <artifactId>lan-component-storage</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-component-utils</artifactId>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <plugins>

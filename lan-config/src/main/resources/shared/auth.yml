@@ -1,8 +1,8 @@
 server:
-  port: 8220
+  port: 8200
   servlet:
     session-timeout: 1800
-    context-path: /basic
+    context-path: /auth
 
 spring:
   # 数据库连接池配置
@@ -16,7 +16,7 @@ spring:
   # kafka
   kafka:
     consumer:
-      group-id: LAN_LIFE_BASIC
+      group-id: LAN_LIFE_AUTH
       auto-offset-reset: earliest
     bootstrap-servers: ${kafka.consumer.servers}
 
