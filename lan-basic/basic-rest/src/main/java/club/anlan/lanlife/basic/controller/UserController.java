@@ -1,7 +1,10 @@
 package club.anlan.lanlife.basic.controller;
 
-import club.anlan.lanlife.base.annotation.Log;
-import club.anlan.lanlife.base.result.ResultMessage;
+import club.anlan.lanlife.basic.dto.UserDto;
+import club.anlan.lanlife.basic.service.UserService;
+import club.anlan.lanlife.basic.vo.UserVo;
+import club.anlan.lanlife.component.base.annotation.Log;
+import club.anlan.lanlife.component.base.result.ResultMessage;
 import club.anlan.lanlife.basic.domain.UserLocation;
 import club.anlan.lanlife.basic.service.UserLocationService;
 import com.alibaba.fastjson.JSONObject;
@@ -26,12 +29,34 @@ public class UserController {
     @Autowired
     private UserLocationService userLocationService;
 
+    @Autowired
+    private UserService userService;
+
     @Log(description = "保存定位信息")
     @PostMapping("/saveLocation")
     public ResultMessage saveLocation(@RequestBody UserLocation userLocation) throws IOException {
-        log.info("te {}", JSONObject.toJSONString(userLocation));
         userLocationService.saveOrUpdate(userLocation);
         return ResultMessage.createSuccessResult();
     }
 
+
+    @Log(description = "内部服务获取用户信息")
+    @PostMapping("/inner/getUser")
+    public ResultMessage getUser(@RequestBody UserDto.Query query) {
+        return ResultMessage.createSuccessResult(userService.getUser(query));
+    }
+
+
+    @Log(description = "添加用户")
+    @PostMapping("/create")
+    public ResultMessage createUser(@RequestBody UserVo.AddVo addUserVo) {
+        userService.saveOrUpdate(addUserVo.toUser());
+        return ResultMessage.createSuccessResult();
+    }
+
+    @Log(description = "获取盐和随机数")
+    @GetMapping("/getSalt")
+    public ResultMessage getSalt(@RequestParam String username) {
+        return ResultMessage.createSuccessResult(userService.getSalt(username));
+    }
 }

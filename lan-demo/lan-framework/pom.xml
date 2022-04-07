@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>lan-srpingMVC</module>
+        <module>lan-spring</module>
     </modules>
 
 

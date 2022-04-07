@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @version 1.0
  * @date 2021/4/4 13:56
  */
-@Mapper
 public interface FileMapper extends BaseMapper<File> {
 
 }

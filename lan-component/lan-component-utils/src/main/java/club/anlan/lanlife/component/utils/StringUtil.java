@@ -19,6 +19,8 @@ public class StringUtil {
     private final static String DEFAULT_DELIMITER = "\\{}";
     private final static Pattern PATTERN = Pattern.compile(DEFAULT_DELIMITER);
 
+    public final static String EMPTY = StringUtils.EMPTY;
+
 
     private StringUtil() {
     }
@@ -255,7 +257,12 @@ public class StringUtil {
     }
 
     public static String capitalize(String str){
+
         return StringUtils.capitalize(str);
+    }
+
+    public static boolean equalsIgnoreCase(CharSequence str1, CharSequence str2) {
+        return StringUtils.equalsIgnoreCase(str1,str2);
     }
 
 }

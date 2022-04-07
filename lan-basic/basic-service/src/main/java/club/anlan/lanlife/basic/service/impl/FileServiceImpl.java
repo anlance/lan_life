@@ -1,19 +1,14 @@
 package club.anlan.lanlife.basic.service.impl;
 
 import club.anlan.lanlife.basic.domain.File;
-import club.anlan.lanlife.basic.enums.DeleteFlagEnum;
 import club.anlan.lanlife.basic.mapper.FileMapper;
 import club.anlan.lanlife.basic.query.FileQuery;
 import club.anlan.lanlife.basic.service.FileService;
-import club.anlan.lanlife.storage.file.FileHandler;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 类

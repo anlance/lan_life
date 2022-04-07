@@ -1,6 +1,6 @@
 package club.anlan.lanlife.basic.config.db;
 
-import club.anlan.lanlife.base.config.BaseConfig;
+import club.anlan.lanlife.component.base.config.BaseConfig;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
@@ -60,8 +60,6 @@ public class MyBatisConfig extends BaseConfig {
         Resource[] mapperLocations = new PathMatchingResourcePatternResolver()
                 .getResources(getProperty("mapper-locations"));
         sqlSessionFactoryBean.setMapperLocations(mapperLocations);
-//        sqlSessionFactoryBean.("");
-//        sqlSessionFactoryBean.setTypeEnumsPackage("");
         // 指定配置xml位置
         Resource configResource = new DefaultResourceLoader().getResource(getProperty("config-location"));
         sqlSessionFactoryBean.setConfigLocation(configResource);

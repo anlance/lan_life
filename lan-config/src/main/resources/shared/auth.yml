@@ -42,4 +42,13 @@ mybatis-plus:
       logic-not-delete-value: 1
 
 
-
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+    client:
+      clientId: auth
+      clientSecret: 123456
+      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
+      grant-type: client_credentials
+      scope: server

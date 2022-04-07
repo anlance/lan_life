@@ -1,11 +1,14 @@
 package club.anlan.lanlife.component.redis.base;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 类
@@ -14,67 +17,79 @@ import java.util.List;
  * @version 1.0
  * @date 2021/4/24 14:27
  */
-public abstract class AbstractRedisCache<K, V> {
+@Slf4j
+public abstract class AbstractRedisCache<K, V> extends BaseRedisCache {
 
-    @Autowired
-    protected RedisTemplate<K, V> redisTemplate;
+    public abstract K getKey(K key);
 
-    public void setRedisTemplate(RedisTemplate<K, V> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public void add(K key, V value) {
+        log.info("#Redis [opsForValue] [add] key: {},value: {}", this.getKey(key), value);
+        redisTemplate.opsForValue().set(this.getKey(key), value);
     }
 
-    protected RedisSerializer<String> getStringSerializer() {
-        return redisTemplate.getStringSerializer();
+    public void add(K key, V value, long timeout, TimeUnit timeUnit) {
+        log.info("#Redis [opsForValue] [add] key: {},value: {}, timeout: {}", key, value, timeout);
+        redisTemplate.opsForValue().set(this.getKey(key), value, timeout, timeUnit);
     }
 
-    @SuppressWarnings("rawtypes")
-    protected RedisSerializer getKeySerializer() {
-        return redisTemplate.getKeySerializer();
+    public boolean delete(K key) {
+        log.info("#Redis [opsForValue] [delete] key: {}", this.getKey(key));
+        redisTemplate.delete(this.getKey(key));
+        return true;
     }
 
-    @SuppressWarnings("rawtypes")
-    protected RedisSerializer getValueSerializer() {
-        return redisTemplate.getValueSerializer();
-    }
-
-    @SuppressWarnings("rawtypes")
-    protected RedisSerializer getHashKeySerializer() {
-        return redisTemplate.getHashKeySerializer();
-    }
-
-    @SuppressWarnings("rawtypes")
-    protected RedisSerializer getHashValueSerializer() {
-        return new JdkSerializationRedisSerializer();
-    }
-
-    @SuppressWarnings("unchecked")
-    protected byte[] rawKey(Object key) {
-        if ((getKeySerializer() == null) && ((key instanceof byte[]))) {
-            return (byte[]) key;
+    public void update(K key, V value) {
+        log.info("#Redis [opsForValue] [update] key: {},value: {}", this.getKey(key), value);
+        if (redisTemplate.opsForValue().get(this.getKey(key)) != null) {
+            redisTemplate.opsForValue().set(this.getKey(key), value);
         }
-        return getKeySerializer().serialize(key);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    protected byte[] rawValue(Object value) {
-        RedisSerializer redisSerializer = null;
-        if (value instanceof String) {
-            redisSerializer = getStringSerializer();
+    public void update(K key, long timeout, TimeUnit timeUnit) {
+        log.info("#Redis [opsForValue] [update] key: {},timeout: {}", this.getKey(key), timeout);
+        V value = (V) redisTemplate.opsForValue().get(this.getKey(key));
+        if (value != null) {
+            redisTemplate.opsForValue().set(this.getKey(key), value, timeout, timeUnit);
+        }
+    }
+
+    public void update(K key, V value, long timeout, TimeUnit timeUnit) {
+        log.info("#Redis [opsForValue] [update] key: {},value: {}, timeout: {}", this.getKey(key), value, timeout);
+        if (redisTemplate.opsForValue().get(this.getKey(key)) != null) {
+            redisTemplate.opsForValue().set(this.getKey(key), value, timeout, timeUnit);
         } else {
-            redisSerializer = getValueSerializer();
+            log.info("redis value is null.");
         }
-        return redisSerializer.serialize(value);
     }
 
-    public void watch(K hashKey) {
-        redisTemplate.watch(hashKey);
+    public V get(K key) {
+        log.info("#Redis [opsForValue] [get] key: {}", this.getKey(key));
+        return (V) redisTemplate.opsForValue().get(this.getKey(key));
     }
 
-    public void multi() {
-        redisTemplate.multi();
+    public Long increment(K key) {
+        log.info("#Redis [opsForValue] [increment] key: {}", this.getKey(key));
+        return redisTemplate.opsForValue().increment(this.getKey(key), 1L);
     }
 
-    public List<Object> exec() {
-        return redisTemplate.exec();
+    public void expire(K key, long timeout, TimeUnit timeUnit) {
+        log.info("#Redis [opsForValue] [expire] key: {},timeout: {}", this.getKey(key), timeout);
+        redisTemplate.expire(this.getKey(key), timeout, timeUnit);
+    }
+
+    public Long ttl(K key) {
+        log.info("#Redis [ttl] key:{}", this.getKey(key));
+        byte[] keyByte = rawKey(this.getKey(key));
+        RedisConnection redisConnection = redisTemplate.getConnectionFactory().getConnection();
+        if (redisConnection == null) {
+            return null;
+        }
+        Long result = null;
+        try {
+            result = redisConnection.ttl(keyByte);
+        } finally {
+            redisConnection.close();
+        }
+        return result;
     }
 }

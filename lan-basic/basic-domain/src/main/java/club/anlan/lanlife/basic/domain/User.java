@@ -1,6 +1,8 @@
 package club.anlan.lanlife.basic.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @TableName("basic.bs_user")
 public class User {
 
+    @TableId(type = IdType.UUID)
     private String id;
 
     /**
@@ -48,9 +51,8 @@ public class User {
     @TableField("user_email")
     private String userEmail;
 
-
     /**
-     * 用户头像定位
+     * 用户头像地址
      */
     @TableField("user_pic")
     private String userPic;

@@ -120,9 +120,6 @@ public class AppContext implements ApplicationContextAware {
 
     /**
      * 注册bean到容器
-     *
-     * @param beanName
-     * @param beanDefinition
      */
     private static void registerBean(String beanName, BeanDefinition beanDefinition) {
         ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) context;

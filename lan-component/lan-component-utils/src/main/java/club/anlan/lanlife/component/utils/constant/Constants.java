@@ -43,6 +43,12 @@ public class Constants {
      */
     public static final String BEARER = "Bearer";
 
+    public static final String AUTHORIZATION = "Authorization";
+
+    public static final String BEARER_EXT = "Bearer ";
+
+    public static final String SESSION_USER_INFO = "userInfo";
+
     /**
      * HOST: Host
      */
@@ -57,4 +63,6 @@ public class Constants {
      * SCHEME: Scheme``
      */
     public static final String SCHEME = "Scheme";
+
+    public static final String NULL = "null";
 }

@@ -41,5 +41,15 @@ mybatis-plus:
       logic-delete-value: 0
       logic-not-delete-value: 1
 
-
+# OAuth2
+security:
+  oauth2:
+    client:
+      clientId: basic
+      clientSecret: 123456
+      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
+      grant-type: client_credentials
+      scope: server
+  token:
+    forceRevokeTokenUri: http://${GATEWAY:localhost}/auth/oauth/revokeTokenForce
 

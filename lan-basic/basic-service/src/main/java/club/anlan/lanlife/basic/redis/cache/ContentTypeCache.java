@@ -1,8 +1,8 @@
 package club.anlan.lanlife.basic.redis.cache;
 
-import club.anlan.lanlife.base.util.JsonUtil;
+import club.anlan.lanlife.component.base.util.JsonUtil;
 import club.anlan.lanlife.basic.redis.RedisKey;
-import club.anlan.lanlife.redis.base.RedisCache;
+import club.anlan.lanlife.component.redis.base.RedisCache;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;

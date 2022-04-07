@@ -27,9 +27,15 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil extends AbstractRedisCache<String, String> {
 
 
+    @Override
+    public String getKey(String key) {
+        return null;
+    }
+
     /**
      * 新增String缓存
      */
+    @Override
     public void add(String key, String value) {
         log.info("#Redis [ValueOperations] [set] key:{} ,value: {}", key, value);
         redisTemplate.opsForValue().set(key, value.toString());
@@ -45,6 +51,7 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
     /**
      * 新增String缓存，并设置有效期
      */
+    @Override
     public void add(final String key, final String value, long timeout, TimeUnit timeUnit) {
         log.info("#Redis [ValueOperations] [set] key: " + key + ",value: " + value + ",timeout: " + timeout
                 + ",timeUnit: " + timeUnit.name());
@@ -63,29 +70,31 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
     /**
      * 更新，如果不存在返回false
      */
-    public boolean update(String key, String value) {
+    @Override
+    public void update(String key, String value) {
         log.info("#Redis [ValueOperations] [update] key: {} ,value: {}", key, value);
         if (redisTemplate.hasKey(key)) {
             redisTemplate.opsForValue().set(key, value);
-            return true;
         }
-        return false;
     }
 
     /**
      * 获取String value
      */
+    @Override
     public String get(String key) {
         log.info("#Redis [ValueOperations] [get] key: {}", key);
-        return redisTemplate.opsForValue().get(key);
+        return (String) redisTemplate.opsForValue().get(key);
     }
 
     /**
      * 单条删除
      */
-    public void delete(String key) {
+    @Override
+    public boolean delete(String key) {
         log.info("#Redis [delete] key: {}", key);
         redisTemplate.delete(key);
+        return true;
     }
 
     /**
@@ -104,7 +113,6 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(hashKey)) {
             return;
         }
-        // redisTemplate.opsForHash().put(key, hashKey, value);
         redisTemplate.execute(new RedisCallback<Boolean>() {
             @SuppressWarnings("unchecked")
             @Override
@@ -126,17 +134,13 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
         if (StringUtils.isEmpty(key) || hashKeys == null) {
             return;
         }
-        redisTemplate.execute(new RedisCallback<Long>() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                byte[] keyByte = getKeySerializer().serialize(key);
-                List<byte[]> hashKeyList = new ArrayList<>(hashKeys.length);
-                for (Object obj : hashKeys) {
-                    hashKeyList.add(getHashKeySerializer().serialize(obj));
-                }
-                return connection.hDel(keyByte, hashKeyList.toArray(new byte[][]{}));
+        redisTemplate.execute((RedisCallback<Long>) connection -> {
+            byte[] keyByte = getKeySerializer().serialize(key);
+            List<byte[]> hashKeyList = new ArrayList<>(hashKeys.length);
+            for (Object obj : hashKeys) {
+                hashKeyList.add(getHashKeySerializer().serialize(obj));
             }
+            return connection.hDel(keyByte, hashKeyList.toArray(new byte[][]{}));
         });
     }
 
@@ -149,7 +153,7 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
         if (StringUtils.isEmpty(key) || StringUtils.isEmpty(hashKey)) {
             return null;
         }
-        return redisTemplate.execute(new RedisCallback<String>() {
+        return (String) redisTemplate.execute(new RedisCallback<String>() {
             @SuppressWarnings("unchecked")
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
@@ -228,6 +232,7 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
     /**
      * 设置缓存有效期
      */
+    @Override
     public void expire(String key, long timeout, TimeUnit timeUnit) {
         log.info("#Redis [expire] key: {}, timeout: {},TimeUnit: {}", key, timeout, timeUnit.name());
         redisTemplate.expire(key, timeout, timeUnit);
@@ -241,7 +246,7 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
         if (StringUtils.isEmpty(key)) {
             return false;
         }
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
+        return (boolean) redisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 byte[] keyByte = rawKey(key);
@@ -311,7 +316,7 @@ public class RedisUtil extends AbstractRedisCache<String, String> {
      */
     public boolean lock(final String key, final String value, Long timeout, TimeUnit timeUnit) {
         log.info("#Redis [lock] key:{}, value: {}, timeout:{} ,TimeUnit:{}", key, value, timeout, timeUnit);
-        boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
+        boolean result = (boolean) redisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 byte[] keyByte = rawKey(key);

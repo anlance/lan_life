@@ -25,14 +25,18 @@ public class BusinessRuntimeException extends BasicRuntimeException {
 
 
     public static BusinessRuntimeException createI18nException(ApiResponseCodeEnum codeEnum, I18n i18n, Object... i18nParams) {
-        return new BusinessRuntimeException(codeEnum, i18n, i18nParams);
+        return new BusinessRuntimeException(codeEnum, i18n, null, i18nParams);
     }
 
     public static BusinessRuntimeException createI18nBusinessException(I18n i18n, Object... i18nParams) {
-        return new BusinessRuntimeException(ApiResponseCodeEnum.BUSINESS_ERROR, i18n, i18nParams);
+        return new BusinessRuntimeException(ApiResponseCodeEnum.BUSINESS_ERROR, i18n, null, i18nParams);
     }
 
-    private BusinessRuntimeException(ApiResponseCodeEnum codeEnum, I18n i18n, Object... i18nParams) {
+    public static BusinessRuntimeException createBusinessException(String errMsg) {
+        return new BusinessRuntimeException(ApiResponseCodeEnum.BUSINESS_ERROR, null, errMsg, null);
+    }
+
+    private BusinessRuntimeException(ApiResponseCodeEnum codeEnum, I18n i18n, String errMsg, Object... i18nParams) {
         MessageResource messageSource = AppContext.getBean(MessageResource.class);
         if (Objects.isNull(messageSource)) {
             log.warn("获取MessageResource失败");
@@ -43,8 +47,10 @@ public class BusinessRuntimeException extends BasicRuntimeException {
         String i18nMsg;
         if (i18nParams != null && i18nParams.length > 0) {
             i18nMsg = messageSource.getMessageWithParams(i18n.getKey(), i18nParams);
-        } else {
+        } else if (i18n != null) {
             i18nMsg = messageSource.getMessage(i18n.getKey());
+        } else {
+            i18nMsg = errMsg;
         }
         int index = i18nMsg.indexOf(":");
         if (index > 0) {

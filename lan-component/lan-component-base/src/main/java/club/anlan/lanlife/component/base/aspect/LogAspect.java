@@ -51,9 +51,9 @@ public class LogAspect {
             return;
         }
         this.requestTime.set(System.currentTimeMillis());
-        log.info("=====> start ：【{}】", controllerLog.description());
+        log.info("【{}】 接口进入==========================================================> ", controllerLog.description());
         if (log.isDebugEnabled()) {
-            log.debug(controllerLog.description() + ",请求参数:{}", getRequestParam(joinPoint));
+            log.debug("【{}】,请求参数:{}", controllerLog.description(), getRequestParam(joinPoint));
         }
     }
 
@@ -75,13 +75,12 @@ public class LogAspect {
             if (controllerLog == null) {
                 return;
             }
-            log.info("=====> end ：【{}】，耗时ms:{}", controllerLog.description(), System.currentTimeMillis() - requestTime.get());
+            log.info("【{}】 接口返回<========================================================== ，耗时【{}】ms", controllerLog.description(), System.currentTimeMillis() - requestTime.get());
             if (log.isDebugEnabled()) {
-                log.debug(controllerLog.description() + ",返回结果:{},耗时ms:{}", JSON.toJSONString(jsonResult), System.currentTimeMillis() - requestTime.get());
+                log.debug("【{}】,返回结果:{}", controllerLog.description(), JSON.toJSONString(jsonResult));
             }
             if (controllerLog.saveToDb()) {
-                //保存日志到数据库
-                // 获取当前的用户
+
             }
         } catch (Exception exp) {
             log.error("切面处理日志时失败", exp);
@@ -128,6 +127,9 @@ public class LogAspect {
 
     @SuppressWarnings("rawtypes")
     public boolean needResolve(final Object o) {
+        if (o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse) {
+            return false;
+        }
         Class<?> clazz = o.getClass();
         if (clazz.isArray()) {
             return !clazz.getComponentType().isAssignableFrom(MultipartFile.class);
@@ -151,6 +153,6 @@ public class LogAspect {
             }
             return true;
         }
-        return !(o instanceof MultipartFile) || !(o instanceof HttpServletRequest) || !(o instanceof HttpServletResponse);
+        return true;
     }
 }

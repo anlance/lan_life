@@ -1,7 +1,7 @@
 package club.anlan.lanlife.basic.controller;
 
-import club.anlan.lanlife.base.annotation.Log;
-import club.anlan.lanlife.base.result.ResultMessage;
+import club.anlan.lanlife.component.base.annotation.Log;
+import club.anlan.lanlife.component.base.result.ResultMessage;
 import club.anlan.lanlife.basic.redis.RedisKey;
 import club.anlan.lanlife.basic.domain.File;
 import club.anlan.lanlife.basic.enums.DeleteFlagEnum;
@@ -9,9 +9,9 @@ import club.anlan.lanlife.basic.query.FileQuery;
 import club.anlan.lanlife.basic.service.FileService;
 import club.anlan.lanlife.basic.redis.cache.ContentTypeCache;
 import club.anlan.lanlife.basic.vo.ChunkFile;
-import club.anlan.lanlife.redis.util.RedisUtil;
-import club.anlan.lanlife.storage.FileUtil;
-import club.anlan.lanlife.storage.file.FileHandler;
+import club.anlan.lanlife.component.redis.util.RedisUtil;
+import club.anlan.lanlife.component.storage.FileUtil;
+import club.anlan.lanlife.component.storage.file.FileHandler;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
