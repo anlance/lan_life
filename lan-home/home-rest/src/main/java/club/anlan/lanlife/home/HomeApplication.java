@@ -1,6 +1,6 @@
 package club.anlan.lanlife.home;
 
-import club.anlan.lanlife.base.spring.AppContext;
+import club.anlan.lanlife.component.base.spring.AppContext;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -11,6 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @version 1.0
  * @date 2021/9/12 22:42
  */
-@Mapper
 public interface UserLocationMapper extends BaseMapper<UserLocation> {
 }

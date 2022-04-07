@@ -17,17 +17,17 @@
 		<!-- 这个输出控制台的配置 -->
 		<console name="Console" target="SYSTEM_OUT">
 			<!--输出日志的格式 -->
-			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][${MODULE_NAME}:%t][%C{1}:%M:%L] %m%n%n" />
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceId}][%p][${MODULE_NAME}:%t][%C{1}:%M:%L] %m%n%n" />
 		</console>
 		
 		<!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size， 则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
 		<RollingRandomAccessFile name="RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}.log" 
-			filePattern="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}_%d{yyyy-MM}_%i.log">
+			filePattern="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}_%d{yyyy-MM-dd}_%i.log">
 			<Filters>
 				<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
 				<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
 			</Filters>
-			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%C{1}:%M:%L] %m%n" />
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceId}][%p][%t][%C{1}:%M:%L] %m%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="50 MB" />
@@ -38,11 +38,11 @@
 		</RollingRandomAccessFile>
 		
 		<RollingRandomAccessFile name="Error_RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/error.log" 
-			filePattern="${LOG_HOME}/${MODULE_NAME}/error_%d{yyyy-MM}_%i.log">
+			filePattern="${LOG_HOME}/${MODULE_NAME}/error_%d{yyyy-MM-dd}_%i.log">
 			<Filters>
 				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
 			</Filters>
-			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%t][%C{1}:%M:%L] %m%n%n" />
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceId}][%p][%t][%C{1}:%M:%L] %m%n%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="50 MB" />
@@ -58,7 +58,7 @@
 			<appender-ref ref="RollingFile" />
 			<appender-ref ref="Error_RollingFile" />
 		</root>
-		<logger name="club.anlan.lanlife.gateway" level="DEBUG" additivity="false">
+		<logger name="club.anlan.lanlife" level="DEBUG" additivity="false">
 			<appender-ref ref="Console" />
 	        <appender-ref ref="RollingFile" />
 	        <appender-ref ref="Error_RollingFile" />

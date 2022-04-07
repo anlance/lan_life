@@ -1,0 +1,54 @@
+server:
+  port: 8200
+  servlet:
+    session-timeout: 1800
+    context-path: /auth
+
+spring:
+  # 数据库连接池配置
+  datasource:
+    initial-size: 10
+    min-idle: 10
+    max-active: 50
+    # 数据库模式
+    current-schema: basic
+
+  # kafka
+  kafka:
+    consumer:
+      group-id: LAN_LIFE_AUTH
+      auto-offset-reset: earliest
+    bootstrap-servers: ${kafka.consumer.servers}
+
+# executer
+executer:
+  global:
+    corePoolSize: 20
+    maxPoolSize: 200
+    queueCapacity: 2000
+    keepAliveSeconds: 500
+
+endpoints:
+  actuator:
+    enabled: true
+  shutdown:
+    enabled: false
+
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+    client:
+      clientId: auth
+      clientSecret: 123456
+      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
+      grant-type: client_credentials
+      scope: server

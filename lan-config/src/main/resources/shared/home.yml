@@ -1,5 +1,5 @@
 server:
-  port: 8210
+  port: 8220
   servlet:
     session-timeout: 1800
     context-path: /basic

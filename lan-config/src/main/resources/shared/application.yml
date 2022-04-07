@@ -1,26 +1,29 @@
 # 网关地址
-GATEWAY: 127.0.0.1:8080
+GATEWAY: 192.168.0.111:8080
 # PgSQL地址
-PGSQL_ADDR: 192.168.0.107
+PGSQL_ADDR: 192.168.0.111
 # Redis地址
-REDIS_ADDR: 192.168.0.107
+REDIS_ADDR: 192.168.0.111
 # Kafka地址端口
-KAFKA_ADDR_PORT: 192.168.0.107:9092
+KAFKA_ADDR_PORT: 192.168.0.111:9092
 
-ES_ADDR_PORT: 192.168.0.107:9300
+ES_ADDR_PORT: 192.168.0.111:9300
 # FastDFS地址端口
-FDFS_ADDR_PORT: 192.168.0.107:22122
+FDFS_ADDR_PORT: 192.168.0.111:22122
 
 # 下载图片URL地址端口
-DOWN_URL_PREFIX: http://anlan.club
+DOWN_URL_PREFIX: http:192.168.0.111
 # web访问域名
-DOMAIN_NAME: http://192.168.0.107
+DOMAIN_NAME: http://192.168.0.111
 
 logging:
   config: classpath:log4j2.xml
   level:
     org.springframework.security: INFO
 
+jasypt:
+  encryptor:
+    password: to@be@a@magic@master
 
 feign:
   hystrix:
@@ -85,7 +88,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${PGSQL_ADDR:localhost}:5432/postgres
     username: postgres
-    password: GSSG255211postgres
+    password: ENC(/4KGc1VxnXQGvc2AcQmsB+gqcDSlTsUrbsHpUpuAQyA=)
     driverClassName: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: org.postgresql.Driver
@@ -106,7 +109,7 @@ spring:
   redis:
     host: ${REDIS_ADDR:localhost}
     port: 6371
-    password: GSSG255211redis
+    password: ENC(7Ec3ymUP729+ZWUmdmBQvENqBkc5wwmq)
     timeout: 2000
     database: 0
     connect-timeout: 2000
@@ -192,4 +195,16 @@ rest:
 ribbon:
   ReadTimeout: 20000
   ConnectTimeout: 20000
-  ServerListRefreshInterval: 3000
+  ServerListRefreshInterval: 3000\
+
+credentials:
+  oauth2:
+    authen: N/A
+  md5: MD5
+  hmacmd5: HmacMD5
+  des: DES
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://${GATEWAY:localhost}/basic/user/current

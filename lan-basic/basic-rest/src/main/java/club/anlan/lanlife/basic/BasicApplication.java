@@ -1,6 +1,6 @@
 package club.anlan.lanlife.basic;
 
-import club.anlan.lanlife.base.spring.AppContext;
+import club.anlan.lanlife.component.base.spring.AppContext;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +23,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @ServletComponentScan(basePackages = { "club.anlan.lanlife" })
 @ComponentScan(basePackages = "club.anlan.lanlife")
-@EnableFeignClients("club.anlan.lanlife")
+@EnableFeignClients("club.anlan.lanlife.basic")
 @MapperScan(basePackages = {"club.anlan.lanlife.basic.mapper"})
 public class BasicApplication extends SpringBootServletInitializer {
 

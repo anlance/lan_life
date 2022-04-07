@@ -40,4 +40,9 @@ public class RedisKey {
      */
     public static final String CHUNK_FILE_UPLOAD_FILE_NAME = "chunk:file:file:upload:file:name:";
 
+    /**
+     * 登录时的随机数缓存
+     */
+    public static final String AUTH_LOGIN_USERNAME_RANDOM_CODE = "auth:login:username:random:code:";
+
 }

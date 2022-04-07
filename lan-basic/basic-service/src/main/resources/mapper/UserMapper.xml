@@ -2,5 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="club.anlan.lanlife.basic.mapper.UserMapper">
 
+    <sql id="dtoUser">
+      id,
+      login_name,
+      login_pass,
+      salt,
+      last_login_ip
+    </sql>
 
+
+    <select id="getUser"
+            parameterType="club.anlan.lanlife.basic.dto.UserDto$Query"
+            resultType="club.anlan.lanlife.basic.dto.UserDto$User">
+        select <include refid="dtoUser"/>
+        from basic.bs_user
+        <where>
+            <if test="params.loginName != null and params.loginName != ''">
+                and login_name = REPLACE(REPLACE(#{params.loginName},'%','\%'),'_','\_')
+            </if>
+        </where>
+    </select>
 </mapper>

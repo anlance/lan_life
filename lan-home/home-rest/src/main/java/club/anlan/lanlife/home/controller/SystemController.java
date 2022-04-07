@@ -1,7 +1,7 @@
 package club.anlan.lanlife.home.controller;
 
-import club.anlan.lanlife.base.annotation.Log;
-import club.anlan.lanlife.base.result.ResultMessage;
+import club.anlan.lanlife.component.base.annotation.Log;
+import club.anlan.lanlife.component.base.result.ResultMessage;
 import club.anlan.lanlife.home.util.ExecuteShellUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
