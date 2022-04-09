@@ -88,7 +88,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/getSalt", "**/inner/**").permitAll()
+                .antMatchers("/user/getSalt", "**/inner/**","/user/inner/getUser").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }
