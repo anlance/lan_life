@@ -18,6 +18,7 @@ public enum I18nEnum implements I18n {
     CLIENT_TYPE_APP("client.type.app", "CS客户端 "),
     USER_TYPE_MANAGER("user.type.manager", "管理员用户"),
     USER_TYPE_APP("user.type.app", "APP用户"),
+    ERROR_USERNAME_OR_PASSWORD("error.username.or.password", "用户名或密码错误"),
 
     ;
 

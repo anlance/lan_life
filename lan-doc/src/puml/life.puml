@@ -1,0 +1,60 @@
+@startuml
+
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantFontName Impact
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+
+node "展示层" {
+rectangle web #lightgreen
+rectangle app #lightgreen
+}
+
+rectangle frp #orange
+
+node "应用层" {
+rectangle gateway #orange
+
+rectangle auth #Application
+rectangle basic #Application
+rectangle home #Application
+rectangle deviceGateway #Application
+rectangle IM #Application
+}
+
+node "运维" {
+rectangle 监控 #red
+rectangle 日志 #red
+rectangle 任务管理 #red
+}
+
+gateway -up-> web
+gateway -up-> app
+gateway -up-> frp
+
+frp -up-> app
+frp -up-> web
+
+auth -up-> gateway
+basic -up-> gateway
+home -up-> gateway
+IM -up-> gateway
+
+deviceGateway -up-> home
+
+
+
+@enduml
