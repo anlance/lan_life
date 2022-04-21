@@ -24,3 +24,13 @@ eureka:
     serviceUrl:
       defaultZone: http://user:123456@${EUREKA:192.168.0.111}:7001/eureka/ #注册中心地址
 
+
+config:
+  server:
+    port: 8082
+    host: 127.0.0.1
+  client:
+    key: lan-local
+  service:
+    host: 192.168.0.111
+    port: 80
