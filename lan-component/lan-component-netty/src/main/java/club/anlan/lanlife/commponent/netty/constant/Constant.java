@@ -33,10 +33,4 @@ public class Constant {
     public static final int INITIAL_BYTES_TO_STRIP = 0;
 
     public static final int LENGTH_ADJUSTMENT = 0;
-
-    public static final AttributeKey<String> CLIENT_KEY = AttributeKey.newInstance("client_key");
-
-    public static final AttributeKey<Channel> NEXT_CHANNEL = AttributeKey.newInstance("nxt_channel");
-
-    public static final AttributeKey<String> USER_ID = AttributeKey.newInstance("user_id");
 }

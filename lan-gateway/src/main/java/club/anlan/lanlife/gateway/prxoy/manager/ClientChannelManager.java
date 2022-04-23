@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -20,18 +21,20 @@ public class ClientChannelManager {
 
     private static final int MAX_POOL_SIZE = 100;
 
-//    private static Map<String, Channel> localChannels = new ConcurrentHashMap<String, Channel>();
-
     private static volatile Channel cmdChannel;
-
-    private static volatile Channel localChannel;
 
     private static Map<String, String> localToRemote = new ConcurrentHashMap<String, String>();
 
+    private static Map<String, Channel> remoteToLocalChannel = new ConcurrentHashMap<String, Channel>();
 
-//    public static void removeLocalChanel(String localId) {
-//        localChannels.remove(localId);
-//    }
+
+    public static void removeLocalChanel(String uri) {
+        remoteToLocalChannel.remove(uri);
+        Channel localChannel = getLocalChannel(uri);
+        if (Objects.nonNull(localChannel)) {
+            localChannel.close();
+        }
+    }
 
 //    public static void addLocalChannel(String localId, Channel channel) {
 //        localChannels.put(localId, channel);
@@ -49,12 +52,16 @@ public class ClientChannelManager {
         return cmdChannel;
     }
 
-    public static void setLocalChannel(Channel localChannel) {
-        ClientChannelManager.localChannel = localChannel;
+    public static void setLocalChannel(String uri, Channel localChannel) {
+        remoteToLocalChannel.put(uri, localChannel);
     }
 
-    public static Channel getLocalChannel() {
-        return localChannel;
+    public static Channel getLocalChannel(String uri) {
+        return remoteToLocalChannel.get(uri);
+    }
+
+    public static void removeLocalChannel(String uri) {
+        remoteToLocalChannel.remove(uri);
     }
 
     public static String getRemoteId(String localId) {
@@ -63,6 +70,10 @@ public class ClientChannelManager {
 
     public static void setRemoteId(String localId, String remoteId) {
         localToRemote.put(localId, remoteId);
+    }
+
+    public static void removeRemoteId(String localId){
+        localToRemote.remove(localId);
     }
 
 

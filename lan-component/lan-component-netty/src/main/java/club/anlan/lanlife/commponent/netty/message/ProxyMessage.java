@@ -107,13 +107,33 @@ public class ProxyMessage {
 
     /**
      * 传输数据
-     * @param data
-     * @return
      */
     public static ProxyMessage transferMessage(String uri, byte[] data) {
         ProxyMessage message = new ProxyMessage();
         message.setType(P_TYPE_TRANSFER);
         message.setData(data);
+        message.setUri(uri);
+        return message;
+    }
+
+    /**
+     * 关闭连接
+     */
+    public static ProxyMessage disConnectMessage(String uri) {
+        ProxyMessage message = new ProxyMessage();
+        message.setType(TYPE_DISCONNECT);
+        message.setData("连接已断开".getBytes());
+        message.setUri(uri);
+        return message;
+    }
+
+    /**
+     * 建立连接
+     */
+    public static ProxyMessage connectMessage(String uri) {
+        ProxyMessage message = new ProxyMessage();
+        message.setType(TYPE_CONNECT);
+        message.setData("建立连接".getBytes());
         message.setUri(uri);
         return message;
     }

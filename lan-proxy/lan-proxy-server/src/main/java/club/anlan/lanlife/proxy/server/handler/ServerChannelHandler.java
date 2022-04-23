@@ -68,7 +68,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
         Channel cmdChannel = ProxyChannelManager.getCmdChannel(clientKey);
         if (cmdChannel == null) {
-            log.warn("ConnectMessage:error cmd channel key {}", ctx.channel().attr(Constant.CLIENT_KEY).get());
+            log.warn("ConnectMessage:error cmd channel key {}", clientKey);
         }
     }
 

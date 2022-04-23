@@ -4,17 +4,17 @@ import club.anlan.lanlife.commponent.netty.constant.Constant;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.config.ProxyConfig;
 import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
-import com.alibaba.fastjson.JSON;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpRequest;
-import io.netty.handler.codec.http.HttpRequest;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 /**
  * ClientChannelHandler
@@ -25,6 +25,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessage> {
+
+    private NioEventLoopGroup workerGroup;
+
+    public ClientChannelHandler(NioEventLoopGroup workerGroup){
+        this.workerGroup = workerGroup;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage proxyMessage) throws Exception {
@@ -49,49 +55,69 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
     }
 
     private void handleTransferMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
-        String clientId = ctx.channel().id().asLongText();
-        buf.writeBytes(proxyMessage.getData());
-        log.info("[{}] server 收到 message :{}", clientId, proxyMessage);
-        log.info("server Length: {}, data: {}", proxyMessage.getData().length, buf.toString(CharsetUtil.UTF_8));
-        // 新建连接并发送数据
-        Channel localChannel = ClientChannelManager.getLocalChannel();
-        ClientChannelManager.setRemoteId(localChannel.id().asLongText(), proxyMessage.getUri());
-        localChannel.writeAndFlush(buf);
-//        ctx.channel().writeAndFlush(ProxyMessage.transferMessage(proxyMessage.getUri(), "sho".getBytes()));
+
+        String ip = ProxyConfig.getLocalHost();
+        Integer port = ProxyConfig.getLocalPort();
+        Bootstrap localBootstrap = new Bootstrap();
+        localBootstrap.group(workerGroup)
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new LocalChannelHandler());
+
+                    }
+                })
+                .connect(ip, port).addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                if (channelFuture.isSuccess()) {
+                    ClientChannelManager.setLocalChannel(proxyMessage.getUri(), channelFuture.channel());
+                    ClientChannelManager.setRemoteId(channelFuture.channel().id().asLongText(), proxyMessage.getUri());
+                    log.debug("connect real server [{}:{}] success, {}", ip, port, ctx.channel());
+                    ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
+                    buf.writeBytes(proxyMessage.getData());
+                    log.debug("server 收到 message :{}", proxyMessage);
+                    log.debug("server Length: {}, data: {}", proxyMessage.getData().length, buf.toString(CharsetUtil.UTF_8));
+                    channelFuture.channel().writeAndFlush(buf);
+                } else {
+                    log.warn("连接本地端口 failed", channelFuture.cause());
+                }
+            }
+        });
+//        Channel localChannel = ClientChannelManager.getLocalChannel(proxyMessage.getUri());
+//        if (Objects.nonNull(localChannel)) {
+//            localChannel.writeAndFlush(buf);
+//        } else {
+////            ClientChannelManager.removeLocalChanel(proxyMessage.getUri());
+//        }
     }
 
     private void handleDisconnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        Channel cmdChannel = ctx.channel().attr(Constant.NEXT_CHANNEL).get();
+        Channel cmdChannel = ClientChannelManager.getCmdChannel();
         log.info("handleDisconnectMessage, {}", cmdChannel);
         if (cmdChannel != null) {
-            ctx.channel().attr(Constant.NEXT_CHANNEL).remove();
             cmdChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         }
+//        ClientChannelManager.removeLocalChanel(proxyMessage.getUri());
     }
 
     private void handleConnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        String ip = ProxyConfig.getThisServerHost();
-        Integer port = ProxyConfig.getThisServerPort();
-        log.debug("connect real server [{}:{}] success, {}", ip, port, ctx.channel());
+
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.debug("与代理服务器连接断开");
-        // 控制连接
         if (ClientChannelManager.getCmdChannel() == ctx.channel()) {
             ClientChannelManager.setCmdChannel(null);
 //            ClientChannelManager.channelInactive(ctx);
         } else {
-            // 数据传输连接
-            Channel cmdChannel = ctx.channel().attr(Constant.NEXT_CHANNEL).get();
+            Channel cmdChannel = ClientChannelManager.getCmdChannel();
             if (cmdChannel != null && cmdChannel.isActive()) {
                 cmdChannel.close();
             }
         }
-
-//        ClientChannelManager.removeLocalChanel(ctx.channel());
         super.channelInactive(ctx);
     }
 

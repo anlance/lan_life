@@ -7,7 +7,6 @@ import club.anlan.lanlife.commponent.netty.handler.ProxyMessageEncoder;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.config.ProxyConfig;
 import club.anlan.lanlife.gateway.prxoy.handler.ClientChannelHandler;
-import club.anlan.lanlife.gateway.prxoy.handler.LocalChannelHandler;
 import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -16,7 +15,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,8 +34,6 @@ public class ProxyClientStarter {
 
     private Bootstrap bootstrap;
 
-    private Bootstrap localBootstrap;
-
     private long sleepTimeMill = 1000;
 
     @Autowired
@@ -55,31 +51,10 @@ public class ProxyClientStarter {
                         ch.pipeline().addLast(new ProxyMessageDecoder(Constant.MAX_FRAME_LENGTH, Constant.LENGTH_FIELD_OFFSET, Constant.LENGTH_FIELD_LENGTH, Constant.LENGTH_ADJUSTMENT, Constant.INITIAL_BYTES_TO_STRIP));
                         ch.pipeline().addLast(new ProxyMessageEncoder());
                         ch.pipeline().addLast(new IdleCheckHandler(Constant.READ_IDLE_TIME, Constant.WRITE_IDLE_TIME - 10, 0));
-                        ch.pipeline().addLast(new ClientChannelHandler());
+                        ch.pipeline().addLast(new ClientChannelHandler(workerGroup));
                     }
                 });
         connectProxyServer();
-        localBootstrap = new Bootstrap();
-        localBootstrap.group(workerGroup)
-                .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LocalChannelHandler());
-
-                    }
-                })
-                .connect(proxyConfig.getServiceHost(), proxyConfig.getServicePort()).addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                if (channelFuture.isSuccess()) {
-                    log.info("连接 {}:{}成功", proxyConfig.getServiceHost(), proxyConfig.getServicePort());
-                    ClientChannelManager.setLocalChannel(channelFuture.channel());
-                } else {
-                    log.warn("连接本地端口 failed", channelFuture.cause());
-                }
-            }
-        });
     }
 
     /**

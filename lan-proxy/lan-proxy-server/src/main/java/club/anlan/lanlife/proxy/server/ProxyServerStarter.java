@@ -12,8 +12,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.*;
-import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,7 +55,7 @@ public class ProxyServerStarter {
 
         try {
             bootstrap.bind(proxyConfig.getHost(), proxyConfig.getConfigServerPort()).get();
-            log.info("proxy server start on port " + proxyConfig.getConfigServerPort());
+            log.info("proxy server start on port {}, wait client to connect", proxyConfig.getConfigServerPort());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -79,7 +77,7 @@ public class ProxyServerStarter {
 
         try {
             bootstrap.bind(proxyConfig.getServicePort()).get();
-            log.info("outer request bind port " + proxyConfig.getServicePort());
+            log.info("proxy server bind port {}, wait request", proxyConfig.getServicePort());
         } catch (Exception ex) {
             // BindException表示该端口已经绑定过
             if (!(ex.getCause() instanceof BindException)) {
