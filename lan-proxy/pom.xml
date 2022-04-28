@@ -9,14 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lan-basic</artifactId>
+    <artifactId>lan-proxy</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>basic-domain</module>
-        <module>basic-service</module>
-        <module>basic-rest</module>
+        <module>lan-proxy-server</module>
+        <module>lan-proxy-client</module>
     </modules>
-
 
 
 </project>

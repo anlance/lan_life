@@ -1,0 +1,13 @@
+server:
+  port: 8088
+
+config:
+  server:
+    host: 0.0.0.0
+    port: 8082
+    client-key: lan-local
+    service:
+      port: 80
+  admin:
+    username: admin
+    password: admin

@@ -19,6 +19,7 @@
         <module>lan-component-base</module>
         <module>lan-component-kafka</module>
         <module>lan-component-utils</module>
+        <module>lan-component-netty</module>
     </modules>
 
     <properties>
