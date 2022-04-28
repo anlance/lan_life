@@ -18,9 +18,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Slf4j
 public class ClientChannelManager {
 
-
-    private static final int MAX_POOL_SIZE = 100;
-
     private static volatile Channel cmdChannel;
 
     private static Map<String, String> localToRemote = new ConcurrentHashMap<String, String>();
@@ -35,14 +32,6 @@ public class ClientChannelManager {
             localChannel.close();
         }
     }
-
-//    public static void addLocalChannel(String localId, Channel channel) {
-//        localChannels.put(localId, channel);
-//    }
-
-//    public static Channel getLocalChannel(String localId) {
-//        return localChannels.get(localId);
-//    }
 
     public static void setCmdChannel(Channel cmdChannel) {
         ClientChannelManager.cmdChannel = cmdChannel;
@@ -76,10 +65,5 @@ public class ClientChannelManager {
         localToRemote.remove(localId);
     }
 
-
-//    public void channelInactive(ChannelHandlerContext ctx) {
-//        reconnectWait();
-//        connectProxyServer();
-//    }
 }
 

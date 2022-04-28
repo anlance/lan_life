@@ -22,7 +22,6 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage proxyMessage) throws Exception {
-        log.debug("ProxyMessage received {}", proxyMessage.getType());
         switch (proxyMessage.getType()) {
             case ProxyMessage.C_TYPE_AUTH:
                 handleAuthMessage(ctx, proxyMessage);
@@ -46,18 +45,14 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
     private void handleTransferMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
         ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
-        log.debug("收到 client[{}] 数据 Length: {}", proxyMessage.getUri(), proxyMessage.getData().length);
         Channel userChannel = ProxyChannelManager.getUserChannel(proxyMessage.getUri());
         buf.writeBytes(proxyMessage.getData());
-        log.debug(buf.toString(CharsetUtil.UTF_8));
         if (userChannel != null) {
-            log.debug("response: {}", proxyMessage);
             userChannel.writeAndFlush(buf);
         }
     }
 
     private void handleDisconnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        log.debug("{} 客户端请求断开连接", ctx.channel());
         if (proxyMessage.getUri() != null) {
             Channel userChannel = ProxyChannelManager.getUserChannel(proxyMessage.getUri());
             ProxyChannelManager.removeUserChannel(proxyMessage.getUri());

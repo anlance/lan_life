@@ -30,7 +30,7 @@ public class UserChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
         // 通知代理客户端
         byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
-        log.debug("[{}]收到数据，共[{}]字节,数据是：{}", ctx.channel().id().asLongText(), bytes.length, buf.toString(CharsetUtil.UTF_8));
+        log.debug("[{}]收到数据，共[{}]字节", ctx.channel().id().asLongText(), bytes.length);
         transferToProxyClient(ctx, ProxyMessage.P_TYPE_TRANSFER, bytes);
     }
 

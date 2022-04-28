@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 类
+ * proxy server 启动类
  *
  * @author lan
  * @version 1.0

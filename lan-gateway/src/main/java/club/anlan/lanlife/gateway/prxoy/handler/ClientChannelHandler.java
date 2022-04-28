@@ -37,7 +37,6 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage proxyMessage) throws Exception {
-        log.debug("received proxy message, type is {}", proxyMessage.getType());
         byte[] data = proxyMessage.getData();
         if (data != null) {
             log.debug("data length: {}", data.length);
@@ -80,7 +79,7 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
                     log.debug("connect real server [{}:{}] success, {}", ip, port, ctx.channel());
                     ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
                     buf.writeBytes(proxyMessage.getData());
-                    log.debug("server Length: {}, data: {}", proxyMessage.getData().length, buf.toString(CharsetUtil.UTF_8));
+                    log.debug("server Length: {}", proxyMessage.getData().length);
                     channelFuture.channel().writeAndFlush(buf);
                 } else {
                     log.warn("连接本地端口 failed", channelFuture.cause());

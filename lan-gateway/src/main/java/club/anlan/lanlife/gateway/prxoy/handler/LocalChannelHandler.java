@@ -25,7 +25,7 @@ public class LocalChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
         // 通知代理客户端
         byte[] bytes = new byte[buf.readableBytes()];
-        log.debug("[{}]收到数据，共[{}]字节,数据是：{}", ctx.channel().id().asLongText(), bytes.length, buf.toString(CharsetUtil.UTF_8));
+        log.debug("[{}]收到数据，共[{}]字节", ctx.channel().id().asLongText(), bytes.length);
         buf.readBytes(bytes);
         String remoteId = ClientChannelManager.getRemoteId(ctx.channel().id().asLongText());
         transferToProxyClient(ctx, ProxyMessage.P_TYPE_TRANSFER, bytes, remoteId);
