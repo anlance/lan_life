@@ -11,6 +11,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,7 +80,6 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
                     log.debug("connect real server [{}:{}] success, {}", ip, port, ctx.channel());
                     ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
                     buf.writeBytes(proxyMessage.getData());
-                    log.debug("server 收到 message :{}", proxyMessage);
                     log.debug("server Length: {}, data: {}", proxyMessage.getData().length, buf.toString(CharsetUtil.UTF_8));
                     channelFuture.channel().writeAndFlush(buf);
                 } else {
@@ -85,21 +87,14 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
                 }
             }
         });
-//        Channel localChannel = ClientChannelManager.getLocalChannel(proxyMessage.getUri());
-//        if (Objects.nonNull(localChannel)) {
-//            localChannel.writeAndFlush(buf);
-//        } else {
-////            ClientChannelManager.removeLocalChanel(proxyMessage.getUri());
-//        }
     }
 
     private void handleDisconnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        Channel cmdChannel = ClientChannelManager.getCmdChannel();
-        log.info("handleDisconnectMessage, {}", cmdChannel);
-        if (cmdChannel != null) {
-            cmdChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+        Channel localChannel = ClientChannelManager.getLocalChannel(proxyMessage.getUri());
+        log.info("handleDisconnectMessage, {}", localChannel);
+        if (localChannel != null) {
+            localChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         }
-//        ClientChannelManager.removeLocalChanel(proxyMessage.getUri());
     }
 
     private void handleConnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
@@ -111,7 +106,6 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         log.debug("与代理服务器连接断开");
         if (ClientChannelManager.getCmdChannel() == ctx.channel()) {
             ClientChannelManager.setCmdChannel(null);
-//            ClientChannelManager.channelInactive(ctx);
         } else {
             Channel cmdChannel = ClientChannelManager.getCmdChannel();
             if (cmdChannel != null && cmdChannel.isActive()) {

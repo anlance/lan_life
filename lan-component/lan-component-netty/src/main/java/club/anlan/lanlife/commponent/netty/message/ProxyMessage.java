@@ -76,11 +76,6 @@ public class ProxyMessage {
      */
     private byte[] data;
 
-    @Override
-    public String toString() {
-        return "ProxyMessage [type=" + type + ", serialNumber=" + serialNumber + ", uri=" + uri + ", data=" + Arrays.toString(data) + "]";
-    }
-
     /**
      * 认证失败消息
      *
@@ -136,5 +131,14 @@ public class ProxyMessage {
         message.setData("建立连接".getBytes());
         message.setUri(uri);
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "ProxyMessage{" +
+                "type=" + type +
+                ", serialNumber=" + serialNumber +
+                ", uri='" + uri + '\'' +
+                '}';
     }
 }

@@ -34,13 +34,14 @@ public class LocalChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.debug("[{}]有请求进入", ctx.channel().id().asLongText());
+        super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.debug("[{}]有请求断开", ctx.channel().id().asLongText());
         String userId = ctx.channel().id().asLongText();
-//        transferToProxyClient(ctx, ProxyMessage.TYPE_DISCONNECT, lanInfo != null ? lanInfo.getBytes() : new byte[0], userId);
+//        transferToProxyClient(ctx, ProxyMessage.TYPE_DISCONNECT, new byte[0], userId);
     }
 
     /**

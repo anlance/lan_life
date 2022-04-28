@@ -1,6 +1,5 @@
 package club.anlan.lanlife.proxy.server.handler;
 
-import club.anlan.lanlife.commponent.netty.constant.Constant;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.proxy.server.config.ProxyConfig;
 import club.anlan.lanlife.proxy.server.manager.ProxyChannelManager;
@@ -19,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessage> {
-
-    private static final byte[] CONTENT = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'};
 
 
     @Override
@@ -49,26 +46,30 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
     private void handleTransferMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
         ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
-        log.info("收到 client[{}] 数据 Length: {}", proxyMessage.getUri(), proxyMessage.getData().length);
+        log.debug("收到 client[{}] 数据 Length: {}", proxyMessage.getUri(), proxyMessage.getData().length);
         Channel userChannel = ProxyChannelManager.getUserChannel(proxyMessage.getUri());
         buf.writeBytes(proxyMessage.getData());
+        log.debug(buf.toString(CharsetUtil.UTF_8));
         if (userChannel != null) {
-            log.info("response: {}", proxyMessage);
-            ChannelFuture f = userChannel.writeAndFlush(buf);
-            f.addListener(ChannelFutureListener.CLOSE);
+            log.debug("response: {}", proxyMessage);
+            userChannel.writeAndFlush(buf);
         }
     }
 
     private void handleDisconnectMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
         log.debug("{} 客户端请求断开连接", ctx.channel());
-        String clientKey = proxyMessage.getUri();
-        if (clientKey == null) {
+        if (proxyMessage.getUri() != null) {
+            Channel userChannel = ProxyChannelManager.getUserChannel(proxyMessage.getUri());
+            ProxyChannelManager.removeUserChannel(proxyMessage.getUri());
+            if (userChannel != null) {
+                userChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+            }
             return;
         }
 
-        Channel cmdChannel = ProxyChannelManager.getCmdChannel(clientKey);
+        Channel cmdChannel = ProxyChannelManager.getCmdChannel();
         if (cmdChannel == null) {
-            log.warn("ConnectMessage:error cmd channel key {}", clientKey);
+            log.warn("ConnectMessage:error cmd channel key {}", proxyMessage.getUri());
         }
     }
 
@@ -116,7 +117,6 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         ctx.channel().writeAndFlush(ProxyMessage.authFailedMessage(msg.getBytes()));
         ctx.channel().close();
     }
-
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
