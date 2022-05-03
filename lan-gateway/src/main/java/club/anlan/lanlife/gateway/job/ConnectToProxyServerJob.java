@@ -27,9 +27,9 @@ public class ConnectToProxyServerJob {
     private ProxyClientStarter proxyClientStarter;
 
     /**
-     * 定时方法  corn表达式为 每5s执行一次
+     * 定时方法  每 3min 执行一次
      */
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 0/3 * * * ?")
     public void timerTest() {
         Channel cmdChannel = ClientChannelManager.getCmdChannel();
         if (cmdChannel == null || !cmdChannel.isActive()) {
