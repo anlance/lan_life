@@ -36,6 +36,8 @@ public class ProxyClientStarter {
 
     private long sleepTimeMill = 1000;
 
+    private int maxTryTimes = 0;
+
     @Autowired
     private ProxyConfig proxyConfig;
 
@@ -60,7 +62,7 @@ public class ProxyClientStarter {
     /**
      * 连接代理服务器
      */
-    private void connectProxyServer() {
+    public void connectProxyServer() {
         bootstrap.connect(proxyConfig.getServerHost(), proxyConfig.getServerPort()).addListener(new ChannelFutureListener() {
 
             @Override
@@ -73,12 +75,16 @@ public class ProxyClientStarter {
                     proxyMessage.setUri(proxyConfig.getKey());
                     future.channel().writeAndFlush(proxyMessage);
                     sleepTimeMill = 1000;
+                    maxTryTimes = 0;
                     log.info("connect proxy server {}:{} success, {}", proxyConfig.getServerHost(), proxyConfig.getServerPort(), future.channel());
                 } else {
                     log.warn("connect proxy server failed", future.cause());
                     // 连接失败，发起重连
-                    reconnectWait();
-                    connectProxyServer();
+                    if (maxTryTimes < 3){
+                        reconnectWait();
+                        connectProxyServer();
+                        maxTryTimes += 1;
+                    }
                 }
             }
         });
@@ -92,12 +98,7 @@ public class ProxyClientStarter {
 
     private void reconnectWait() {
         try {
-            if (sleepTimeMill > 60000) {
-                sleepTimeMill = 1000;
-            }
-
             synchronized (this) {
-                sleepTimeMill = sleepTimeMill * 2;
                 wait(sleepTimeMill);
             }
         } catch (InterruptedException e) {

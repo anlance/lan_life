@@ -6,7 +6,7 @@ modulename="$1"
 projectPath="/opt/java-service/${modulename}"
 jarFile="${projectPath}/$modulename.jar"
 configFile="${projectPath}/bootstrap.yml"
-JAVA_OPTS="-Xms1024m -Xmx2048m -Xss256k"
+JAVA_OPTS="-Xms2048m -Xmx3072m -Xss512k"
 pidpath="/var/run/${modulename}.pid"
 JRE_HOME="/opt/jdk/jre/bin/java"
 

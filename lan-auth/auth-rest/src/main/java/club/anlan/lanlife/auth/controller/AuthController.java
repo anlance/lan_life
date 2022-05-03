@@ -53,8 +53,7 @@ public class AuthController {
             sb.append(getAuthTokenVO.getPassword());
         }
         String test = restTemplateHelper.postForm(sb.toString(), new HashMap<>());
-        ResultMessage res = JSON.parseObject(test, ResultMessage.class);
-        return res;
+        return JSON.parseObject(test, ResultMessage.class);
     }
 
 }

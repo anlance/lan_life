@@ -44,9 +44,9 @@ public class ProxyChannelManager {
         }
 
         // 当前只有一个客户端
-        portCmdChannelMapping.put(port, channel);
         channel.attr(CHANNEL_PORT).set(port);
         channel.attr(CHANNEL_CLIENT_KEY).set(clientKey);
+        portCmdChannelMapping.put(port, channel);
         cmdChannels.put(clientKey, channel);
     }
 
@@ -57,29 +57,7 @@ public class ProxyChannelManager {
      */
     public static void removeCmdChannel(Channel channel) {
         log.warn("channel closed, clear user channels, {}", channel);
-        if (channel.attr(CHANNEL_PORT).get() == null) {
-            return;
-        }
-
-        String clientKey = channel.attr(CHANNEL_CLIENT_KEY).get();
-        Channel channel0 = cmdChannels.remove(clientKey);
-        if (channel != channel0) {
-            cmdChannels.put(clientKey, channel);
-        }
-
-        Integer port = channel.attr(CHANNEL_PORT).get();
-        Channel proxyChannel = portCmdChannelMapping.remove(port);
-
-        // 在执行断连之前新的连接已经连上来了
-        if (proxyChannel != channel) {
-            portCmdChannelMapping.put(port, proxyChannel);
-        }
-
-        if (channel.isActive()) {
-            log.info("disconnect proxy channel {}", channel);
-            channel.close();
-        }
-
+        removeCmdChannel();
     }
 
     public static Channel getCmdChannel() {
@@ -88,6 +66,14 @@ public class ProxyChannelManager {
 
     public static Channel getCmdChannel(String clientKey) {
         return cmdChannels.get(clientKey);
+    }
+
+    public static void removeCmdChannel(){
+        Channel cmdChannel = portCmdChannelMapping.get(ProxyConfig.getServerPort());
+        String clientKey = cmdChannel.attr(CHANNEL_CLIENT_KEY).get();
+        cmdChannel.close();
+        cmdChannels.remove(clientKey);
+        portCmdChannelMapping.remove(ProxyConfig.getServerPort());
     }
 
 

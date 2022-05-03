@@ -16,6 +16,7 @@ public enum I18nEnum implements I18n {
     ERROR_PARAMETER_TYPE("error.parameter.type", "参数类型不正确"),
     CLIENT_TYPE_BS("client.type.bs", "BS客户端"),
     CLIENT_TYPE_APP("client.type.app", "CS客户端 "),
+    CLIENT_TYPE_THIRD("client.type.third", "三方平台 "),
     USER_TYPE_MANAGER("user.type.manager", "管理员用户"),
     USER_TYPE_APP("user.type.app", "APP用户"),
     ERROR_USERNAME_OR_PASSWORD("error.username.or.password", "用户名或密码错误"),

@@ -61,6 +61,9 @@ public class UserServiceImpl implements UserService {
     @Value("${security.expired_time.access_token.bs:1800}")
     private long expiredSecond;
 
+    @Value("${security.expired_time.access_token.third:604800}")
+    private long thirdExpiredSecond;
+
     @Override
     public UserDto.User selectByLoginName(String loginName) {
         if (StringUtils.isNotEmpty(loginName)) {
@@ -106,7 +109,7 @@ public class UserServiceImpl implements UserService {
                 return;
             }
             if (clientMode) {
-                long curExpiredSecond = getExpiredTime(ClientType.BS);
+                long curExpiredSecond = getExpiredTime(ClientType.THIRD);
                 auth2AccessToken.setExpiration(new Date(System.currentTimeMillis() + curExpiredSecond * 1000));
                 // 重置access中OAuth2AccessToken过期信息
                 conn.set(key, serializationStrategy.serialize(auth2AccessToken));
@@ -153,6 +156,9 @@ public class UserServiceImpl implements UserService {
         long result = expiredSecond;
         switch (curClientType) {
             case BS:
+                break;
+            case THIRD:
+                result = thirdExpiredSecond;
                 break;
             default:
                 break;

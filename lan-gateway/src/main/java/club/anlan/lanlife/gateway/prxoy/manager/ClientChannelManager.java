@@ -41,6 +41,11 @@ public class ClientChannelManager {
         return cmdChannel;
     }
 
+    public static void removeCmdChannel() {
+        cmdChannel.close();
+        cmdChannel = null;
+    }
+
     public static void setLocalChannel(String uri, Channel localChannel) {
         remoteToLocalChannel.put(uri, localChannel);
     }

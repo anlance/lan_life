@@ -23,6 +23,12 @@ public enum ClientType {
      * APP
      */
     APP("APP", I18nEnum.CLIENT_TYPE_APP.getKey(), "register"),
+
+
+    /**
+     * @Fields THIRD: 三方系统
+     */
+    THIRD("THIRD", I18nEnum.CLIENT_TYPE_THIRD.getKey(), "third"),
     ;
 
 

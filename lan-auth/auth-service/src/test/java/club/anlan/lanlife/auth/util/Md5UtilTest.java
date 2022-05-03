@@ -13,6 +13,7 @@ public class Md5UtilTest {
 
     public static void main(String[] args) {
         System.out.println(MD5Util.md5Hex(MD5Util.md5Hex("GSSG255211") + "master"));
+        System.out.println(MD5Util.md5Hex("GSSG255211"));
         System.out.println(MD5Util.md5Hex("2247a9179de897783ea1bc7e169db34e" + "uiNZIu78U3"));
         System.out.println(MD5Util.md5Hex("faker"));
     }

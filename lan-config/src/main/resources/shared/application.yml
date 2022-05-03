@@ -207,4 +207,4 @@ credentials:
 security:
   oauth2:
     resource:
-      user-info-uri: http://${GATEWAY:localhost}/basic/user/current
+      user-info-uri: http://${GATEWAY:localhost}/auth/user/current
