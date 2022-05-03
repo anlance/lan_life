@@ -117,6 +117,7 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("exception caught", cause);
+        ClientChannelManager.removeCmdChannel();
         super.exceptionCaught(ctx, cause);
     }
 

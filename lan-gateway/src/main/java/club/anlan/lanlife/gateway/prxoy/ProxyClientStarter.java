@@ -60,7 +60,7 @@ public class ProxyClientStarter {
     /**
      * 连接代理服务器
      */
-    private void connectProxyServer() {
+    public void connectProxyServer() {
         bootstrap.connect(proxyConfig.getServerHost(), proxyConfig.getServerPort()).addListener(new ChannelFutureListener() {
 
             @Override
