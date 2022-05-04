@@ -1,6 +1,7 @@
 package club.anlan.lanlife.auth.service;
 
 import club.anlan.lanlife.auth.dto.UserDto;
+import club.anlan.lanlife.component.base.enums.ClientType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -26,5 +27,7 @@ public interface UserService {
      * 获取用户信息
      */
     Principal getUser(Principal principal, HttpServletRequest request);
+
+    long getExpiredTime(ClientType clientType);
 
 }

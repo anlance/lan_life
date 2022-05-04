@@ -29,20 +29,5 @@ public class UserSessionCache extends AbstractRedisCache<String, UserSessionInfo
         return String.format(KEY_MEMBER_USER_STATUS_KET_PRE, username);
     }
 
-    /**
-     * 获取redis key尾部信息
-     *
-     */
-    public String getKeyTail(String username, ClientType clientType, String companyId) {
-        return String.format(TokenUserNameCache.KEY_TEMPLATE_EXT, username,
-                clientType != null ? clientType.getCode() : ClientType.BS.getCode(), companyId);
-    }
 
-    /**
-     * 管理用户是否在线
-     */
-    public boolean isManagerOnline(String userName) {
-        UserSessionInfo userSessionInfo = super.get(userName + MANAGER_SUFFIX);
-        return userSessionInfo != null ? true : false;
-    }
 }

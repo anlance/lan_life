@@ -23,4 +23,6 @@ public class Constants {
 
 
     public static final JSONObject BLANK_OBJECT = new JSONObject();
+
+    public static final String DEFAULT_USER_ID = "1";
 }
