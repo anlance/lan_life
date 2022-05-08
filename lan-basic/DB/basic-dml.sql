@@ -37,4 +37,10 @@ VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), 'c69932b86
 INSERT INTO "basic"."bs_user_menu"("id", "user_id", "menu_code", "create_time")
 VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), 'c69932b86390d0e8fa5a1c86cb9440b3', '003', now());
 
+
+INSERT INTO "basic"."bs_menu"("id", "menu_code", "menu_name", "menu_icon", "menu_path", "is_show", "is_menu", "sort", "create_time", "update_time")
+VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), '005', '地图', 'CompassOutlined', '/aMap', 1, 1, 500, now(), now());
+INSERT INTO "basic"."bs_user_menu"("id", "user_id", "menu_code", "create_time")
+VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), 'c69932b86390d0e8fa5a1c86cb9440b3', '005', now());
+
 END;
