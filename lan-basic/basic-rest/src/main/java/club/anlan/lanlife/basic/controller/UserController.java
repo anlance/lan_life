@@ -10,6 +10,7 @@ import club.anlan.lanlife.basic.service.UserLocationService;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Value("${map.web.key:d4de89662ced5ecb077a5ed25ec997b0}")
+    private String mapWebKey = "d4de89662ced5ecb077a5ed25ec997b0";
 
     @Log(description = "保存定位信息")
     @PostMapping("/saveLocation")
@@ -58,5 +62,18 @@ public class UserController {
     @GetMapping("/getSalt")
     public ResultMessage getSalt(@RequestParam String username) {
         return ResultMessage.createSuccessResult(userService.getSalt(username));
+    }
+
+    @Log(description = "获取地图webKey")
+    @GetMapping("/webMap/getMapWebKey")
+    public ResultMessage getMapWebKey() {
+        return ResultMessage.createSuccessResult(mapWebKey);
+    }
+
+    @Log(description = "获取坐标数组")
+    @GetMapping("/webMap/getLocationList")
+    public ResultMessage getLocationList(@RequestParam(value = "startTime", required = false)String startTime,
+                                      @RequestParam(value = "endTime",required = false) String endTime) {
+        return ResultMessage.createSuccessResult(userLocationService.getLocationList(startTime, endTime));
     }
 }

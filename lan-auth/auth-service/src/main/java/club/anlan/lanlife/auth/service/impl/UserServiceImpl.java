@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
                     if (array.length >= 2) {
                         clientType = ClientType.getEnumDefault(array[1]);
                     }
-                    long curExpiredSecond = getExpiredTime(clientType);
+                    long curExpiredSecond = this.getExpiredTime(clientType);
                     auth2AccessToken.setExpiration(new Date(System.currentTimeMillis() + curExpiredSecond * 1000));
                     // 重置access中OAuth2AccessToken过期信息
                     conn.set(key, serializationStrategy.serialize(auth2AccessToken));
@@ -151,7 +151,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private long getExpiredTime(ClientType clientType) {
+    @Override
+    public long getExpiredTime(ClientType clientType) {
         ClientType curClientType = (clientType != null ? clientType : ClientType.BS);
         long result = expiredSecond;
         switch (curClientType) {

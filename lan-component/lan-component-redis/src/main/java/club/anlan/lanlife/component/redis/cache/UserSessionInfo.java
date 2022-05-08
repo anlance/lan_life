@@ -2,6 +2,7 @@ package club.anlan.lanlife.component.redis.cache;
 
 import club.anlan.lanlife.component.base.enums.ClientType;
 import club.anlan.lanlife.component.base.enums.RoleType;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Locale;
  * @version 1.0
  * @date 2022/4/5 21:37
  */
+@Data
 public class UserSessionInfo implements Serializable {
 
     private static final long serialVersionUID = -6058962506463021785L;
@@ -37,11 +39,6 @@ public class UserSessionInfo implements Serializable {
      * 登录用户名
      */
     private String loginName;
-
-    /**
-     * 用户 类型
-     */
-    private RoleType roleType = RoleType.MANAGER;
 
     /**
      * 客户端类型

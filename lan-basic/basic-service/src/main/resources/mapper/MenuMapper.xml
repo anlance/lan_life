@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.anlan.lanlife.basic.mapper.MenuMapper">
+
+    <sql id="m_menu_vo">
+      m.menu_code as key,
+      m.menu_icon as icon,
+      m.menu_path as url,
+      m.menu_name as name,
+      m.sort
+    </sql>
+
+
+    <select id="listUserMenu" resultType="club.anlan.lanlife.basic.vo.MenuVo">
+        select <include refid="m_menu_vo"/>
+        from basic.bs_menu m
+        inner join basic.bs_user_menu um on m.menu_code = um.menu_code
+        <where>
+            m.is_show = 1
+            <if test="userId != null and userId != ''">
+                and um.user_id = REPLACE(REPLACE(#{userId},'%','\%'),'_','\_')
+            </if>
+        </where>
+    </select>
+</mapper>

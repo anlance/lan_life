@@ -119,4 +119,53 @@ CREATE TABLE "basic"."oauth_client_details"
 ALTER TABLE "basic"."oauth_client_details"
     ADD CONSTRAINT "oauth_client_details_pkey" PRIMARY KEY ("client_id");
 
+DROP TABLE IF EXISTS "basic"."bs_menu";
+CREATE TABLE "basic"."bs_menu"
+(
+    "id"             char(32) COLLATE "pg_catalog"."default"     NOT NULL,
+    "menu_code"      varchar(90) COLLATE "pg_catalog"."default"  NOT NULL DEFAULT NULL::character varying,
+    "menu_name"      varchar(128) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+    "menu_icon"    varchar(50) COLLATE "pg_catalog"."default"           DEFAULT NULL::character varying,
+    "menu_path"    varchar(50) COLLATE "pg_catalog"."default"           DEFAULT NULL::character varying,
+    "is_menu"        int2                                        NOT NULL DEFAULT 1,
+    "is_show"          int2                                        NOT NULL DEFAULT 1,
+    "sort"           int8                                                 DEFAULT NULL,
+    "create_time"    timestamp(6)                                NOT NULL DEFAULT now(),
+    "update_time"    timestamp(6)                                         DEFAULT NULL::timestamp without time zone
+)
+;
+COMMENT ON COLUMN "basic"."bs_menu"."id" IS '主键';
+COMMENT ON COLUMN "basic"."bs_menu"."menu_code" IS '菜单编码';
+COMMENT ON COLUMN "basic"."bs_menu"."menu_name" IS '菜单名';
+COMMENT ON COLUMN "basic"."bs_menu"."menu_icon" IS '菜单图标';
+COMMENT ON COLUMN "basic"."bs_menu"."menu_path" IS '菜单路径';
+COMMENT ON COLUMN "basic"."bs_menu"."is_menu" IS '是否菜单';
+COMMENT ON COLUMN "basic"."bs_menu"."sort" IS '排序码';
+COMMENT ON COLUMN "basic"."bs_menu"."is_show" IS '是否展示';
+COMMENT ON COLUMN "basic"."bs_menu"."create_time" IS '创建时间';
+COMMENT ON COLUMN "basic"."bs_menu"."update_time" IS '更新时间';
+COMMENT ON TABLE "basic"."bs_menu" IS '菜单表';
+
+ALTER TABLE "basic"."bs_menu"
+    ADD CONSTRAINT "bs_menu" PRIMARY KEY ("id");
+
+DROP TABLE IF EXISTS "basic"."bs_user_menu";
+CREATE TABLE "basic"."bs_user_menu"
+(
+    "id"             char(32) COLLATE "pg_catalog"."default"    NOT NULL,
+    "user_id"        char(32) COLLATE "pg_catalog"."default"    NOT NULL DEFAULT NULL::bpchar,
+    "menu_code"      varchar(90) COLLATE "pg_catalog"."default" NOT NULL DEFAULT NULL::character varying,
+    "create_time"    timestamp(6)                               NOT NULL DEFAULT now()
+)
+;
+COMMENT ON COLUMN "basic"."bs_user_menu"."id" IS '主键';
+COMMENT ON COLUMN "basic"."bs_user_menu"."user_id" IS '用户ID';
+COMMENT ON COLUMN "basic"."bs_user_menu"."menu_code" IS '菜单编码';
+COMMENT ON COLUMN "basic"."bs_user_menu"."create_time" IS '创建时间';
+COMMENT ON TABLE "basic"."bs_user_menu" IS '用户菜单表';
+
+ALTER TABLE "basic"."bs_user_menu"
+    ADD CONSTRAINT "bs_user_menu" PRIMARY KEY ("id");
+
+
 END;

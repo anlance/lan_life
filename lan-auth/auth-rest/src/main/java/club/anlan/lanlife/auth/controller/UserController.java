@@ -2,7 +2,6 @@ package club.anlan.lanlife.auth.controller;
 
 import club.anlan.lanlife.auth.service.UserService;
 import club.anlan.lanlife.component.base.annotation.Log;
-import club.anlan.lanlife.component.base.result.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
