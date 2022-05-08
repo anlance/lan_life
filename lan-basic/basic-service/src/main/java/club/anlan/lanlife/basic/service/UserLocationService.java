@@ -27,5 +27,5 @@ public interface UserLocationService {
      * @param startTime 开始时间
      * @param endTime   结束时间
      */
-    List<List<String>> getLocationList(String startTime, String endTime);
+    List<List<Double>> getLocationList(String startTime, String endTime);
 }
