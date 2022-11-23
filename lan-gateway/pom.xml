@@ -37,11 +37,6 @@
         </dependency>
         <dependency>
             <groupId>club.anlan</groupId>
-            <artifactId>lan-component-redis</artifactId>
-            <version>${lan-component.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>club.anlan</groupId>
             <artifactId>lan-component-netty</artifactId>
             <version>${lan-component.version}</version>
             <exclusions>

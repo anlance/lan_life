@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto.User getUser(UserDto.Query query) {
-        if (Objects.nonNull(query)) {
+        if (Objects.nonNull(query) && StringUtil.isNotEmpty(query.getLoginName())) {
             return userMapper.getUser(query);
         }
         return null;

@@ -76,22 +76,27 @@ public class AuthController {
             sb.append(getAuthTokenVO.getPassword());
         }
         ResultMessage res = JSON.parseObject(restTemplateHelper.postForm(sb.toString(), new HashMap<>()), ResultMessage.class);
+        log.info("res: {}", res);
+        if (res != null) {
+            log.info("res: {}", JSON.toJSONString(res));
+        }
         initUserSessionInfo(res);
         return res;
     }
 
     /**
      * 初始化 userSessionInfo
+     *
      * @param res 获取 token 结果
      */
-    private void initUserSessionInfo(ResultMessage res){
+    private void initUserSessionInfo(ResultMessage res) {
         if (Objects.nonNull(res) && Objects.nonNull(res.getData())) {
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(res.getData()));
             String token = jsonObject.getString("access_token");
             String username = jsonObject.getString("username");
             long curExpiredSecond = userService.getExpiredTime(ClientType.BS);
             UserDto.User user = basicComponent.getUser(UserDto.Query.valueOf(username));
-            if(StringUtil.isNotEmpty(token) && Objects.nonNull(user)) {
+            if (StringUtil.isNotEmpty(token) && Objects.nonNull(user)) {
                 UserSessionInfo userSessionInfo = new UserSessionInfo();
                 userSessionInfo.setUserId(user.getId());
                 userSessionInfo.setUserName(user.getUsername());

@@ -7,6 +7,8 @@ import club.anlan.lanlife.component.base.annotation.Log;
 import club.anlan.lanlife.component.base.result.ResultMessage;
 import club.anlan.lanlife.basic.domain.UserLocation;
 import club.anlan.lanlife.basic.service.UserLocationService;
+import club.anlan.lanlife.component.redis.cache.UserSessionInfo;
+import club.anlan.lanlife.component.redis.util.UserSessionUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 用户 控制器
@@ -33,8 +36,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Value("${map.web.key:d4de89662ced5ecb077a5ed25ec997b0}")
-    private String mapWebKey = "d4de89662ced5ecb077a5ed25ec997b0";
+    @Value("${map.web.key:42d9e39ab9e94884a4ac9bf0dcc768a6}")
+    private String mapWebKey = "42d9e39ab9e94884a4ac9bf0dcc768a6";
 
     @Log(description = "保存定位信息")
     @PostMapping("/saveLocation")
@@ -67,7 +70,11 @@ public class UserController {
     @Log(description = "获取地图webKey")
     @GetMapping("/webMap/getMapWebKey")
     public ResultMessage getMapWebKey() {
-        return ResultMessage.createSuccessResult(mapWebKey);
+        UserSessionInfo userSessionInfo = UserSessionUtil.getUserSessionInfo();
+        if(Objects.nonNull(userSessionInfo)){
+            return ResultMessage.createSuccessResult(mapWebKey);
+        }
+        return ResultMessage.createSuccessResult();
     }
 
     @Log(description = "获取坐标数组")

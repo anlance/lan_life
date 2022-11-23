@@ -44,7 +44,7 @@ public class UserVo {
             User user = new User();
             user.setLoginName(this.loginName);
             user.setSalt(this.salt);
-            user.setLoginPass(MD5Util.md5Hex(MD5Util.md5Hex(this.loginName) + this.salt));
+            user.setLoginPass(MD5Util.md5Hex(MD5Util.md5Hex(this.loginPass) + this.salt));
             return user;
         }
 

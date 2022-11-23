@@ -1,7 +1,6 @@
 package club.anlan.lanlife.gateway;
 
 import club.anlan.lanlife.component.base.spring.AppContext;
-import club.anlan.lanlife.gateway.prxoy.ProxyClientStarter;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -46,8 +45,8 @@ public class GatewayApplication {
     public static void main(String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(GatewayApplication.class, args);
         AppContext.setContext(applicationContext, true);
-        ProxyClientStarter proxyClientStarter = AppContext.getBean(ProxyClientStarter.class);
-        proxyClientStarter.start();
+//        ProxyClientStarter proxyClientStarter = AppContext.getBean(ProxyClientStarter.class);
+//        proxyClientStarter.start();
     }
 
     /**

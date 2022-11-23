@@ -31,7 +31,7 @@ import java.util.List;
 @Component
 public class InterfaceAuthFilter extends ZuulFilter {
 
-    @Value("${common.api.excludeUrls}")
+    @Value("${common.api.excludeUrls:/basic/*}")
     private String excludeUrls;
 
     private static final List<String> EXCLUDE_URLS = new ArrayList<String>();

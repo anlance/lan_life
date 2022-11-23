@@ -147,7 +147,7 @@ COMMENT ON COLUMN "basic"."bs_menu"."update_time" IS '更新时间';
 COMMENT ON TABLE "basic"."bs_menu" IS '菜单表';
 
 ALTER TABLE "basic"."bs_menu"
-    ADD CONSTRAINT "bs_menu" PRIMARY KEY ("id");
+    ADD CONSTRAINT "bs_menu_key" PRIMARY KEY ("id");
 
 DROP TABLE IF EXISTS "basic"."bs_user_menu";
 CREATE TABLE "basic"."bs_user_menu"
@@ -165,7 +165,7 @@ COMMENT ON COLUMN "basic"."bs_user_menu"."create_time" IS '创建时间';
 COMMENT ON TABLE "basic"."bs_user_menu" IS '用户菜单表';
 
 ALTER TABLE "basic"."bs_user_menu"
-    ADD CONSTRAINT "bs_user_menu" PRIMARY KEY ("id");
+    ADD CONSTRAINT "bs_user_menu_key" PRIMARY KEY ("id");
 
 
 END;

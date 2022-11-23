@@ -21,9 +21,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-@ServletComponentScan(basePackages = {"club.anlan.lanlife"})
+@ServletComponentScan(basePackages = { "club.anlan.lanlife" })
 @ComponentScan(basePackages = "club.anlan.lanlife")
-@EnableFeignClients("club.anlan.lanlife")
+@EnableFeignClients("club.anlan.lanlife.home")
 @MapperScan(basePackages = {"club.anlan.lanlife.home.mapper"})
 public class HomeApplication extends SpringBootServletInitializer {
 

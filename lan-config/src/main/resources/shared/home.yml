@@ -2,7 +2,7 @@ server:
   port: 8220
   servlet:
     session-timeout: 1800
-    context-path: /basic
+    context-path: /home
 
 spring:
   # 数据库连接池配置
@@ -42,4 +42,13 @@ mybatis-plus:
       logic-not-delete-value: 1
 
 
-
+security:
+  oauth2:
+    client:
+      clientId: home
+      clientSecret: 123456
+      accessTokenUri: http://${GATEWAY:localhost}/auth/oauth/token
+      grant-type: client_credentials
+      scope: server
+  token:
+    forceRevokeTokenUri: http://${GATEWAY:localhost}/auth/oauth/revokeTokenForce

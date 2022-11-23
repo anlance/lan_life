@@ -3,8 +3,8 @@
 modulename="gateway"
 projectPath="/opt/java-service/$modulename"
 jarFile="${projectPath}/$modulename.jar"
-configFile="${projectPath}/conf/bootstrap.yml"
-JAVA_OPTS="-Xms512m -Xmx512m -Xss256k -XX:PermSize=128m -XX:MaxNewSize=256m -XX:MaxPermSize=256m"
+configFile="${projectPath}/bootstrap.yml"
+JAVA_OPTS="-Xms256m -Xmx256m -Xss256k -XX:PermSize=128m -XX:MaxNewSize=256m -XX:MaxPermSize=256m"
 JRE_HOME="/opt/jdk/jre/bin/java"
 pidpath="/var/run/${modulename}.pid"
 

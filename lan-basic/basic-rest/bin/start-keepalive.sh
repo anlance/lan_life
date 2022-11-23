@@ -1,28 +1,26 @@
 #!/bin/sh
 
 modulename="basic"
-cd /opt/java-service/${modulename}/bin
 
-DATE=`date`
-echo "[$DATE] start monitor ${modulename} ..."
+logfile=/logs/operation.log
+projectPath="/opt/java-service/${modulename}"
+binfile="${projectPath}/bin"
+jarFile="${projectPath}/$modulename.jar"
 
-sh /opt/java-service/${modulename}/bin/start.sh
-if [ "$1" = "log" ]; then
-    tail -f logs/${modulename}/${modulename}.log
-fi
+echo "[`date`] start keeper ${modulename} ..." | tee -a $logfile
 
-echo "continue."
+# Start service
+nohup sh ${binfile}/start-service.sh ${modulename} > /dev/null 2>&1 &
+echo "continue." | tee -a $logfile
+
 while true
 do
 	sleep 10;
-	proc_num=`ps -ef |grep /opt/java-service/${modulename} |grep -v "grep" | wc -l`
-	echo "proc_num: $proc_num"
-	DATE=`date`
+	proc_num=`ps -ef |grep ${jarFile} |grep -v "grep" | wc -l`
+	# echo "proc_num: $proc_num"
 	if [ $proc_num -eq 0 ]
 	then
-		echo "[$DATE] ${modulename} dead, do restart..."
-		sh /opt/java-service/${modulename}/bin/start.sh
-	else
-		echo "[$DATE] continue."
+		echo "[`date`] ${modulename} dead, do restart..." | tee -a $logfile
+		nohup sh ${binfile}/start-service.sh ${modulename} > /dev/null 2>&1 &
 	fi
 done
