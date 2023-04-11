@@ -2,7 +2,7 @@ package club.anlan.lanlife.component.storage.client;
 
 import club.anlan.lanlife.component.storage.constant.FileHandlerTypeConstant;
 import org.apache.commons.lang3.StringUtils;
-import org.csource.fastdfs.*;
+//import org.csource.fastdfs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +41,7 @@ public class FastDFSClient {
     @Value("${storage.type:}")
     private String type;
 
-    TrackerClient trackerClient = null;
+    //TrackerClient trackerClient = null;
 
     @PostConstruct
     public void init() {
@@ -56,26 +56,26 @@ public class FastDFSClient {
             properties.setProperty("fastdfs.http_secret_key", httpSecretKey);
             properties.setProperty("fastdfs.http_tracker_http_port", String.valueOf(trackerHttpPort));
             properties.setProperty("fastdfs.tracker_servers", trackerServer);
-            ClientGlobal.initByProperties(properties);
-            trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
+            //ClientGlobal.initByProperties(properties);
+            //trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
         } catch (Exception e) {
             logger.error("getStoreStorage exception", e);
         }
     }
 
-    private StorageClient1 getStorageClient() throws IOException {
-        TrackerServer trackerServer = trackerClient.getConnection();
-        if (trackerServer == null) {
-            logger.error("getConnection return null");
-            return null;
-        }
-        StorageServer storageServer = trackerClient.getStoreStorage(trackerServer);
-        if (storageServer == null) {
-            logger.error("getStoreStorage return null");
-            return null;
-        }
-        return new StorageClient1(trackerServer, storageServer);
-    }
+    //private StorageClient1 getStorageClient() throws IOException {
+    //    TrackerServer trackerServer = trackerClient.getConnection();
+    //    if (trackerServer == null) {
+    //        logger.error("getConnection return null");
+    //        return null;
+    //    }
+    //    StorageServer storageServer = trackerClient.getStoreStorage(trackerServer);
+    //    if (storageServer == null) {
+    //        logger.error("getStoreStorage return null");
+    //        return null;
+    //    }
+    //    return new StorageClient1(trackerServer, storageServer);
+    //}
 
     /**
      * @param file     文件
@@ -83,93 +83,93 @@ public class FastDFSClient {
      * @return 返回Null则为失败
      */
     public String uploadFile(File file, String fileName) {
-        FileInputStream fis = null;
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return StringUtils.EMPTY;
-            }
-            fis = new FileInputStream(file);
-            byte[] file_buff = null;
-            if (fis != null) {
-                file_buff = new byte[fis.available()];
-                int len = fis.read(file_buff);
-                while (len != -1) {
-                    len = fis.read(file_buff);
-                }
-                return storageClient.upload_file1(file_buff, getFileExt(fileName), null);
-            }
-        } catch (Exception ex) {
-            logger.error("上传文件失败", ex);
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    logger.error("file close error", e);
-                }
-            }
-        }
+        //FileInputStream fis = null;
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return StringUtils.EMPTY;
+        //    }
+        //    fis = new FileInputStream(file);
+        //    byte[] file_buff = null;
+        //    if (fis != null) {
+        //        file_buff = new byte[fis.available()];
+        //        int len = fis.read(file_buff);
+        //        while (len != -1) {
+        //            len = fis.read(file_buff);
+        //        }
+        //        return storageClient.upload_file1(file_buff, getFileExt(fileName), null);
+        //    }
+        //} catch (Exception ex) {
+        //    logger.error("上传文件失败", ex);
+        //} finally {
+        //    if (fis != null) {
+        //        try {
+        //            fis.close();
+        //        } catch (IOException e) {
+        //            logger.error("file close error", e);
+        //        }
+        //    }
+        //}
         return StringUtils.EMPTY;
     }
 
     public String uploadFile(InputStream inputStream, String fileName) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return StringUtils.EMPTY;
-            }
-            byte[] file_buff = null;
-            if (inputStream != null) {
-                file_buff = new byte[inputStream.available()];
-                int len = inputStream.read(file_buff);
-                while (len != -1) {
-                    len = inputStream.read(file_buff);
-                }
-                String file_ext = getFileExt(fileName);
-                return storageClient.upload_file1(file_buff, file_ext, null);
-            }
-        } catch (Exception ex) {
-            logger.error("上传文件失败", ex);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    logger.error("inputStream close error", e);
-                }
-            }
-        }
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return StringUtils.EMPTY;
+        //    }
+        //    byte[] file_buff = null;
+        //    if (inputStream != null) {
+        //        file_buff = new byte[inputStream.available()];
+        //        int len = inputStream.read(file_buff);
+        //        while (len != -1) {
+        //            len = inputStream.read(file_buff);
+        //        }
+        //        String file_ext = getFileExt(fileName);
+        //        return storageClient.upload_file1(file_buff, file_ext, null);
+        //    }
+        //} catch (Exception ex) {
+        //    logger.error("上传文件失败", ex);
+        //} finally {
+        //    if (inputStream != null) {
+        //        try {
+        //            inputStream.close();
+        //        } catch (IOException e) {
+        //            logger.error("inputStream close error", e);
+        //        }
+        //    }
+        //}
         return StringUtils.EMPTY;
     }
 
     public String uploadFile(byte[] bytes, String fileName) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return StringUtils.EMPTY;
-            }
-            String file_ext = getFileExt(fileName);
-            String fileid = storageClient.upload_file1(bytes, file_ext, null);
-            return fileid;
-        } catch (Exception ex) {
-            logger.error("上传文件失败", ex);
-        }
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return StringUtils.EMPTY;
+        //    }
+        //    String file_ext = getFileExt(fileName);
+        //    String fileid = storageClient.upload_file1(bytes, file_ext, null);
+        //    return fileid;
+        //} catch (Exception ex) {
+        //    logger.error("上传文件失败", ex);
+        //}
         return StringUtils.EMPTY;
     }
 
     public String uploadAppenderFile(byte[] bytes, String fileName) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return StringUtils.EMPTY;
-            }
-            String file_ext = getFileExt(fileName);
-            String fileid = storageClient.upload_appender_file1(bytes, file_ext, null);
-            return fileid;
-        } catch (Exception ex) {
-            logger.error("上传文件失败", ex);
-        }
+    //    try {
+    //        StorageClient1 storageClient = this.getStorageClient();
+    //        if (storageClient == null) {
+    //            return StringUtils.EMPTY;
+    //        }
+    //        String file_ext = getFileExt(fileName);
+    //        String fileid = storageClient.upload_appender_file1(bytes, file_ext, null);
+    //        return fileid;
+    //    } catch (Exception ex) {
+    //        logger.error("上传文件失败", ex);
+    //    }
         return StringUtils.EMPTY;
     }
 
@@ -181,16 +181,17 @@ public class FastDFSClient {
      * @return 0为成功，非0为失败，具体为错误代码
      */
     public int deleteFile(String groupName, String fileName) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return 0;
-            }
-            return storageClient.delete_file(groupName == null ? "group1" : groupName, fileName);
-        } catch (Exception ex) {
-            logger.error("删除文件失败", ex);
-            return 0;
-        }
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return 0;
+        //    }
+        //    return storageClient.delete_file(groupName == null ? "group1" : groupName, fileName);
+        //} catch (Exception ex) {
+        //    logger.error("删除文件失败", ex);
+        //    return 0;
+        //}
+        return 0;
     }
 
     /**
@@ -201,30 +202,31 @@ public class FastDFSClient {
      * @return 0为成功，非0为失败，具体为错误代码
      */
     public int deleteFile(String fileId) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return 0;
-            }
-            return storageClient.delete_file1(fileId);
-        } catch (Exception ex) {
-            logger.error("删除文件失败", ex);
-            return 0;
-        }
+    //    try {
+    //        StorageClient1 storageClient = this.getStorageClient();
+    //        if (storageClient == null) {
+    //            return 0;
+    //        }
+    //        return storageClient.delete_file1(fileId);
+    //    } catch (Exception ex) {
+    //        logger.error("删除文件失败", ex);
+    //        return 0;
+    //    }
+        return 0;
     }
 
 
     public int modifyFile(String fileId, long historyUploadSize, byte[] bytes) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return -1;
-            }
-            int res = storageClient.modify_file1(fileId, historyUploadSize, bytes);
-            return res;
-        } catch (Exception ex) {
-            logger.error("更改文件失败", ex);
-        }
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return -1;
+        //    }
+        //    int res = storageClient.modify_file1(fileId, historyUploadSize, bytes);
+        //    return res;
+        //} catch (Exception ex) {
+        //    logger.error("更改文件失败", ex);
+        //}
         return -1;
     }
 
@@ -235,19 +237,19 @@ public class FastDFSClient {
      * @return 返回一个流
      */
     public InputStream downloadFile(String fileId) {
-        try {
-            StorageClient1 storageClient = this.getStorageClient();
-            if (storageClient == null) {
-                return null;
-            }
-            byte[] bytes = storageClient.download_file1(fileId);
-            if (bytes != null) {
-                InputStream inputStream = new ByteArrayInputStream(bytes);
-                return inputStream;
-            }
-        } catch (Exception ex) {
-            logger.error("下载文件失败", ex);
-        }
+        //try {
+        //    StorageClient1 storageClient = this.getStorageClient();
+        //    if (storageClient == null) {
+        //        return null;
+        //    }
+        //    byte[] bytes = storageClient.download_file1(fileId);
+        //    if (bytes != null) {
+        //        InputStream inputStream = new ByteArrayInputStream(bytes);
+        //        return inputStream;
+        //    }
+        //} catch (Exception ex) {
+        //    logger.error("下载文件失败", ex);
+        //}
         return null;
     }
 

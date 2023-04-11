@@ -5,7 +5,8 @@
     <parent>
         <artifactId>lan-auth</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0.0</version>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +16,7 @@
         <dependency>
             <groupId>club.anlan</groupId>
             <artifactId>auth-domain</artifactId>
-            <version>1.0.0</version>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 

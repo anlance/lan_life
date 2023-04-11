@@ -5,7 +5,8 @@
     <parent>
         <artifactId>lan-home</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>club.anlan</groupId>
             <artifactId>lan-component-storage</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -32,7 +33,7 @@
         <dependency>
             <groupId>club.anlan</groupId>
             <artifactId>lan-component-redis</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
             <scope>compile</scope>
         </dependency>
 

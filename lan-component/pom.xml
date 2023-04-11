@@ -5,7 +5,8 @@
     <parent>
         <artifactId>lan_life</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -90,7 +91,7 @@
         <quartz.version>2.3.2</quartz.version>
         <httpclient.version>4.5.13</httpclient.version>
 
-        <lan-component.version>1.0-SNAPSHOT</lan-component.version>
+        <lan-component.version>0.0.1</lan-component.version>
         <pdf.fontbox.version>2.0.24</pdf.fontbox.version>
         <pdf.pdfbox.version>2.0.24</pdf.pdfbox.version>
         <pdf.icepdf-core.version>6.1.2</pdf.icepdf-core.version>

@@ -5,12 +5,13 @@
     <parent>
         <artifactId>lan_life</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0.0</version>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lan-gateway</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
     <name>lan-gateway</name>
 
@@ -23,7 +24,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.test.skip>true</maven.test.skip>
         <maven.test.failure.ignore>true</maven.test.failure.ignore>
-        <lan-component.version>1.0-SNAPSHOT</lan-component.version>
+        <lan-component.version>0.0.1</lan-component.version>
         <spring.cloud.zuul.version>2.2.6.RELEASE</spring.cloud.zuul.version>
         <spring.zuul.ratelimit.version>2.0.4.RELEASE</spring.zuul.ratelimit.version>
         <ribbon.discovery.filter.version>2.1.0</ribbon.discovery.filter.version>

@@ -5,7 +5,8 @@
     <parent>
         <artifactId>lan-auth</artifactId>
         <groupId>club.anlan</groupId>
-        <version>1.0.0</version>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +21,7 @@
         <maven.test.failure.ignore>true</maven.test.failure.ignore>
         <sharding-jdbc.version>2.0.0</sharding-jdbc.version>
         <spring-security-oauth2.version>2.3.3.RELEASE</spring-security-oauth2.version>
-        <lan-component.version>1.0-SNAPSHOT</lan-component.version>
+        <lan-component.version>0.0.1</lan-component.version>
     </properties>
 
     <dependencies>
