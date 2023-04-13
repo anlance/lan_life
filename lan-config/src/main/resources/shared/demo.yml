@@ -42,4 +42,6 @@ mybatis-plus:
       logic-not-delete-value: 1
 
 
-
+management:
+  tags:
+    application: demo

@@ -40,11 +40,8 @@ zuul:
       sensitiveHeaders:
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          routes,filters
+  tags:
+    application: gateway
 
   ratelimit:
     key-prefix: parkingcloud-ratelimit

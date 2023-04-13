@@ -53,3 +53,6 @@ security:
   token:
     forceRevokeTokenUri: http://${GATEWAY:localhost}/auth/oauth/revokeTokenForce
 
+management:
+  tags:
+    application: basic

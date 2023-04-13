@@ -59,3 +59,7 @@ security:
     refresh_token:
       bs: 3600
       third: 1209600
+
+management:
+  tags:
+    application: auth
