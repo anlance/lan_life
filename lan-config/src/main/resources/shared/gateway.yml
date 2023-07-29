@@ -50,8 +50,8 @@ management:
     behind-proxy: true
       #default-policy:
       #limit: 1000
-      #refresh-interval: 60
-      #type:
+    #refresh-interval: 60
+    #type:
     #- url  #通过请求路径区分
     #- origin #通过客户端IP区分
     policies:
@@ -59,8 +59,8 @@ management:
         limit: 10000 # 单位时间内访问的次数
         refresh-interval: 60 # 单位时间 秒
         type:
-        - url  #通过请求路径区分
-        - origin #通过客户端IP区分
+          - url  #通过请求路径区分
+          - origin #通过客户端IP区分
 
 auth:
   interface:

@@ -2,8 +2,6 @@ package club.anlan.lanlife.commponent.netty.message;
 
 import lombok.Data;
 
-import java.util.Arrays;
-
 /**
  * 代理客户端与代理服务器消息交换协议
  *
@@ -64,12 +62,12 @@ public class ProxyMessage {
     /**
      * 消息流水号
      */
-    private long serialNumber;
+    private Long serialNumber = 1L;
 
     /**
-     * 消息命令请求信息，请求哪一个客户端，目前只有一个客户端
+     * 请求ID
      */
-    private String uri;
+    private String requestId;
 
     /**
      * 消息传输数据
@@ -103,33 +101,33 @@ public class ProxyMessage {
     /**
      * 传输数据
      */
-    public static ProxyMessage transferMessage(String uri, byte[] data) {
+    public static ProxyMessage transferMessage(String requestId, byte[] data) {
         ProxyMessage message = new ProxyMessage();
         message.setType(P_TYPE_TRANSFER);
         message.setData(data);
-        message.setUri(uri);
+        message.setRequestId(requestId);
         return message;
     }
 
     /**
      * 关闭连接
      */
-    public static ProxyMessage disConnectMessage(String uri) {
+    public static ProxyMessage disConnectMessage(String requestId, byte[] bytes) {
         ProxyMessage message = new ProxyMessage();
-        message.setType(TYPE_DISCONNECT);
-        message.setData("连接已断开".getBytes());
-        message.setUri(uri);
+        message.setType(P_TYPE_TRANSFER);
+        message.setData(bytes);
+        message.setRequestId(requestId);
         return message;
     }
 
     /**
      * 建立连接
      */
-    public static ProxyMessage connectMessage(String uri) {
+    public static ProxyMessage connectMessage(String requestId) {
         ProxyMessage message = new ProxyMessage();
         message.setType(TYPE_CONNECT);
         message.setData("建立连接".getBytes());
-        message.setUri(uri);
+        message.setRequestId(requestId);
         return message;
     }
 
@@ -138,7 +136,8 @@ public class ProxyMessage {
         return "ProxyMessage{" +
                 "type=" + type +
                 ", serialNumber=" + serialNumber +
-                ", uri='" + uri + '\'' +
+                ", requestId='" + requestId + '\'' +
                 '}';
     }
+
 }

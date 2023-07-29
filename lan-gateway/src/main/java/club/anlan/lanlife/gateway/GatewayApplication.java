@@ -46,6 +46,7 @@ public class GatewayApplication {
     public static void main(String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(GatewayApplication.class, args);
         AppContext.setContext(applicationContext, true);
+
         ProxyClientStarter proxyClientStarter = AppContext.getBean(ProxyClientStarter.class);
         proxyClientStarter.start();
     }

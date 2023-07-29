@@ -28,13 +28,6 @@ executer:
     queueCapacity: 2000
     keepAliveSeconds: 500
 
-endpoints:
-  actuator:
-    enabled: true
-  shutdown:
-    enabled: false
-
-
 mybatis-plus:
   global-config:
     db-config:

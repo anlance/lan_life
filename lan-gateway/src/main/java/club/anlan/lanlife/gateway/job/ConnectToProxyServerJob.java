@@ -9,8 +9,6 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.Objects;
-
 /**
  * 定时检查是否和代理服务连接
  *
@@ -31,7 +29,7 @@ public class ConnectToProxyServerJob {
      */
     @Scheduled(cron = "0 0/3 * * * ?")
     public void timerTest() {
-        Channel cmdChannel = ClientChannelManager.getCmdChannel();
+        Channel cmdChannel = ClientChannelManager.getProxyChannel();
         if (cmdChannel == null || !cmdChannel.isActive()) {
             log.warn("重新连接代理服务器");
             proxyClientStarter.connectProxyServer();

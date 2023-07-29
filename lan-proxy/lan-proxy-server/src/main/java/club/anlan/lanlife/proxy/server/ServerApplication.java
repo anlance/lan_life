@@ -1,6 +1,7 @@
 package club.anlan.lanlife.proxy.server;
 
 import club.anlan.lanlife.component.base.spring.AppContext;
+import club.anlan.lanlife.proxy.server.starter.ProxyServerStarter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

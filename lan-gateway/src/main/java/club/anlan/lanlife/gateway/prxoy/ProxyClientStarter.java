@@ -52,7 +52,7 @@ public class ProxyClientStarter {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new ProxyMessageDecoder(Constant.MAX_FRAME_LENGTH, Constant.LENGTH_FIELD_OFFSET, Constant.LENGTH_FIELD_LENGTH, Constant.LENGTH_ADJUSTMENT, Constant.INITIAL_BYTES_TO_STRIP));
                         ch.pipeline().addLast(new ProxyMessageEncoder());
-                        ch.pipeline().addLast(new IdleCheckHandler(Constant.READ_IDLE_TIME, Constant.WRITE_IDLE_TIME - 10, 0));
+                        //ch.pipeline().addLast(new IdleCheckHandler(Constant.READ_IDLE_TIME, Constant.WRITE_IDLE_TIME - 10, 0));
                         ch.pipeline().addLast(new ClientChannelHandler(workerGroup));
                     }
                 });
@@ -64,23 +64,21 @@ public class ProxyClientStarter {
      */
     public void connectProxyServer() {
         bootstrap.connect(proxyConfig.getServerHost(), proxyConfig.getServerPort()).addListener(new ChannelFutureListener() {
-
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (future.isSuccess()) {
+                    log.info("try connect proxy server success, {} then fetch auth...", future.channel());
                     // 连接成功，向服务器发送客户端认证信息（clientKey）
-                    ClientChannelManager.setCmdChannel(future.channel());
                     ProxyMessage proxyMessage = new ProxyMessage();
                     proxyMessage.setType(ProxyMessage.C_TYPE_AUTH);
-                    proxyMessage.setUri(proxyConfig.getKey());
+                    proxyMessage.setRequestId(proxyConfig.getKey());
+                    proxyMessage.setSerialNumber(1L);
                     future.channel().writeAndFlush(proxyMessage);
-                    sleepTimeMill = 1000;
                     maxTryTimes = 0;
-                    log.info("connect proxy server {}:{} success, {}", proxyConfig.getServerHost(), proxyConfig.getServerPort(), future.channel());
                 } else {
-                    log.warn("connect proxy server failed", future.cause());
+                    log.warn("try connect proxy server failed", future.cause());
                     // 连接失败，发起重连
-                    if (maxTryTimes < 3){
+                    if (maxTryTimes < 3) {
                         reconnectWait();
                         connectProxyServer();
                         maxTryTimes += 1;

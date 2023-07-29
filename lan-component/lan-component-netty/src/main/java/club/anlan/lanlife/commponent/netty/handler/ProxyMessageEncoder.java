@@ -20,8 +20,8 @@ public class ProxyMessageEncoder extends MessageToByteEncoder<ProxyMessage> {
     protected void encode(ChannelHandlerContext ctx, ProxyMessage msg, ByteBuf out) throws Exception {
         int bodyLength = Constant.TYPE_SIZE + Constant.SERIAL_NUMBER_SIZE + Constant.URI_LENGTH_SIZE;
         byte[] uriBytes = null;
-        if (msg.getUri() != null) {
-            uriBytes = msg.getUri().getBytes();
+        if (msg.getRequestId() != null) {
+            uriBytes = msg.getRequestId().getBytes();
             bodyLength += uriBytes.length;
         }
 
