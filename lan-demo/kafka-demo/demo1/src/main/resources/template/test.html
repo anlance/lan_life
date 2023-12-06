@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container">
+    <table class="layui-table" id="tabRank">
+        <tr>
+            <th colspan="15">XXXXXXXXXXXX有限公司 \n 充电服务对账单</th>
+        </tr>
+        <tr>
+            <th colspan="5">地址</th>
+            <th colspan="5">电话</th>
+            <th colspan="5">结算周期</th>
+        </tr>
+        <div th:remove="tag" th:if="*{#lists.isEmpty(orderList)}">
+            <tr>
+                <th colspan="15" style="text-align: center">无充电信息</th>
+            </tr>
+        </div>
+        <div th:remove="tag" th:if="*{not #lists.isEmpty(orderList)}" th:each="order:${orderList}">
+            <tr>
+                <!--                充电站-->
+                <td colspan="3" rowspan="8" th:text="${order.stationName}"></td>
+                <tr>
+                    <th colspan="3" rowspan="4">序号</th>
+                    <th colspan="3" rowspan="4">统计日期</th>
+                    <tr>
+                        <tr>
+                            <th colspan="6">尖端</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">充电量 （kwh）</th>
+                            <th colspan="3">电费单价（元）</th>
+                        </tr>
+                    </tr>
+                </tr>
+                <tr th:each="detail:${order.detailList}">
+                    <td colspan="3" th:text="${detail.num}"></td>
+                    <td colspan="3" th:text="${detail.date}"></td>
+                    <td colspan="3" th:text="${detail.chargeNum}"></td>
+                    <td colspan="3" th:text="${detail.chargeMoney}"></td>
+                </tr>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+<style>
+    .container {
+        width: 42cm;
+    }
+    table {
+        border: 1px solid #000000;
+        border-collapse: collapse;
+    }
+    th,
+    td {
+        border: 1px solid #000000;
+        text-align: center;
+    }
+</style>
+</html>
