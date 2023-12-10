@@ -1,8 +1,5 @@
 package club.anlan.lanlife.commponent.netty.constant;
 
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
-
 /**
  * Constant
  *
@@ -20,9 +17,11 @@ public class Constant {
 
     public static final int URI_LENGTH_SIZE = 1;
 
-    public static final int READ_IDLE_TIME = 60;
+    public static final int CLIENT_READ_IDLE_TIME = 0;
+    public static final int SERVER_READ_IDLE_TIME = 0;
 
-    public static final int WRITE_IDLE_TIME = 40;
+    public static final int CLIENT_WRITE_IDLE_TIME = 60;
+    public static final int SERVER_WRITE_IDLE_TIME = 180;
 
     public static final int MAX_FRAME_LENGTH = 1024 * 1024;
 

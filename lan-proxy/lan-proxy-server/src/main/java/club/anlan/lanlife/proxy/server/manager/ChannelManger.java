@@ -1,11 +1,13 @@
 package club.anlan.lanlife.proxy.server.manager;
 
+import club.anlan.lanlife.component.utils.collection.CollectionUtil;
 import club.anlan.lanlife.proxy.server.util.ChannelUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -69,6 +71,9 @@ public class ChannelManger {
     }
 
     public static Channel getCmdChannel() {
+        if (CollectionUtil.isEmpty(cmdChannels.values())) {
+            return null;
+        }
         return cmdChannels.values().iterator().next();
     }
 

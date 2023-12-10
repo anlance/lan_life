@@ -38,6 +38,8 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             case ProxyMessage.P_TYPE_TRANSFER:
                 handleTransferMessage(ctx, proxyMessage);
                 break;
+            case ProxyMessage.TYPE_HEARTBEAT:
+                log.info("receive server heartbeat");
             default:
                 break;
         }

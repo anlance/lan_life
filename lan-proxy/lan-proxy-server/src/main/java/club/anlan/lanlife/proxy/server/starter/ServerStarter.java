@@ -47,7 +47,7 @@ public class ServerStarter {
         });
         try {
             bootstrap.bind(proxyConfig.getServicePort()).get();
-            log.info("proxy server bind port {}, wait request", proxyConfig.getServicePort());
+            log.info("proxy server bind port {}, wait for request", proxyConfig.getServicePort());
         } catch (Exception ex) {
             log.error("server listener failed, ", ex);
             if (!(ex.getCause() instanceof BindException)) {
