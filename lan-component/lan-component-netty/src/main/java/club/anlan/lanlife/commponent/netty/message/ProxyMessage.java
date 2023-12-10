@@ -2,6 +2,8 @@ package club.anlan.lanlife.commponent.netty.message;
 
 import lombok.Data;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * 代理客户端与代理服务器消息交换协议
  *
@@ -83,6 +85,7 @@ public class ProxyMessage {
         ProxyMessage message = new ProxyMessage();
         message.setType(C_TYPE_AUTH_FAILED);
         message.setData(data);
+        message.setSerialNumber(1L);
         return message;
     }
 
@@ -95,6 +98,7 @@ public class ProxyMessage {
         ProxyMessage message = new ProxyMessage();
         message.setType(C_TYPE_AUTH_SUCCESS);
         message.setData(data);
+        message.setSerialNumber(1L);
         return message;
     }
 
@@ -118,6 +122,7 @@ public class ProxyMessage {
         message.setType(P_TYPE_TRANSFER);
         message.setData(bytes);
         message.setRequestId(requestId);
+        message.setSerialNumber(1L);
         return message;
     }
 
@@ -129,6 +134,16 @@ public class ProxyMessage {
         message.setType(TYPE_CONNECT);
         message.setData("建立连接".getBytes());
         message.setRequestId(requestId);
+        message.setSerialNumber(1L);
+        return message;
+    }
+
+    public static ProxyMessage heartBeatMessage(String requestId) {
+        ProxyMessage message = new ProxyMessage();
+        message.setType(TYPE_HEARTBEAT);
+        message.setData("heartbeat".getBytes(StandardCharsets.UTF_8));
+        message.setRequestId(requestId);
+        message.setSerialNumber(1L);
         return message;
     }
 

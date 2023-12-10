@@ -53,7 +53,7 @@ public class ProxyStarter {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new ProxyMessageDecoder(Constant.MAX_FRAME_LENGTH, Constant.LENGTH_FIELD_OFFSET, Constant.LENGTH_FIELD_LENGTH, Constant.LENGTH_ADJUSTMENT, Constant.INITIAL_BYTES_TO_STRIP));
                         ch.pipeline().addLast(new ProxyMessageEncoder());
-                        //ch.pipeline().addLast(new IdleCheckHandler(Constant.READ_IDLE_TIME, Constant.WRITE_IDLE_TIME, 0));
+                        ch.pipeline().addLast(new IdleCheckHandler(Constant.SERVER_READ_IDLE_TIME, Constant.SERVER_WRITE_IDLE_TIME, 0));
                         ch.pipeline().addLast(new ServerChannelHandler());
                     }
                 });

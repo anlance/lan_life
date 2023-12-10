@@ -1,9 +1,9 @@
 package club.anlan.lanlife.proxy.server.handler;
 
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
+import club.anlan.lanlife.component.utils.UUIDUtil;
 import club.anlan.lanlife.proxy.server.config.ProxyConfig;
 import club.anlan.lanlife.proxy.server.manager.ChannelManger;
-import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -25,7 +25,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage proxyMessage) throws Exception {
-        log.info("{} msg type: {}", ctx.channel(), proxyMessage.getType());
+        log.info("channel :{}, msg type: {}", ctx.channel(), proxyMessage.getType());
         switch (proxyMessage.getType()) {
             case ProxyMessage.C_TYPE_AUTH:
                 handleAuthMessage(ctx, proxyMessage);
@@ -33,9 +33,16 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             case ProxyMessage.P_TYPE_TRANSFER:
                 handleTransferMessage(ctx, proxyMessage);
                 break;
+            case ProxyMessage.TYPE_HEARTBEAT:
+                handleHeartBeatMessage(ctx, proxyMessage);
             default:
                 break;
         }
+    }
+
+    private void handleHeartBeatMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
+        log.info("receive client heartbeat");
+        ctx.channel().writeAndFlush(proxyMessage);
     }
 
     private void handleAuthMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
@@ -48,13 +55,13 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
                 Channel channel = ChannelManger.getCmdChannel(clientKey);
                 if (channel != null) {
                     log.error("exist channel for key {}, {}", clientKey, channel);
-                } else {
-                    log.info("set port => channel, {}, {}, {}", clientKey, port, ctx.channel());
-                    ChannelManger.addCmdChannel(clientKey, ctx);
-                    proxyMessage.setType(ProxyMessage.C_TYPE_AUTH_SUCCESS);
-                    ctx.writeAndFlush(proxyMessage);
-                    return;
+                    channel.close();
                 }
+                log.info("set port => channel, {}, {}, {}", clientKey, port, ctx.channel());
+                ChannelManger.addCmdChannel(clientKey, ctx);
+                proxyMessage.setType(ProxyMessage.C_TYPE_AUTH_SUCCESS);
+                ctx.writeAndFlush(proxyMessage);
+                return;
             }
         }
         String msg = "client key is invalid!";
@@ -98,11 +105,8 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         Channel userChannel = ChannelManger.getUserChannel(proxyMessage.getRequestId());
         buf.writeBytes(proxyMessage.getData());
         if (userChannel != null) {
-            log.info("accept response from {}", ctx.channel());
             log.info("send data to user client {}", userChannel);
             log.info("data byte {}", proxyMessage.getData().length);
-            log.info("data {}", new String(proxyMessage.getData()));
-            log.info("data {}", JSON.toJSONString(proxyMessage));
             userChannel.writeAndFlush(buf);
         }
     }

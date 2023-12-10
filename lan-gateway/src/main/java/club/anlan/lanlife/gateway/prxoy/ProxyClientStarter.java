@@ -1,11 +1,13 @@
 package club.anlan.lanlife.gateway.prxoy;
 
 import club.anlan.lanlife.commponent.netty.constant.Constant;
+import club.anlan.lanlife.commponent.netty.handler.IdleCheckHandler;
 import club.anlan.lanlife.commponent.netty.handler.ProxyMessageDecoder;
 import club.anlan.lanlife.commponent.netty.handler.ProxyMessageEncoder;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.config.ProxyConfig;
 import club.anlan.lanlife.gateway.prxoy.handler.ClientChannelHandler;
+import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -50,7 +52,7 @@ public class ProxyClientStarter {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new ProxyMessageDecoder(Constant.MAX_FRAME_LENGTH, Constant.LENGTH_FIELD_OFFSET, Constant.LENGTH_FIELD_LENGTH, Constant.LENGTH_ADJUSTMENT, Constant.INITIAL_BYTES_TO_STRIP));
                         ch.pipeline().addLast(new ProxyMessageEncoder());
-                        //ch.pipeline().addLast(new IdleCheckHandler(Constant.READ_IDLE_TIME, Constant.WRITE_IDLE_TIME - 10, 0));
+                        ch.pipeline().addLast(new IdleCheckHandler(Constant.CLIENT_READ_IDLE_TIME, Constant.CLIENT_WRITE_IDLE_TIME, 0));
                         ch.pipeline().addLast(new ClientChannelHandler(workerGroup));
                     }
                 });
@@ -61,6 +63,9 @@ public class ProxyClientStarter {
      * 连接代理服务器
      */
     public void connectProxyServer() {
+        if (ClientChannelManager.getProxyChannel() != null) {
+            return;
+        }
         bootstrap.connect(proxyConfig.getServerHost(), proxyConfig.getServerPort()).addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
