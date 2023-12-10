@@ -1,8 +1,5 @@
 package club.anlan.lanlife.commponent.netty.constant;
 
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
-
 /**
  * Constant
  *

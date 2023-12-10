@@ -3,6 +3,7 @@ package club.anlan.lanlife.proxy.server.handler;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.proxy.server.config.ProxyConfig;
 import club.anlan.lanlife.proxy.server.manager.ChannelManger;
+import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -100,6 +101,8 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             log.info("accept response from {}", ctx.channel());
             log.info("send data to user client {}", userChannel);
             log.info("data byte {}", proxyMessage.getData().length);
+            log.info("data {}", new String(proxyMessage.getData()));
+            log.info("data {}", JSON.toJSONString(proxyMessage));
             userChannel.writeAndFlush(buf);
         }
     }

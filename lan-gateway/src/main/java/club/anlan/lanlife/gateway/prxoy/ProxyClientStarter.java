@@ -1,13 +1,11 @@
 package club.anlan.lanlife.gateway.prxoy;
 
 import club.anlan.lanlife.commponent.netty.constant.Constant;
-import club.anlan.lanlife.commponent.netty.handler.IdleCheckHandler;
 import club.anlan.lanlife.commponent.netty.handler.ProxyMessageDecoder;
 import club.anlan.lanlife.commponent.netty.handler.ProxyMessageEncoder;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.config.ProxyConfig;
 import club.anlan.lanlife.gateway.prxoy.handler.ClientChannelHandler;
-import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;

@@ -106,6 +106,7 @@ public class ProxyMessage {
         message.setType(P_TYPE_TRANSFER);
         message.setData(data);
         message.setRequestId(requestId);
+        message.setSerialNumber(1L);
         return message;
     }
 

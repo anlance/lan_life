@@ -1,6 +1,7 @@
 package club.anlan.lanlife.proxy.server.handler;
 
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
+import club.anlan.lanlife.proxy.server.config.Constant;
 import club.anlan.lanlife.proxy.server.manager.ChannelManger;
 import club.anlan.lanlife.proxy.server.util.ChannelUtil;
 import io.netty.buffer.ByteBuf;
@@ -8,6 +9,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 
 /**
@@ -68,6 +72,10 @@ public class UserChannelInHandler extends SimpleChannelInboundHandler<ByteBuf> {
         String requestId = ChannelUtil.getChannelId(ctx);
         if (cmdChannel == null) {
             log.warn("no client to transfer message");
+            byte[] res = Constant.getDefaultHttpResponse(new Date()).getBytes(StandardCharsets.UTF_8);
+            ByteBuf buf = ctx.alloc().buffer(res.length);
+            buf.writeBytes(res);
+            ctx.channel().writeAndFlush(buf);
             ctx.channel().close();
         } else {
             log.info("accept request from {}", ctx.channel());
