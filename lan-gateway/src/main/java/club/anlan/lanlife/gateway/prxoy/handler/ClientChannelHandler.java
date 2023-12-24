@@ -3,6 +3,7 @@ package club.anlan.lanlife.gateway.prxoy.handler;
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.config.ProxyConfig;
 import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
+import club.anlan.lanlife.gateway.prxoy.manager.LocalChannelManager;
 import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -45,7 +46,19 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         }
     }
 
+    /**
+     * 传递数据给内网真实服务器
+     */
     private void handleTransferMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
+
+        String requestId = proxyMessage.getRequestId();
+        Channel localChannel = LocalChannelManager.getLocalChannel(requestId);
+        if (localChannel != null) {
+            ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
+            buf.writeBytes(proxyMessage.getData());
+            localChannel.writeAndFlush(buf);
+            return;
+        }
 
         String ip = ProxyConfig.getLocalHost();
         Integer port = ProxyConfig.getLocalPort();
@@ -64,13 +77,15 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
                     public void operationComplete(ChannelFuture channelFuture) throws Exception {
                         if (channelFuture.isSuccess()) {
                             // todo 连接池
-                            ClientChannelManager.setRemoteId(channelFuture.channel().id().asLongText(), proxyMessage.getRequestId());
+                            ClientChannelManager.setRemoteId(channelFuture.channel().id().asLongText(), requestId);
+                            LocalChannelManager.setLocalChannel(requestId, channelFuture.channel());
                             log.debug("connect local server [{}:{}] success, {}", ip, port, ctx.channel());
                             log.info("data byte: {}", proxyMessage.getData().length);
                             ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
                             buf.writeBytes(proxyMessage.getData());
                             channelFuture.channel().writeAndFlush(buf);
                         } else {
+                            LocalChannelManager.removeLocalChannel(requestId);
                             log.warn("connect local server failed, ", channelFuture.cause());
                         }
                     }

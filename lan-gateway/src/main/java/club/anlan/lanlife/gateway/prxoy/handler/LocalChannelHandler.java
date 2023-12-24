@@ -2,6 +2,7 @@ package club.anlan.lanlife.gateway.prxoy.handler;
 
 import club.anlan.lanlife.commponent.netty.message.ProxyMessage;
 import club.anlan.lanlife.gateway.prxoy.manager.ClientChannelManager;
+import club.anlan.lanlife.gateway.prxoy.manager.LocalChannelManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -35,16 +36,18 @@ public class LocalChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.debug("{} inactive", ctx.channel());
+        LocalChannelManager.removeLocalChannel(ctx.channel());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error("{} exception, ", ctx.channel(), cause);
+        LocalChannelManager.removeLocalChannel(ctx.channel());
         ctx.close();
     }
 
     /**
-     * 将数据发送到内网客户端
+     * 将数据发送到代理服务器
      *
      * @param ctx  通道上下文
      * @param data 数据内容

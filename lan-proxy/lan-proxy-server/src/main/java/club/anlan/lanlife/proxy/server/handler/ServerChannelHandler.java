@@ -12,6 +12,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * ServerChannelHandler
  *
@@ -101,10 +103,10 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
      * 将数据发到外部
      */
     public static void handleTransferMessage(ChannelHandlerContext ctx, ProxyMessage proxyMessage) {
-        ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
         Channel userChannel = ChannelManger.getUserChannel(proxyMessage.getRequestId());
-        buf.writeBytes(proxyMessage.getData());
         if (userChannel != null) {
+            ByteBuf buf = ctx.alloc().buffer(proxyMessage.getData().length);
+            buf.writeBytes(proxyMessage.getData());
             log.info("send data to user client {}", userChannel);
             log.info("data byte {}", proxyMessage.getData().length);
             userChannel.writeAndFlush(buf);
