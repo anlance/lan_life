@@ -43,4 +43,7 @@ VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), '005', 'åœ
 INSERT INTO "basic"."bs_user_menu"("id", "user_id", "menu_code", "create_time")
 VALUES (replace(cast(public.uuid_generate_v4() as VARCHAR), '-', ''), 'c69932b86390d0e8fa5a1c86cb9440b3', '005', now());
 
+INSERT INTO "basic"."oauth_client_details" ("client_id", "resource_ids", "client_secret", "scope", "authorized_grant_types", "web_server_redirect_uri", "authorities", "access_token_validity", "refresh_token_validity", "additional_information", "autoapprove")
+VALUES ('home', null, '$2a$10$hw8KwUqlCtH9j0J3Br6//.xmoGeT/HDyAekl9VTDuh6TOjWapzJr6', 'server', 'client_credentials', null, null, '604800', '1209600', null, null);
+
 END;

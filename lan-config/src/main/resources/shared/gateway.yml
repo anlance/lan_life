@@ -78,4 +78,4 @@ auth:
 
 common:
   api:
-    excludeUrls: /basic/user/getSalt
+    excludeUrls: /basic/user/getSalt,home/template/**
