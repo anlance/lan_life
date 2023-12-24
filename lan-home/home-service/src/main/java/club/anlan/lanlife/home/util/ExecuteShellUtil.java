@@ -38,7 +38,7 @@ public class ExecuteShellUtil {
 
     Session session;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         try {
             JSch jsch = new JSch();
