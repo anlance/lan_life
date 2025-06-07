@@ -6,9 +6,9 @@ import club.anlan.lanlife.basic.mapper.UserMapper;
 import club.anlan.lanlife.basic.redis.RedisKey;
 import club.anlan.lanlife.basic.service.UserService;
 import club.anlan.lanlife.basic.vo.SaltVo;
-import club.anlan.lanlife.component.redis.util.RedisUtil;
+//import club.anlan.lanlife.component.redis.util.RedisUtil;
 import club.anlan.lanlife.component.utils.StringUtil;
-import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
+//import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private RedisUtil redisUtil;
+//    @Autowired
+//    private RedisUtil redisUtil;
 
     @Override
     public void saveOrUpdate(User user) {
@@ -54,16 +54,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public SaltVo getSalt(String username) {
         if (StringUtil.isNotEmpty(username)) {
-            User user = new LambdaQueryChainWrapper<>(userMapper)
-                    .eq(User::getLoginName, username)
-                    .select(User::getSalt)
-                    .one();
-
-            if (Objects.nonNull(user) && StringUtil.isNotEmpty(user.getSalt())) {
-                String randomCode = StringUtil.generateRandomChars(RANDOM_CODE_NUM);
-                redisUtil.add(RedisKey.AUTH_LOGIN_USERNAME_RANDOM_CODE + username, randomCode, 300, TimeUnit.SECONDS);
-                return SaltVo.valueOf(user.getSalt(), randomCode);
-            }
+//            User user = new LambdaQueryChainWrapper<>(userMapper)
+//                    .eq(User::getLoginName, username)
+//                    .select(User::getSalt)
+//                    .one();
+//
+//            if (Objects.nonNull(user) && StringUtil.isNotEmpty(user.getSalt())) {
+//                String randomCode = StringUtil.generateRandomChars(RANDOM_CODE_NUM);
+//                redisUtil.add(RedisKey.AUTH_LOGIN_USERNAME_RANDOM_CODE + username, randomCode, 300, TimeUnit.SECONDS);
+//                return SaltVo.valueOf(user.getSalt(), randomCode);
+//            }
         }
         return SaltVo.defaultVo();
     }

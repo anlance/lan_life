@@ -2,7 +2,6 @@ package club.anlan.lanlife.component.storage;
 
 import club.anlan.lanlife.component.storage.file.FileHandler;
 import club.anlan.lanlife.component.storage.file.FileHandlerFactory;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
@@ -690,7 +689,7 @@ public class FileUtil {
         FileHandler handler = fileHandlerFactory.getFileHandler();
         if (handler != null) {
             StringBuilder imgUrl = new StringBuilder(convertUrl).append(handler.getFilePrefix());
-            return new StringBuilder(imgUrl).append(Constants.SLASH).append(fileId).toString();
+            return new StringBuilder(imgUrl).append("/").append(fileId).toString();
         }
         return null;
     }

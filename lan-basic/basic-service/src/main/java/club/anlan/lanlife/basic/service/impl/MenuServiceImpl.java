@@ -4,8 +4,8 @@ import club.anlan.lanlife.basic.mapper.MenuMapper;
 import club.anlan.lanlife.basic.service.MenuService;
 import club.anlan.lanlife.basic.vo.MenuVo;
 import club.anlan.lanlife.component.base.constant.Constants;
-import club.anlan.lanlife.component.redis.cache.UserSessionInfo;
-import club.anlan.lanlife.component.redis.util.UserSessionUtil;
+//import club.anlan.lanlife.component.redis.cache.UserSessionInfo;
+//import club.anlan.lanlife.component.redis.util.UserSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +28,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuVo> listUserMenu() {
         String userId = Constants.DEFAULT_USER_ID;
-        UserSessionInfo userSessionInfo = UserSessionUtil.getUserSessionInfo();
-        if(Objects.nonNull(userSessionInfo)) {
-            userId = userSessionInfo.getUserId();
-        }
+//        UserSessionInfo userSessionInfo = UserSessionUtil.getUserSessionInfo();
+//        if(Objects.nonNull(userSessionInfo)) {
+//            userId = userSessionInfo.getUserId();
+//        }
         return menuMapper.listUserMenu(userId);
     }
 

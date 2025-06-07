@@ -30,8 +30,8 @@ public class ServerApplication {
         ApplicationContext applicationContext = SpringApplication.run(ServerApplication.class, args);
         AppContext.setContext(applicationContext, true);
 
-        ProxyServerStarter serverStarter = AppContext.getBean(ProxyServerStarter.class);
-        serverStarter.start();
+        //ProxyServerStarter serverStarter = AppContext.getBean(ProxyServerStarter.class);
+        //serverStarter.start();
     }
 
 

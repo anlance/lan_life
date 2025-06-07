@@ -20,6 +20,7 @@ logging:
   config: classpath:log4j2.xml
   level:
     org.springframework.security: INFO
+    club.anlan.*.service.client: debug
 
 jasypt:
   encryptor:
@@ -36,19 +37,37 @@ feign:
     response:
       enabled: true
 
+# Rest template
+rest:
+  template:
+    factory:
+      readTimeout: 20000
+      connectTimeout: 20000
+
+ribbon:
+  # 读超时
+  ReadTimeout: 20000
+  # 连接超时
+  ConnectTimeout: 20000
+  # 从注册中心刷新服务器列表信息的时间间隔
+  ServerListRefreshInterval: 3000
+
 hystrix:
   threadpool:
     default:
       coreSize: 200
   command:
     default:
+      # 熔断器相关配置
       circuitBreaker:
         enabled: true
-        requestVolumeThreshold: 1000
+        # 启用熔断器 窗口时间内的最小请求数
+        requestVolumeThreshold: 50
       fallback:
         isolation:
           semaphore:
             maxConcurrentRequests: 500
+            # 给方法设置超时时间
       execution:
         timeout:
           enabled: true
@@ -57,7 +76,7 @@ hystrix:
           semaphore:
             maxConcurrentRequests: 500
           thread:
-            timeoutInMilliseconds: 30000 # feign 超时控制
+            timeoutInMilliseconds: 30000 #超时控制
 
 # kafka
 kafka:
@@ -190,18 +209,7 @@ i18n:
     cache-seconds: -1
     encoding: UTF-8
 
-# Rest template
-rest:
-  template:
-    factory:
-      readTimeout: 20000
-      connectTimeout: 20000
 
-
-ribbon:
-  ReadTimeout: 20000
-  ConnectTimeout: 20000
-  ServerListRefreshInterval: 3000
 
 credentials:
   oauth2:

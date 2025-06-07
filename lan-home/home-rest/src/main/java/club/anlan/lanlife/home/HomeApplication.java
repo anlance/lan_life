@@ -12,6 +12,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * home 启动类
  *
@@ -23,7 +25,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @ServletComponentScan(basePackages = {"club.anlan.lanlife"})
 @ComponentScan(basePackages = "club.anlan.lanlife")
-@EnableFeignClients("club.anlan.lanlife")
+@EnableFeignClients("club.anlan.lanlife.*.client")
 @MapperScan(basePackages = {"club.anlan.lanlife.home.mapper"})
 public class HomeApplication extends SpringBootServletInitializer {
 
@@ -36,4 +38,6 @@ public class HomeApplication extends SpringBootServletInitializer {
         ApplicationContext applicationContext = SpringApplication.run(HomeApplication.class, args);
         AppContext.setContext(applicationContext, true);
     }
+
+
 }

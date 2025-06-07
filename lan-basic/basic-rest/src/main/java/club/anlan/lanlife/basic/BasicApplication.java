@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -21,10 +21,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-@ServletComponentScan(basePackages = { "club.anlan.lanlife" })
-@ComponentScan(basePackages = "club.anlan.lanlife")
-@EnableFeignClients("club.anlan.lanlife.basic")
+@ServletComponentScan(basePackages = {"club.anlan.lanlife.basic"})
+@ComponentScan(basePackages = "club.anlan.lanlife.basic")
 @MapperScan(basePackages = {"club.anlan.lanlife.basic.mapper"})
+@EnableDiscoveryClient
 public class BasicApplication extends SpringBootServletInitializer {
 
     @Override

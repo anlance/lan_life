@@ -27,7 +27,7 @@ public class ConnectToProxyServerJob {
     /**
      * 定时方法  每 3min 执行一次
      */
-    @Scheduled(cron = "0 0/3 * * * ?")
+    //@Scheduled(cron = "0 0/3 * * * ?")
     public void timerTest() {
         Channel cmdChannel = ClientChannelManager.getProxyChannel();
         if (cmdChannel == null || !cmdChannel.isActive()) {

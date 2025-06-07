@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @TableName("basic.bs_user_location")
 public class UserLocation {
 
-    @TableId(type = IdType.UUID)
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
     /**

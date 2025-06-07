@@ -39,28 +39,26 @@ zuul:
       stripPrefix: false
       sensitiveHeaders:
 
-management:
-  tags:
-    application: gateway
 
-  ratelimit:
-    key-prefix: parkingcloud-ratelimit
-    enabled: false
-    repository: REDIS
-    behind-proxy: true
-      #default-policy:
-      #limit: 1000
-    #refresh-interval: 60
-    #type:
-    #- url  #通过请求路径区分
-    #- origin #通过客户端IP区分
-    policies:
-      auth:
-        limit: 10000 # 单位时间内访问的次数
-        refresh-interval: 60 # 单位时间 秒
-        type:
-          - url  #通过请求路径区分
-          - origin #通过客户端IP区分
+
+#  ratelimit:
+#    key-prefix: parkingcloud-ratelimit
+#    enabled: false
+#    repository: REDIS
+#    behind-proxy: true
+#      #default-policy:
+#      #limit: 1000
+#    #refresh-interval: 60
+#    #type:
+#    #- url  #通过请求路径区分
+#    #- origin #通过客户端IP区分
+#    policies:
+#      auth:
+#        limit: 10000 # 单位时间内访问的次数
+#        refresh-interval: 60 # 单位时间 秒
+#        type:
+#          - url  #通过请求路径区分
+#          - origin #通过客户端IP区分
 
 auth:
   interface:
@@ -79,3 +77,19 @@ auth:
 common:
   api:
     excludeUrls: /basic/user/getSalt,home/template/**
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info
+  metrics:
+    distribution:
+      sla:
+        http:
+          server:
+            requests: 1ms,5ms,10ms,50ms,100ms,200ms,500ms,1s,5s
+    tags:
+      application: auth

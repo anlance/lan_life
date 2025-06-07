@@ -1,7 +1,7 @@
 package club.anlan.lanlife.component.base.helper;
 
 import club.anlan.lanlife.component.base.JsonString;
-import club.anlan.lanlife.component.base.filter.MdcFilter;
+//import club.anlan.lanlife.component.base.filter.MdcFilter;
 import club.anlan.lanlife.component.utils.StringUtil;
 import club.anlan.lanlife.component.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -105,13 +105,13 @@ public abstract class AbstractRestTemplate implements RestTemplateHelper {
 
     private HttpHeaders buildHeader(MediaType mediaType, Map<String, String> headerMap) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(mediaType);
-        String traceId = MDC.get(MdcFilter.TRACE_ID);
-        if (StringUtil.isBlank(traceId)) {
-            traceId = UUIDUtil.generateUuid();
-        }
-        headers.set(MdcFilter.TRACE_ID, traceId);
-        setHeader(headers, headerMap);
+//        headers.setContentType(mediaType);
+//        String traceId = MDC.get(MdcFilter.TRACE_ID);
+//        if (StringUtil.isBlank(traceId)) {
+//            traceId = UUIDUtil.generateUuid();
+//        }
+//        headers.set(MdcFilter.TRACE_ID, traceId);
+//        setHeader(headers, headerMap);
         return headers;
     }
 

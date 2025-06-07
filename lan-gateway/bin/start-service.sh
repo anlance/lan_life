@@ -6,7 +6,11 @@ modulename="$1"
 projectPath="/opt/java-service/${modulename}"
 jarFile="${projectPath}/$modulename.jar"
 configFile="${projectPath}/bootstrap.yml"
-JAVA_OPTS="-Xms2048m -Xmx3072m -Xss512k"
+JAVA_OPTS="-Xms1024m -Xmx1024m -Xss512k -Djava.rmi.server.hostname=192.168.0.111 -Dcom.sun.management.jmxremote.port=1099
+-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/java-service/jvmlogs/
+-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintTenuringDistribution -XX:+PrintHeapAtGC -XX:+PrintReferenceGC -XX:+PrintGCApplicationStoppedTime
+-XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1 -Xloggc:/opt/java-service/jvmlogs/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=14
+-XX:GCLogFileSize=100M"
 pidpath="/var/run/${modulename}.pid"
 JRE_HOME="/opt/jdk/jre/bin/java"
 

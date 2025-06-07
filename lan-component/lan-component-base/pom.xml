@@ -5,16 +5,15 @@
     <parent>
         <artifactId>lan-component</artifactId>
         <groupId>club.anlan</groupId>
-        <version>0.0.1</version>
+        <version>1.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lan-component-base</artifactId>
-    <version>0.0.1</version>
 
     <properties>
-        <jasypt.version>2.0.0</jasypt.version>
+        <jasypt.version>2.1.0</jasypt.version>
     </properties>
 
 
@@ -22,16 +21,21 @@
         <dependency>
             <groupId>club.anlan</groupId>
             <artifactId>lan-component-utils</artifactId>
+            <version>1.0.1</version>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
+
+        <!-- Nacos 服务发现 -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!-- 配置文件加密引用 jasypt -->
+
+        <!-- Nacos 配置中心 -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
@@ -85,11 +89,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
             </plugin>
 
             <!--配置生成源码包 -->

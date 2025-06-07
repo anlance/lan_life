@@ -10,6 +10,12 @@ spring:
       password: root
       username: user
 
+logging:
+  level:
+    org.springframework.cloud.netflix: debug
+#    com.netflix.discovery: debug
+#    root: debug
+
 eureka:
   instance:
     prefer-ip-address: true

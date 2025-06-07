@@ -1,5 +1,6 @@
 package club.anlan.lanlife.component.kafka;
 
+import club.anlan.lanlife.component.kafka.interceptor.LogInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -13,6 +14,8 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,6 +90,7 @@ public class KafkaConfig {
 		propsMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		// 值的序列化方式
 		propsMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		propsMap.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, Collections.singletonList(LogInterceptor.class));
 		return propsMap;
 	}
 

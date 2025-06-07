@@ -6,7 +6,7 @@ import club.anlan.lanlife.basic.query.FileQuery;
 import club.anlan.lanlife.basic.service.FileService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
+//import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +46,12 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public IPage<File> getFiles(FileQuery fileQuery) {
-        return new LambdaQueryChainWrapper<>(fileMapper)
-                .eq(File::getDeleteFlag, fileQuery.getDeleteFlag())
-                .eq(File::getCreateUserId, fileQuery.getUserId())
-                .orderByDesc(File::getCreateTime)
-                .page(new Page<>(fileQuery.getPageNum(), fileQuery.getPageSize()));
+//        return new LambdaQueryChainWrapper<>(fileMapper)
+//                .eq(File::getDeleteFlag, fileQuery.getDeleteFlag())
+//                .eq(File::getCreateUserId, fileQuery.getUserId())
+//                .orderByDesc(File::getCreateTime)
+//                .page(new Page<>(fileQuery.getPageNum(), fileQuery.getPageSize()));
+        return null;
     }
 
 

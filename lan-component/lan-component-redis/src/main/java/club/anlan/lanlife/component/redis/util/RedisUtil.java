@@ -5,6 +5,7 @@ import club.anlan.lanlife.component.redis.base.AbstractRedisCache;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 2021/4/24 14:29
  */
+@Scope
 @Component
 @Slf4j
 public class RedisUtil extends AbstractRedisCache<String, String> {

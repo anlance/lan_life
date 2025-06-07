@@ -2,7 +2,7 @@ package club.anlan.lanlife.basic.redis.cache;
 
 import club.anlan.lanlife.component.base.util.JsonUtil;
 import club.anlan.lanlife.basic.redis.RedisKey;
-import club.anlan.lanlife.component.redis.base.RedisCache;
+//import club.anlan.lanlife.component.redis.base.RedisCache;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +21,15 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class ContentTypeCache extends RedisCache<String, String> implements CommandLineRunner {
+//public class ContentTypeCache extends RedisCache<String, String> implements CommandLineRunner {
+public class ContentTypeCache  {
 
     /**
      * @Fields timeout: 过期时间（秒）
      */
     public final int TIMEOUT = 1800;
 
-    @Override
+//    @Override
     public String getKey(String key) {
         return String.format(RedisKey.CONTENT_TYPE_CACHE, key);
     }
@@ -48,15 +49,15 @@ public class ContentTypeCache extends RedisCache<String, String> implements Comm
         for (int i = 0; i < dataList.size(); i++) {
             JSONObject obj = dataList.getJSONObject(i);
             for (Map.Entry<String, Object> entry : obj.entrySet()) {
-                super.add(entry.getKey(), String.valueOf(entry.getValue()));
+//                super.add(entry.getKey(), String.valueOf(entry.getValue()));
             }
 
         }
 
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        init();
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        init();
+//    }
 }

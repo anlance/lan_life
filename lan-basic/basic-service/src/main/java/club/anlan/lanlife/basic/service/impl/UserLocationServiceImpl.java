@@ -6,12 +6,12 @@ import club.anlan.lanlife.basic.mapper.UserLocationMapper;
 import club.anlan.lanlife.basic.service.UserLocationService;
 import club.anlan.lanlife.basic.util.HttpUtil;
 import club.anlan.lanlife.component.base.util.DateUtil;
-import club.anlan.lanlife.component.redis.cache.UserSessionInfo;
-import club.anlan.lanlife.component.redis.util.UserSessionUtil;
+//import club.anlan.lanlife.component.redis.cache.UserSessionInfo;
+//import club.anlan.lanlife.component.redis.util.UserSessionUtil;
 import club.anlan.lanlife.component.utils.StringUtil;
 import club.anlan.lanlife.component.utils.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
+//import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,15 +73,16 @@ public class UserLocationServiceImpl implements UserLocationService {
             end = DateUtil.stringToDate(endTime, DateUtil.DATA_FORMAT_yyyy_MM_dd_HH_mm_ss);
         }
         String userId = null;
-        UserSessionInfo userSessionInfo = UserSessionUtil.getUserSessionInfo();
-        if (Objects.nonNull(userSessionInfo)) {
-            userId = userSessionInfo.getUserId();
-        }
-        List<UserLocation> ulList = new LambdaQueryChainWrapper<>(userLocationMapper)
-                .eq(UserLocation::getUserId, userId)
-                .ge(UserLocation::getCreateTime, start)
-                .le(UserLocation::getCreateTime, end)
-                .list();
+//        UserSessionInfo userSessionInfo = UserSessionUtil.getUserSessionInfo();
+//        if (Objects.nonNull(userSessionInfo)) {
+//            userId = userSessionInfo.getUserId();
+//        }
+//        List<UserLocation> ulList = new LambdaQueryChainWrapper<>(userLocationMapper)
+//                .eq(UserLocation::getUserId, userId)
+//                .ge(UserLocation::getCreateTime, start)
+//                .le(UserLocation::getCreateTime, end)
+//                .list();
+        List<UserLocation> ulList = new ArrayList<>();
         List<List<Double>> res = new ArrayList<>();
         double x = 0.0;
         double y = 0.0;

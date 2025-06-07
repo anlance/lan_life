@@ -52,7 +52,18 @@ security:
     refresh_token:
       bs: 3600
       third: 1209600
-
 management:
-  tags:
-    application: auth
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info
+  metrics:
+    distribution:
+      sla:
+        http:
+          server:
+            requests: 1ms,5ms,10ms,50ms,100ms,200ms,500ms,1s,5s
+    tags:
+      application: auth

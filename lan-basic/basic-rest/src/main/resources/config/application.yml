@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: basic
+  servlet:
+    multipart:
+      max-request-size: 512MB
+      max-file-size: 512MB
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+      config:
+        import-check:
+          enabled: false

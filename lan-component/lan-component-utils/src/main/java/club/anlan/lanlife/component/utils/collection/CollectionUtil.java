@@ -1,7 +1,7 @@
 package club.anlan.lanlife.component.utils.collection;
 
 import club.anlan.lanlife.component.utils.ReflectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -22,7 +22,7 @@ public class CollectionUtil {
     }
 
     public static boolean isNotEmpty(Collection<?> collection) {
-        return CollectionUtils.isNotEmpty(collection);
+        return !CollectionUtils.isEmpty(collection);
     }
 
 
