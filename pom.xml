@@ -25,7 +25,7 @@
         <!--        <module>lan-config</module>-->
 <!--        <module>lan-basic</module>-->
         <!--        <module>lan-gateway</module>-->
-<!--        <module>lan-demo</module>-->
+        <module>lan-demo</module>
 <!--        <module>lan-home</module>-->
 <!--        <module>lan-auth</module>-->
 <!--        <module>lan-doc</module>-->
