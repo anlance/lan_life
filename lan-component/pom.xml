@@ -15,7 +15,7 @@
     <name>lan-component</name>
 
     <modules>
-        <module>lan-component-redis</module>
+<!--        <module>lan-component-redis</module>-->
 <!--        <module>lan-component-storage</module>-->
 <!--        <module>lan-component-base</module>-->
 <!--        <module>lan-component-kafka</module>-->
@@ -83,11 +83,11 @@
                 <version>${lan-component.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>club.anlan</groupId>
-                <artifactId>lan-component-redis</artifactId>
-                <version>${lan-component.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>club.anlan</groupId>-->
+<!--                <artifactId>lan-component-redis</artifactId>-->
+<!--                <version>${lan-component.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>club.anlan</groupId>
                 <artifactId>lan-component-storage</artifactId>
