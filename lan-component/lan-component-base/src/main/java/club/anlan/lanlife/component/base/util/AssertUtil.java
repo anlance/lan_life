@@ -6,7 +6,6 @@ import club.anlan.lanlife.component.base.exception.NullException;
 import club.anlan.lanlife.component.base.exception.ServiceException;
 import club.anlan.lanlife.component.base.i18n.I18n;
 import club.anlan.lanlife.component.utils.StringUtil;
-import club.anlan.lanlife.component.utils.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**

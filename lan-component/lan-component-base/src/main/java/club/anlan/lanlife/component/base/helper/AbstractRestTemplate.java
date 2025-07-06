@@ -1,11 +1,8 @@
 package club.anlan.lanlife.component.base.helper;
 
 import club.anlan.lanlife.component.base.JsonString;
-//import club.anlan.lanlife.component.base.filter.MdcFilter;
-import club.anlan.lanlife.component.utils.StringUtil;
-import club.anlan.lanlife.component.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -96,7 +93,7 @@ public abstract class AbstractRestTemplate implements RestTemplateHelper {
         if (Objects.nonNull(headerMap) && !headerMap.isEmpty()) {
             for (String key : headerMap.keySet()) {
                 String value = headerMap.get(key);
-                if (StringUtil.isNotBlank(value)) {
+                if (StringUtils.isNotBlank(value)) {
                     headers.set(key, value);
                 }
             }
@@ -107,7 +104,7 @@ public abstract class AbstractRestTemplate implements RestTemplateHelper {
         HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(mediaType);
 //        String traceId = MDC.get(MdcFilter.TRACE_ID);
-//        if (StringUtil.isBlank(traceId)) {
+//        if (StringUtils.isBlank(traceId)) {
 //            traceId = UUIDUtil.generateUuid();
 //        }
 //        headers.set(MdcFilter.TRACE_ID, traceId);

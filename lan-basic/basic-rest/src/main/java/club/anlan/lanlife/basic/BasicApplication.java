@@ -22,8 +22,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableAsync
 @ServletComponentScan(basePackages = {"club.anlan.lanlife.basic"})
-@ComponentScan(basePackages = "club.anlan.lanlife.basic")
 @MapperScan(basePackages = {"club.anlan.lanlife.basic.mapper"})
+@ComponentScan(basePackages = {"club.anlan.lanlife"})
 @EnableDiscoveryClient
 public class BasicApplication extends SpringBootServletInitializer {
 

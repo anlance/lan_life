@@ -23,7 +23,7 @@
         <module>lan-component</module>
         <module>lan-temp</module>
         <!--        <module>lan-config</module>-->
-<!--        <module>lan-basic</module>-->
+        <module>lan-basic</module>
         <!--        <module>lan-gateway</module>-->
         <module>lan-demo</module>
 <!--        <module>lan-home</module>-->

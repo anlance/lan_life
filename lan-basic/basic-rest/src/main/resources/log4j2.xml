@@ -19,10 +19,10 @@
 			<!--输出日志的格式 -->
 			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceId}][%p][${MODULE_NAME}:%t][%C{1}:%M:%L] %m%n%n" />
 		</console>
-		
+
 		<!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size， 则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-		<RollingRandomAccessFile name="RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}.log" 
-			filePattern="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}_%d{yyyy-MM-dd}_%i.log">
+		<RollingRandomAccessFile name="RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}.log"
+								 filePattern="${LOG_HOME}/${MODULE_NAME}/${MODULE_NAME}_%d{yyyy-MM-dd}_%i.log">
 			<Filters>
 				<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
 				<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
@@ -34,15 +34,15 @@
 			</Policies>
 			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
 			<DefaultRolloverStrategy max="20">
-			   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
-			      <IfFileName glob="${MODULE_NAME}_*.log"/>
-			      <IfLastModified age="7d"/>
-			   </Delete>
+				   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
+				      <IfFileName glob="${MODULE_NAME}_*.log"/>
+				      <IfLastModified age="7d"/>
+				   </Delete>
 			</DefaultRolloverStrategy>
 		</RollingRandomAccessFile>
-		
-		<RollingRandomAccessFile name="Error_RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/error.log" 
-			filePattern="${LOG_HOME}/${MODULE_NAME}/error_%d{yyyy-MM-dd}_%i.log">
+
+		<RollingRandomAccessFile name="Error_RollingFile" fileName="${LOG_HOME}/${MODULE_NAME}/error.log"
+								 filePattern="${LOG_HOME}/${MODULE_NAME}/error_%d{yyyy-MM-dd}_%i.log">
 			<Filters>
 				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
 			</Filters>
@@ -52,14 +52,14 @@
 				<SizeBasedTriggeringPolicy size="50 MB" />
 			</Policies>
 			<DefaultRolloverStrategy max="10">
-			   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
-			      <IfFileName glob="error_*.log"/>
-			      <IfLastModified age="7d"/>
-			   </Delete>
+				   <Delete basePath="${LOG_HOME}/${MODULE_NAME}" maxDepth="1" >
+				      <IfFileName glob="error_*.log"/>
+				      <IfLastModified age="7d"/>
+				   </Delete>
 			</DefaultRolloverStrategy>
 		</RollingRandomAccessFile>
 	</appenders>
-	
+
 	<!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
 	<loggers>
 		<root level="INFO">
@@ -67,11 +67,11 @@
 			<appender-ref ref="RollingFile" />
 			<appender-ref ref="Error_RollingFile" />
 		</root>
-		
+
 		<logger name="club.anlan.lanlife" level="DEBUG" additivity="false">
 			<appender-ref ref="Console" />
-	        <appender-ref ref="RollingFile" />
-	        <appender-ref ref="Error_RollingFile" />
+			<appender-ref ref="RollingFile" />
+			<appender-ref ref="Error_RollingFile" />
 		</logger>
 	</loggers>
 </configuration>  

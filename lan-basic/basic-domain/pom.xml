@@ -14,27 +14,34 @@
     <artifactId>basic-domain</artifactId>
 
     <properties>
+        <lanlife.version>1.0.1</lanlife.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>club.anlan</groupId>
-            <artifactId>lan-component-base</artifactId>
-            <version>${project.version}</version>
+            <artifactId>lan-nacos-common</artifactId>
+            <version>${lanlife.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <scope>compile</scope>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-spring-boot-common</artifactId>
+            <version>${lanlife.version}</version>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>club.anlan</groupId>-->
-<!--            <artifactId>lan-component-redis</artifactId>-->
-<!--            <version>1.0.1</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-
+        <dependency>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-component-base</artifactId>
+            <version>${lanlife.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>club.anlan</groupId>
+            <artifactId>lan-db-common</artifactId>
+            <version>${lanlife.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

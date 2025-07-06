@@ -68,7 +68,6 @@ public class RestTemplateFactory {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
         messageConverters.add(new FormHttpMessageConverter());
-        messageConverters.add(new GsonHttpMessageConverter());
         messageConverters.add(new ByteArrayHttpMessageConverter());
         RestTemplate restTemplate = new RestTemplate(messageConverters);
         restTemplate.setRequestFactory(clientHttpRequestFactory);

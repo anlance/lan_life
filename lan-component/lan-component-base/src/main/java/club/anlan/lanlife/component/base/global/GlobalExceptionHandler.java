@@ -8,10 +8,10 @@ import club.anlan.lanlife.component.base.exception.BusinessRuntimeException;
 import club.anlan.lanlife.component.base.i18n.I18nEnum;
 import club.anlan.lanlife.component.base.i18n.MessageResource;
 import club.anlan.lanlife.component.base.result.ResultMessage;
-import club.anlan.lanlife.component.utils.StringUtil;
-import club.anlan.lanlife.component.utils.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     public ResultMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         List<ObjectError> list = exception.getBindingResult().getAllErrors();
         String errorShow;
-        if (CollectionUtil.isEmpty(list)) {
+        if (CollectionUtils.isEmpty(list)) {
             errorShow = messageSource.getMessage(I18nEnum.ERROR_PARAMETER_VALIDATE);
         } else {
             //默认报第一个参数错误
@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
         } else if (e instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException me = ((MethodArgumentNotValidException) e);
             List<ObjectError> list = me.getBindingResult().getAllErrors();
-            if (CollectionUtil.isEmpty(list)) {
+            if (CollectionUtils.isEmpty(list)) {
                 errorShow = messageSource.getMessage(I18nEnum.ERROR_PARAMETER_TYPE, request.getLocale());
             } else {
                 String i18nCode = list.get(list.size() - 1).getDefaultMessage();
@@ -97,7 +97,7 @@ public class GlobalExceptionHandler {
         } else if (e instanceof BindException) {
             BindException be = ((BindException) e);
             List<ObjectError> list = be.getBindingResult().getAllErrors();
-            if (CollectionUtil.isNotEmpty(list)) {
+            if (!CollectionUtils.isEmpty(list)) {
                 String i18nCode = list.get(list.size() - 1).getDefaultMessage();
                 i18nMsg = messageSource.getMessage(i18nCode, request.getLocale());
                 //i18n消息和i18n Code相同，则说明可能没有配置i18n的code，返回用户也无意义，直接返回参数校验失败
@@ -111,10 +111,10 @@ public class GlobalExceptionHandler {
             printMsg = I18nEnum.SYSTEM_ERROR.getKey();
         }
         if (errorShow == null) {
-            if (StringUtil.isEmpty(i18nMsg)) {
+            if (StringUtils.isEmpty(i18nMsg)) {
                 i18nMsg = messageSource.getMessage(I18nEnum.SYSTEM_ERROR, request.getLocale());
             }
-            if (StringUtil.isNotEmpty(i18nMsg)) {
+            if (StringUtils.isNotEmpty(i18nMsg)) {
                 int index = i18nMsg.indexOf(":");
                 if (index > 0) {
                     String msgCode = i18nMsg.substring(0, index);
@@ -126,7 +126,7 @@ public class GlobalExceptionHandler {
                         errorShow = i18nMsg.substring(index + 1);
                     }
                 }
-                if (StringUtil.isBlank(errorShow)) {
+                if (StringUtils.isBlank(errorShow)) {
                     errorShow = i18nMsg;
                 }
             }
@@ -138,6 +138,6 @@ public class GlobalExceptionHandler {
             log.error("Error message: ", errorShow);
         }
         return ResultMessage.createFailedResult(
-                StringUtil.isNotEmpty(errorCode) ? errorCode : Constants.FAILED_CODE, errorShow);
+                StringUtils.isNotEmpty(errorCode) ? errorCode : Constants.FAILED_CODE, errorShow);
     }
 }

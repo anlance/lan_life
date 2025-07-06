@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <!-- 开启驼峰匹配 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 其他设置 -->
+        <setting name="cacheEnabled" value="true" />
+        <setting name="lazyLoadingEnabled" value="true" />
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <setting name="useColumnLabel" value="true" />
+        <setting name="useGeneratedKeys" value="false" />
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="defaultStatementTimeout" value="25000" />
+
+        <!-- 修改日志实现为SLF4J -->
+        <setting name="logImpl" value="SLF4J" />
+    </settings>
+
+    <!-- 插件配置 -->
+    <plugins>
+        <!-- 性能分析拦截器（必须放在首位） -->
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor">
+            <!-- 修正点：直接使用属性设置 -->
+            <property name="maxTime" value="500"/>
+            <property name="format" value="true"/>
+        </plugin>
+
+        <!-- MyBatis-Plus主拦截器 -->
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+<!--            <property name="interceptors">-->
+<!--                <list> &lt;!&ndash; 使用 list 替代 array 更通用 &ndash;&gt;-->
+<!--                    &lt;!&ndash; 分页插件 &ndash;&gt;-->
+<!--                    <ref bean="paginationInterceptor"/>-->
+
+<!--                    &lt;!&ndash; 乐观锁插件 &ndash;&gt;-->
+<!--                    <bean class="com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor"/>-->
+<!--                </list>-->
+<!--            </property>-->
+        </plugin>
+    </plugins>
+
+<!--    &lt;!&ndash; 分页插件单独定义 &ndash;&gt;-->
+<!--    <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor">-->
+<!--        <property name="dbType" value="POSTGRESQL" />-->
+<!--        <property name="overflow" value="true" />-->
+<!--    </bean>-->
+</configuration>

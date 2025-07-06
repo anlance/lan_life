@@ -17,7 +17,7 @@
     <modules>
 <!--        <module>lan-component-redis</module>-->
 <!--        <module>lan-component-storage</module>-->
-<!--        <module>lan-component-base</module>-->
+        <module>lan-component-base</module>
 <!--        <module>lan-component-kafka</module>-->
         <module>lan-component-utils</module>
 <!--        <module>lan-component-netty</module>-->
