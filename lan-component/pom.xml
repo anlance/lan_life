@@ -50,7 +50,6 @@
         <druid.version>1.1.21</druid.version>
 
         <mybatis.version>2.1.2</mybatis.version>
-        <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <skywalking.version>9.7.0</skywalking.version>
         <rocketmq.version>4.9.7</rocketmq.version>
         <redisson.version>3.27.2</redisson.version>
@@ -132,17 +131,6 @@
 
             <!-- 手动管理其他依赖版本 -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-autoconfigure</artifactId>
-                    </exclusion>
-                </exclusions>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking.version}</version>
@@ -203,6 +191,12 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql-connector-j.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
 
             <!-- Spring Cloud LoadBalancer -->

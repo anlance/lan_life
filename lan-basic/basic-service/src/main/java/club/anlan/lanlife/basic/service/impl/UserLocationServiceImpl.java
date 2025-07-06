@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,7 +33,10 @@ public class UserLocationServiceImpl implements UserLocationService {
     @Resource
     private RestClient5sService restClient5sService;
 
-    private String url = "https://restapi.amap.com/v3/geocode/regeo?key=0c27e31a2599889b8a89da78438d20d9&location=";
+    @Value("${map.webKey}")
+    private String webKey;
+
+    private static String URL = "https://restapi.amap.com/v3/geocode/regeo?key=%s&location=";
 
 
     @Override
@@ -48,7 +52,7 @@ public class UserLocationServiceImpl implements UserLocationService {
 
     private void setDetail(UserLocation userLocation) {
         if (userLocation.getLatitude() != null && userLocation.getLongitude() != null) {
-            Result result = JSONObject.parseObject(restClient5sService.get(url + userLocation.getLongitude() + "," + userLocation.getLatitude()), Result.class);
+            Result result = JSONObject.parseObject(restClient5sService.get(String.format(URL, webKey) + userLocation.getLongitude() + "," + userLocation.getLatitude()), Result.class);
             log.info(JSONObject.toJSONString(result));
             userLocation.setLocationDetail(result);
         }
